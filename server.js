@@ -1,3 +1,7 @@
+// This code is used to start up the server and connect to the database
+// The database connection string is located in the .env file
+// If the environment is production, then the client folder is served up
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
