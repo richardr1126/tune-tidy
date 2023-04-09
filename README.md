@@ -1,4 +1,5 @@
 [![Visit TuneTidy](https://img.shields.io/badge/Visit-TuneTidy-brightgreen)](https://tune-tidy.herokuapp.com/)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/b09b6d0f-48c6-4a7b-aba8-da27e2a99b51/deploy-status)](https://app.netlify.com/sites/tune-tidy/deploys)
 
 # TuneTidy - Spotify Playlist Sorter and Music Manager
 
