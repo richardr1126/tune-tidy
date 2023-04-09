@@ -3,7 +3,7 @@
 
 # TuneTidy - Spotify Playlist Sorter and Music Manager
 
-Welcome to TuneTidy, a web app built using the MERN stack (MongoDB, Express, React, and Node.js) that provides a convenient and personalized way for users to manage their Spotify playlists and music listening history. With TuneTidy, you can log into your Spotify account, sort your playlists by various criteria, add or remove songs from your playlists, and see your listening stats all in one place.
+Welcome to TuneTidy, a web app built using the React and Node.js that provides a convenient and personalized way for users to manage their Spotify playlists and music listening history. With TuneTidy, you can log into your Spotify account, sort your playlists by various criteria, add or remove songs from your playlists, and see your listening stats all in one place.
 
 ## Project Team
 
