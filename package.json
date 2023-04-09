@@ -4,12 +4,12 @@
   "private": true,
   "dependencies": {
     "axios": "latest",
-    "dotenv": "latest",
     "ionicons": "latest",
     "mongoose": "latest",
     "react-dom": "latest",
     "react-router-dom": "latest",
     "react-scripts": "^5.0.1",
+    "spotify-web-api-js": "^1.5.2",
     "web-vitals": "latest"
   },
   "devDependencies": {
