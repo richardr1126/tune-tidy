@@ -3,7 +3,8 @@ import { Container, Flex, Box, Heading, Button, Text, Image, Card } from "@chakr
 
 function LoginSplashScreen() {
 	const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-	const REDIRECT_URI = "http://localhost:3000/"
+	//if dev mode, use localhost:3000, else use https://tune-tidy.netlify.app/
+	const REDIRECT_URI = process.env.NODE_ENV === "dev" ? "http://localhost:3000" : "https://tune-tidy.netlify.app";
 	const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
 	const RESPONSE_TYPE = "token"
 
