@@ -11,15 +11,17 @@ function LoginSplashScreen() {
 	useEffect(() => {
 		const hash = window.location.hash;
 		let token = window.localStorage.getItem("token");
+		let tokenExpiration = window.localStorage.getItem("tokenExpiration");
 
 
-		if (!token && hash) {
+		if ((!token && hash) || (tokenExpiration < Date.now() && hash)) {
 			//hide login button
 			document.getElementById("splash-screen").style.display = "none";
 			token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1];
 
 			window.location.hash = "";
 			window.localStorage.setItem("token", token);
+			window.localStorage.setItem("tokenExpiration", Date.now() + 3600000);
 
 			//redirect to home page
 			window.location.href = "/home";
@@ -27,6 +29,7 @@ function LoginSplashScreen() {
 			//redirect to home page
 			window.location.href = "/home";
 		}
+		
 
 	}, [])
 
