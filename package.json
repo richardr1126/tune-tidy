@@ -9,7 +9,6 @@
     "@emotion/styled": "^11.10.6",
     "axios": "latest",
     "framer-motion": "^10.11.2",
-    "ionicons": "latest",
     "mongoose": "latest",
     "react-dom": "latest",
     "react-router-dom": "latest",
