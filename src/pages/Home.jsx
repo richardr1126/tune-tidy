@@ -83,7 +83,7 @@ class Home extends Component {
     if (this.state.loggedIn) {
       return (
         <>
-          <NavBar switchPage={this.switchPage}> </NavBar>
+          <NavBar fullUserData={this.state.fullUserData} switchPage={this.switchPage}> </NavBar>
 
           {this.state.page === 'home' && (<h1>Home</h1>)}
           {this.state.page === 'playlists' && (<PlaylistsPage fullUserData={this.state.fullUserData} playlistData={this.state.playlistData}/>)}
