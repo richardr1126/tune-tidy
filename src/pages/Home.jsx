@@ -42,6 +42,11 @@ class Home extends Component {
           playlistData: data
         });
       });
+    } else {
+      this.setState({
+        loggedIn: false
+      });
+      window.location.href = '/';
     }
   }
 
