@@ -21,7 +21,7 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
 const Links = ['Home', 'Playlists'];
 
-const NavLink = ({ children, onClick }) => (
+const NavLink = ({ children, href, onClick }) => (
   <Link
     px={2}
     py={1}
@@ -30,7 +30,7 @@ const NavLink = ({ children, onClick }) => (
       textDecoration: 'none',
       bg: useColorModeValue('gray.200', 'gray.700'),
     }}
-    href={'#'}
+    href={href}
     onClick={(e) => {
       if (onClick) {
         onClick();
@@ -66,6 +66,7 @@ const NavBar = ({ switchPage, fullUserData }) => {
               {Links.map((link) => (
                 <NavLink
                   key={link}
+                  href={'#'+link.toLowerCase()}
                   onClick={() => {
                     switchPage(link.toLowerCase());
                   }}>
