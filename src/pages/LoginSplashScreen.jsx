@@ -9,6 +9,20 @@ function LoginSplashScreen() {
       : window.location.origin + "/";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
+	const SCOPES = [
+		"user-read-private",
+		"playlist-read-private",
+		"playlist-read-collaborative",
+		"playlist-modify-public",
+		"playlist-modify-private",
+		"user-library-read",
+		"user-library-modify",
+		"user-top-read",
+		"user-read-recently-played",
+		"user-read-currently-playing",
+		"user-follow-read",
+		"user-follow-modify",
+	].join("%20");
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -50,7 +64,7 @@ function LoginSplashScreen() {
 				</Card>
 				<Button
 					as="a"
-					href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
+					href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPES}&response_type=${RESPONSE_TYPE}`}
 					marginTop={'2rem'}
 					size='lg'
 					backgroundColor='#1DB954'
