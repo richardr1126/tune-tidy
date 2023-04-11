@@ -1,3 +1,5 @@
+//Source template: https://chakra-templates.dev/navigation/navbar
+
 import {
   Box,
   Flex,
