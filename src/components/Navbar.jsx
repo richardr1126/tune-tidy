@@ -1,61 +1,123 @@
-import React from 'react';
-import { Heading, Image, Box, Flex, HStack, Link, Button, Avatar, Spacer } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Avatar,
+  HStack,
+  Link,
+  IconButton,
+  Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
+  Image,
+  Heading,
+  useDisclosure,
+  useColorModeValue,
+  Stack,
+} from '@chakra-ui/react';
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
-const NavLink = ({ href, children, onClick }) => (
+const Links = ['Home', 'Playlists'];
+
+const NavLink = ({ children, onClick }) => (
   <Link
     px={2}
     py={1}
     rounded={'md'}
-    href={href}
+    _hover={{
+      textDecoration: 'none',
+      bg: useColorModeValue('gray.200', 'gray.700'),
+    }}
+    href={'#'}
     onClick={(e) => {
       if (onClick) {
         onClick();
       }
-    }}
-    _hover={{
-      textDecoration: 'none',
-      bg: 'gray.200',
-    }}
-  >
+    }}>
     {children}
   </Link>
 );
 
 const NavBar = ({ switchPage, fullUserData }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const handleLogout = () => {
     window.localStorage.removeItem('token');
     window.location.href = '/';
   };
 
   return (
-    <Box>
-      <Flex
-        as="nav"
-        align="center"
-        justify="space-between"
-        wrap="wrap"
-        w="100%"
-        mb={8}
-        p={4}
-        bg="gray.100"
-        color="gray.600"
-      >
-        <Flex alignItems='center'>
-          <Image boxSize='3ch' src='/large-logo.png' alt='Tune Tidy Logo' />
-          <Heading as='h1' fontSize='2ch' sx={{ padding: '0ch 1ch 0ch 0.5ch' }}>TuneTidy</Heading>
-          <HStack fontSize='1.75ch' alignItems="center" flexGrow={1}>
-            <NavLink href="#data" onClick={() => { switchPage('home'); }}>Home</NavLink>
-            <NavLink href="#playlists" onClick={() => { switchPage('playlists'); }}>Playlists</NavLink>
-          </HStack>
+    <>
+      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+          <IconButton
+            size={'md'}
+            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+            aria-label={'Open Menu'}
+            display={{ md: 'none' }}
+            onClick={isOpen ? onClose : onOpen}
+          />
+          <Flex alignItems='center'>
+            <Image boxSize='3ch' src='/large-logo.png' alt='Tune Tidy Logo' />
+            <Heading as='h1' fontSize='2ch' sx={{ padding: '0ch 1ch 0ch 0.5ch' }}>TuneTidy</Heading>
+            <HStack fontSize='1.75ch' alignItems="center" flexGrow={1} display={{ base: 'none', md: 'flex' }}>
+              {Links.map((link) => (
+                <NavLink
+                  key={link}
+                  onClick={() => {
+                    switchPage(link.toLowerCase());
+                  }}>
+                  {link}
+                </NavLink>
+              ))}
+            </HStack>
+          </Flex>
+          <Flex alignItems={'center'}>
+            {fullUserData && (
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rounded={'full'}
+                  variant={'link'}
+                  cursor={'pointer'}
+                  minW={0}>
+                  <Avatar
+                    name={fullUserData.display_name}
+                    size='sm'
+                    marginRight={'1ch'}
+                  />
+                </MenuButton>
+                <MenuList>
+                  <MenuItem>Link 1</MenuItem>
+                  <MenuItem>Link 2</MenuItem>
+                  <MenuDivider />
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </MenuList>
+              </Menu>
+            )}
+          </Flex>
         </Flex>
-        <Spacer />
-        {fullUserData && <Avatar name={fullUserData.display_name} size='sm' marginRight={'1ch'} />}
 
-        <Button onClick={handleLogout} backgroundColor='#1DB954' color='black' size="sm">
-          Logout
-        </Button>
-      </Flex>
-    </Box>
+        {isOpen ? (
+          <Box pb={4} display={{ md: 'none' }}>
+            <Stack as={'nav'} spacing={4}>
+              {Links.map((link) => (
+                <NavLink
+                  key={link}
+                  onClick={() => {
+                    switchPage(link.toLowerCase());
+                    onClose();
+                  }}>
+                  {link}
+                </NavLink>
+              ))}
+            </Stack>
+          </Box>
+        ) : null}
+      </Box>
+    </>
   );
 };
 

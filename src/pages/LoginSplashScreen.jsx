@@ -2,36 +2,36 @@ import { useEffect } from "react";
 import { Container, Flex, Box, Heading, Button, Text, Image, Card } from "@chakra-ui/react";
 
 function LoginSplashScreen() {
-	const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-	//if dev mode, use localhost:3000, else use https://tune-tidy.netlify.app/
-	const REDIRECT_URI = (process.env.REACT_APP_NODE_ENV === 'dev') ? "http://localhost:3000/" : "https://tune-tidy.netlify.app/";
-	const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
-	const RESPONSE_TYPE = "token";
+  const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
+  const REDIRECT_URI =
+    process.env.REACT_APP_NODE_ENV === "dev"
+      ? "http://localhost:3000/"
+      : window.location.origin + "/";
+  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+  const RESPONSE_TYPE = "token";
 
-	useEffect(() => {
-		const hash = window.location.hash;
-		let token = window.localStorage.getItem("token");
-		let tokenExpiration = window.localStorage.getItem("tokenExpiration");
+  useEffect(() => {
+    const hash = window.location.hash;
+    let token = window.localStorage.getItem("token");
+    let tokenExpiration = window.localStorage.getItem("tokenExpiration");
 
+    if (hash && (!token || tokenExpiration < Date.now())) {
+      document.getElementById("splash-screen").style.display = "none";
+      token = hash
+        .substring(1)
+        .split("&")
+        .find((elem) => elem.startsWith("access_token"))
+        .split("=")[1];
 
-		if ((!token && hash) || (tokenExpiration < Date.now() && hash)) {
-			//hide login button
-			document.getElementById("splash-screen").style.display = "none";
-			token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1];
+      window.location.hash = "";
+      window.localStorage.setItem("token", token);
+      window.localStorage.setItem("tokenExpiration", Date.now() + 3600000);
 
-			window.location.hash = "";
-			window.localStorage.setItem("token", token);
-			window.localStorage.setItem("tokenExpiration", Date.now() + 3600000);
-
-			//redirect to home page
-			window.location.href = "/home";
-		} else if (token) {
-			//redirect to home page
-			window.location.href = "/home";
-		}
-		
-
-	}, [])
+      window.location.href = "/home";
+    } else if (token && tokenExpiration > Date.now()) {
+      window.location.href = "/home";
+    }
+  }, []);
 
 	
 
