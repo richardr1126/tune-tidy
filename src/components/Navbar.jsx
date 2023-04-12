@@ -86,13 +86,13 @@ const NavBar = ({ switchPage, fullUserData }) => {
                   variant={'link'}
                   cursor={'pointer'}
                   minW={0}>
-                  {fullUserData.images[0].url && (<Avatar
+                  {fullUserData.images[0]?.url && (<Avatar
                     name={fullUserData.display_name}
                     src={fullUserData.images[0]?.url}
                     size='md'
                   />
                   )}
-                  {!fullUserData.images[0].url &&(
+                  {(fullUserData.images.length === 0) &&(
                     <Avatar
                       name={fullUserData.display_name}
                       size='md'
