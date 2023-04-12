@@ -16,12 +16,12 @@ class DataPage extends Component {
 
   render() {
     const topArtistsWidget = this.widgetFactory.createWidget('topArtists');
-    const topTracksWidget = this.widgetFactory.createWidget('topTracks');
+    //const topTracksWidget = this.widgetFactory.createWidget('topTracks');
 
     return (
       <Container maxW='container.xl' sx={{ padding: '1ch' }}>
         {topArtistsWidget}
-        {topTracksWidget}
+        {/* {topTracksWidget} */}
       </Container>
     );
   }
