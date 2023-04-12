@@ -34,7 +34,7 @@ class PlaylistsPage extends Component {
     return (
       <Container maxW='container.xl' sx={{ padding: '1ch' }}>
         {/* If selection state is null, display the list of playlists */}
-        {!this.state.selection && (<PlaylistList playlists={this.state.playlistData} setSelection={this.setSelection} />)}
+        {!this.state.selection && (<PlaylistList userName={this.state.fullUserData.display_name} playlists={this.state.playlistData} setSelection={this.setSelection} />)}
         {/* If selection state is not null, display the selected playlist */}
         {this.state.selection && (<PlaylistCard playlist={this.state.selection} setSelection={this.setSelection}/>)}
       </Container>
