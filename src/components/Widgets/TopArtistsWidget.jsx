@@ -25,11 +25,11 @@ class TopArtistsWidget extends Widget {
       loggedIn: true,
       time_range: 'medium_term',
       data: null,
-      page: 1, // Add this line to include the current page in the state
+      page: 1,
     };
     this.fetchTopArtists = this.fetchTopArtists.bind(this);
     this.onTimeRangeChange = this.onTimeRangeChange.bind(this);
-    this.changePage = this.changePage.bind(this); // Add this line to bind the changePage function
+    this.changePage = this.changePage.bind(this);
   }
 
 
@@ -47,7 +47,7 @@ class TopArtistsWidget extends Widget {
     spotify.getMyTopArtists({ time_range: this.state.time_range, limit: 50 })
       .then((data) => {
         console.log('Top artists: ', data);
-        this.setState({ data }); // Update the state with the fetched data
+        this.setState({ data });
       })
       .catch((error) => {
         console.log("Error fetching top artists:", error);
