@@ -41,9 +41,9 @@ function LoginSplashScreen() {
       window.localStorage.setItem("token", token);
       window.localStorage.setItem("tokenExpiration", Date.now() + 3600000);
 
-      window.location.href = "/home";
+      window.location.href = "/spotify#stats";
     } else if (token && tokenExpiration > Date.now()) {
-      window.location.href = "/home";
+      window.location.href = "/spotify#stats";
     }
   }, []);
 

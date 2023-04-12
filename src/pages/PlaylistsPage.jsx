@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
+import { Container } from '@chakra-ui/react';
 import PlaylistList from '../components/PlaylistList';
 import PlaylistCard from '../components/PlaylistCard';
 
@@ -23,10 +24,10 @@ class PlaylistsPage extends Component {
 
   render() {
     return (
-      <>
+      <Container maxW='container.xl' sx={{ padding: '1ch' }}>
         {!this.state.selection && (<PlaylistList playlists={this.state.playlistData} setSelection={this.setSelection} />)}
         {this.state.selection && (<PlaylistCard playlist={this.state.selection} setSelection={this.setSelection}/>)}
-      </>
+      </Container>
     );
   }
 }

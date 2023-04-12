@@ -14,17 +14,18 @@ import {
 export default function PlaylistCard({ playlist, setSelection }) {
   return (
     <LinkBox key={playlist.id}>
-      <Center py={6}>
+      <Center py={2}>
         <Box
-          w="xs"
+          w="33ch"
           rounded={'sm'}
-          my={5}
-          mx={[0, 5]}
+          my={3}
+          mx={[0, 3]}
           overflow={'hidden'}
           bg="white"
           border={'1px'}
           borderColor="black"
           boxShadow={useColorModeValue('6px 6px 0 black', '6px 6px 0 cyan')}>
+
           <Box borderBottom={'1px'} borderColor="black">
             <LinkOverlay onClick={() => setSelection(playlist)} sx={{ cursor: 'pointer' }} role="button">
               <Img
@@ -38,11 +39,11 @@ export default function PlaylistCard({ playlist, setSelection }) {
             </LinkOverlay>
           </Box>
           <Box p={4}>
-            <Heading color={'black'} fontSize={'2xl'} noOfLines={1}>
+            <Heading color={'black'} fontSize={'2xl'}>
               {playlist.name}
             </Heading>
             {playlist.description && (
-              <Text color={'gray.500'} noOfLines={2}>
+              <Text color={'gray.500'}>
                 {playlist.description}
               </Text>
             )}

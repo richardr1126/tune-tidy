@@ -21,7 +21,7 @@ import {
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
-const Links = ['Home', 'Playlists'];
+const Links = ['Stats', 'Playlists'];
 
 const NavLink = ({ children, href, onClick }) => (
   <Link
@@ -53,7 +53,7 @@ const NavBar = ({ switchPage, fullUserData }) => {
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
-        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+        <Flex h={'8ch'} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -88,8 +88,8 @@ const NavBar = ({ switchPage, fullUserData }) => {
                   minW={0}>
                   <Avatar
                     name={fullUserData.display_name}
-                    size='sm'
-                    marginRight={'1ch'}
+                    src={fullUserData.images[0].url}
+                    size='md'
                   />
                 </MenuButton>
                 <MenuList>
@@ -109,6 +109,7 @@ const NavBar = ({ switchPage, fullUserData }) => {
               {Links.map((link) => (
                 <NavLink
                   key={link}
+                  href={'#'+link.toLowerCase()}
                   onClick={() => {
                     switchPage(link.toLowerCase());
                     onClose();

@@ -20,7 +20,7 @@ root.render(
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<LoginSplashScreen />} />
-            <Route path='/home' element={<Home/>} />
+            <Route path='/spotify' element={<Home/>} />
           </Routes>
         </BrowserRouter>
       </ChakraProvider>
