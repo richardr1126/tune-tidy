@@ -86,11 +86,18 @@ const NavBar = ({ switchPage, fullUserData }) => {
                   variant={'link'}
                   cursor={'pointer'}
                   minW={0}>
-                  <Avatar
+                  {fullUserData.images[0].url && (<Avatar
                     name={fullUserData.display_name}
                     src={fullUserData.images[0]?.url}
                     size='md'
                   />
+                  )}
+                  {!fullUserData.images[0].url &&(
+                    <Avatar
+                      name={fullUserData.display_name}
+                      size='md'
+                    />
+                  )}
                 </MenuButton>
                 <MenuList>
                   <MenuItem>Link 1</MenuItem>
