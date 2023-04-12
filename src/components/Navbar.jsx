@@ -96,6 +96,7 @@ const NavBar = ({ switchPage, fullUserData }) => {
                     <Avatar
                       name={fullUserData.display_name}
                       size='md'
+                      
                     />
                   )}
                 </MenuButton>

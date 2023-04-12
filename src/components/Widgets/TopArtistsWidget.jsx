@@ -7,13 +7,13 @@ import {
   VStack,
   HStack,
   Text,
-  Image,
   Select,
   Spinner,
   Card,
   ButtonGroup,
   Button,
   Center,
+  Avatar,
 } from '@chakra-ui/react';
 
 // Creating a new instance of the Spotify API
@@ -106,7 +106,7 @@ class TopArtistsWidget extends Widget {
     return artistsList.slice(start, end).map((artist, index) => (
       <Card p={2.5} key={artist.id}>
         <HStack key={artist.id} spacing={4}>
-          <Image boxSize="50px" borderRadius="full" src={artist.images[0]?.url} alt={artist.name} />
+          <Avatar size={'md'} src={artist?.images[0]?.url} icon={<Spinner></Spinner>} />
           <Text as={'h3'} fontWeight='bold' fontSize={'xl'}>{start + index + 1}.</Text>
           <Text as={'h3'} fontWeight="black" fontSize={'xl'} margin={'0.5ch !important'}>{artist.name}</Text>
         </HStack>

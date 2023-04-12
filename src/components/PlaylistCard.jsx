@@ -4,11 +4,12 @@ import {
   Box,
   Heading,
   Text,
-  Img,
   Center,
   useColorModeValue,
   LinkBox,
   LinkOverlay,
+  Spinner,
+  Image
 } from '@chakra-ui/react';
 
 export default function PlaylistCard({ playlist, setSelection }) {
@@ -26,10 +27,21 @@ export default function PlaylistCard({ playlist, setSelection }) {
           borderColor="black"
           boxShadow={useColorModeValue('6px 6px 0 black', '6px 6px 0 cyan')}>
 
-          {(playlist.images[0]?.url&&playlist.images.length!==0) && (<Box borderBottom={'1px'} borderColor="black">
+          <Box borderBottom={'1px'} borderColor="black">
             <LinkOverlay onClick={() => setSelection(playlist)} sx={{ cursor: 'pointer' }} role="button">
-              <Img
+              <Image
                 src={playlist.images[0]?.url}
+                fallback={
+                  <>
+                    {playlist.images.length !== 0 ? (
+                      <Center p={100}><Box>
+                        <Spinner />
+                      </Box></Center>
+                    ) : (
+                      <Image src='/playlist_placeholder.png' alt='No cover art' w={'full'} h={'full'} />
+                    )}
+                  </>
+                }
                 alt={playlist.name + ' image'}
                 roundedTop={'sm'}
                 objectFit="cover"
@@ -37,7 +49,7 @@ export default function PlaylistCard({ playlist, setSelection }) {
                 w="full"
               />
             </LinkOverlay>
-          </Box>)}
+          </Box>
           <Box p={4}>
             <Heading color={'black'} fontSize={'2xl'}>
               {playlist.name}
