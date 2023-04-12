@@ -17,7 +17,6 @@ class Widget extends Component {
   //check if mobile
   isMobile() {
     return window.innerWidth <= 768;
-    //this.isMobile ? 0 : 8
   }
 
   

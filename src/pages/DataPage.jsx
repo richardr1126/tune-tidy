@@ -11,8 +11,10 @@ class DataPage extends Component {
     this.widgetFactory = new WidgetFactory();
   }
 
-  
-  
+  componentDidMount() {
+    document.title = 'Stats | TuneTidy';
+  }
+
 
   render() {
     const topArtistsWidget = this.widgetFactory.createWidget('topArtists');

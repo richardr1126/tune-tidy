@@ -1,3 +1,4 @@
+// Importing necessary dependencies and components
 import React from 'react';
 import Widget from './Widget';
 import SpotifyAPI from 'spotify-web-api-js';
@@ -15,8 +16,10 @@ import {
   Center,
 } from '@chakra-ui/react';
 
+// Creating a new instance of the Spotify API
 const spotify = new SpotifyAPI();
 
+// Extends the Widget class for TopArtistsWidget class and sets its initial state
 class TopArtistsWidget extends Widget {
   constructor(props) {
     super(props);
@@ -27,12 +30,14 @@ class TopArtistsWidget extends Widget {
       data: null,
       page: 1,
     };
+    
+    // Binding the functions to the component's scope
     this.fetchTopArtists = this.fetchTopArtists.bind(this);
     this.onTimeRangeChange = this.onTimeRangeChange.bind(this);
     this.changePage = this.changePage.bind(this);
   }
 
-
+  // A function to redirect the user to login page when they are not authenticated or their token has expired
   redirectLogin() {
     this.setState({
       loggedIn: false,
@@ -43,6 +48,7 @@ class TopArtistsWidget extends Widget {
     window.location.href = "/";
   }
 
+  // A function to fetch user's top artists using Spotify Web API
   fetchTopArtists() {
     spotify.getMyTopArtists({ time_range: this.state.time_range, limit: 50 })
       .then((data) => {
@@ -55,11 +61,12 @@ class TopArtistsWidget extends Widget {
       });
   }
 
-
+  // A function to change the page number when pagination buttons are clicked
   changePage(newPage) {
     this.setState({ page: newPage });
   }
 
+  // A lifecycle method to check if the user is authenticated and fetch their top artists
   componentDidMount() {
     const token = window.localStorage.getItem("token");
     const tokenExpiration = window.localStorage.getItem("tokenExpiration");
@@ -81,6 +88,7 @@ class TopArtistsWidget extends Widget {
     }
   }
 
+  // A function to handle time range change event
   onTimeRangeChange = (event) => {
     console.log("Time range changed:", event.target.value);
     this.setState({ time_range: event.target.value }, () => {
@@ -88,11 +96,13 @@ class TopArtistsWidget extends Widget {
     });
   };
 
+  // A helper function to display the artist cards in the UI
   displayArtists(artistsList) {
     const { page } = this.state;
     const start = (page - 1) * 10;
     const end = page * 10;
 
+    // Looping through each artist in the list and returning a Card component with their details
     return artistsList.slice(start, end).map((artist, index) => (
       <Card p={2.5} key={artist.id}>
         <HStack key={artist.id} spacing={4}>
@@ -104,14 +114,15 @@ class TopArtistsWidget extends Widget {
     ));
   }
 
+  // A function to render the content of the widget
   renderContent() {
     const { time_range, data, page } = this.state;
     if (data) {
       const artistsList = data.items;
 
+      // Returning JSX for the UI with dynamic values passed as props or state
       return (
         <Box>
-          
           <Select
             value={time_range}
             onChange={this.onTimeRangeChange}
@@ -127,11 +138,9 @@ class TopArtistsWidget extends Widget {
             <option value="medium_term">Last 6 months</option>
             <option value="long_term">All time</option>
           </Select>
-          
           <VStack spacing={2} justifyContent={"left"} alignItems={"left"}>
             {this.displayArtists(artistsList)}
           </VStack>
-
           <Center>
             <ButtonGroup paddingTop={5} size="sm">
               <Button onClick={() => this.changePage(1)} isDisabled={page === 1}>1</Button>
@@ -145,6 +154,7 @@ class TopArtistsWidget extends Widget {
 
       );
     } else {
+      // Returning a spinner component while the data is being fetched
       return (
         <Box display="flex" justifyContent="center" alignItems="center" height="100%">
           <Spinner size="lg" />
@@ -154,4 +164,5 @@ class TopArtistsWidget extends Widget {
   }
 }
 
+// Exporting the TopArtistsWidget component as default
 export default TopArtistsWidget;
