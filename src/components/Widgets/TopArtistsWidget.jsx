@@ -8,8 +8,6 @@ import {
   Text,
   Image,
   Select,
-  FormControl,
-  FormLabel,
   Spinner,
   Card,
   ButtonGroup,
@@ -57,26 +55,6 @@ class TopArtistsWidget extends Widget {
       });
   }
 
-  displayArtists(artistsList) {
-    const { page } = this.state;
-    const start = (page - 1) * 10;
-    const end = page * 10;
-
-    return artistsList.slice(start, end).map((artist, index) => (
-      <Card py={2.5} px={5} key={artist.id}>
-        <HStack key={artist.id} spacing={4}>
-          <Text fontWeight="bold">{start + index + 1}.</Text>
-          <Image
-            boxSize="50px"
-            borderRadius="full"
-            src={artist.images[0]?.url}
-            alt={artist.name}
-          />
-          <Text fontWeight="bold">{artist.name}</Text>
-        </HStack>
-      </Card>
-    ));
-  }
 
   changePage(newPage) {
     this.setState({ page: newPage });
@@ -110,8 +88,21 @@ class TopArtistsWidget extends Widget {
     });
   };
 
+  displayArtists(artistsList) {
+    const { page } = this.state;
+    const start = (page - 1) * 10;
+    const end = page * 10;
 
-
+    return artistsList.slice(start, end).map((artist, index) => (
+      <Card p={2.5} key={artist.id}>
+        <HStack key={artist.id} spacing={4}>
+          <Image boxSize="50px" borderRadius="full" src={artist.images[0]?.url} alt={artist.name} />
+          <Text as={'h3'} fontWeight='bold' fontSize={'xl'}>{start + index + 1}.</Text>
+          <Text as={'h3'} fontWeight="black" fontSize={'xl'} margin={'0.5ch !important'}>{artist.name}</Text>
+        </HStack>
+      </Card>
+    ));
+  }
 
   renderContent() {
     const { time_range, data, page } = this.state;
@@ -140,23 +131,14 @@ class TopArtistsWidget extends Widget {
           <VStack spacing={2} justifyContent={"left"} alignItems={"left"}>
             {this.displayArtists(artistsList)}
           </VStack>
+
           <Center>
             <ButtonGroup paddingTop={5} size="sm">
-              <Button onClick={() => this.changePage(1)} isDisabled={page === 1}>
-                1
-              </Button>
-              <Button onClick={() => this.changePage(2)} isDisabled={page === 2}>
-                2
-              </Button>
-              <Button onClick={() => this.changePage(3)} isDisabled={page === 3}>
-                3
-              </Button>
-              <Button onClick={() => this.changePage(4)} isDisabled={page === 4}>
-                4
-              </Button>
-              <Button onClick={() => this.changePage(5)} isDisabled={page === 5}>
-                5
-              </Button>
+              <Button onClick={() => this.changePage(1)} isDisabled={page === 1}>1</Button>
+              <Button onClick={() => this.changePage(2)} isDisabled={page === 2}>2</Button>
+              <Button onClick={() => this.changePage(3)} isDisabled={page === 3}>3</Button>
+              <Button onClick={() => this.changePage(4)} isDisabled={page === 4}>4</Button>
+              <Button onClick={() => this.changePage(5)} isDisabled={page === 5}>5</Button>
             </ButtonGroup>
           </Center>
         </Box>
