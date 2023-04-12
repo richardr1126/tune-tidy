@@ -26,10 +26,10 @@ export default function PlaylistCard({ playlist, setSelection }) {
           borderColor="black"
           boxShadow={useColorModeValue('6px 6px 0 black', '6px 6px 0 cyan')}>
 
-          <Box borderBottom={'1px'} borderColor="black">
+          {(playlist.images[0]?.url&&playlist.images.length!==0) && (<Box borderBottom={'1px'} borderColor="black">
             <LinkOverlay onClick={() => setSelection(playlist)} sx={{ cursor: 'pointer' }} role="button">
               <Img
-                src={playlist.images[0].url}
+                src={playlist.images[0]?.url}
                 alt={playlist.name + ' image'}
                 roundedTop={'sm'}
                 objectFit="cover"
@@ -37,7 +37,7 @@ export default function PlaylistCard({ playlist, setSelection }) {
                 w="full"
               />
             </LinkOverlay>
-          </Box>
+          </Box>)}
           <Box p={4}>
             <Heading color={'black'} fontSize={'2xl'}>
               {playlist.name}
