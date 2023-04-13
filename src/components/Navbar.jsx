@@ -62,7 +62,7 @@ const NavBar = ({ switchPage, fullUserData }) => {
             onClick={isOpen ? onClose : onOpen}
           />
           <Flex alignItems='center'>
-            <Image boxSize='3ch' src='/large-logo.png' alt='Tune Tidy Logo' />
+            <Image boxSize='3ch' src='/large-logo.png' alt='' />
             <Heading as='h1' fontSize='2ch' sx={{ padding: '0ch 1ch 0ch 0.5ch' }}>TuneTidy</Heading>
             <HStack fontSize='1.75ch' alignItems="center" flexGrow={1} display={{ base: 'none', md: 'flex' }}>
               {Links.map((link) => (
@@ -101,8 +101,7 @@ const NavBar = ({ switchPage, fullUserData }) => {
                   )}
                 </MenuButton>
                 <MenuList>
-                  <MenuItem>Link 1</MenuItem>
-                  <MenuItem>Link 2</MenuItem>
+                  <MenuItem>Settings</MenuItem>
                   <MenuDivider />
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </MenuList>

@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Card, CardBody, CardHeader, Heading } from '@chakra-ui/react';
+import { Card, CardBody, CardHeader, HStack, Heading, Image } from '@chakra-ui/react';
 
 class Widget extends Component {
   constructor(props) {
@@ -19,13 +19,17 @@ class Widget extends Component {
     return window.innerWidth <= 768;
   }
 
-  
+
 
   render() {
     return (
-      <Card mt={this.isMobile() ? 2 : 8} ml={this.isMobile() ? 2 : 8} mr={this.isMobile() ? 2 : 8} mb={8} bgColor={'#edf2f7'}>
+      <Card key={this.title} mt={this.isMobile() ? 2 : 8} ml={this.isMobile() ? 2 : 8} mr={this.isMobile() ? 2 : 8} mb={8} bgColor={'#edf2f7'}>
         <CardHeader>
-          <Heading size='md'>{this.title}</Heading>
+          <HStack>
+            <Image h={7} src='/Spotify_Logo_CMYK_Black.png' alt='Spotify'/> {/* Spotify logo */}
+            <Heading m={'0.25ch !important'} size='md' pb={0.75}>{this.title}</Heading>
+          </HStack>
+          
         </CardHeader>
         <CardBody pt={0}>
           {this.renderContent()}

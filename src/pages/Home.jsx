@@ -7,6 +7,7 @@ import { Box, Spinner } from '@chakra-ui/react';
 import NavBar from '../components/Navbar';
 import PlaylistsPage from './PlaylistsPage';
 import DataPage from './DataPage';
+import Footer from '../components/Footer';
 
 // Create a new instance of SpotifyAPI
 const spotify = new SpotifyAPI();
@@ -28,6 +29,9 @@ class Home extends Component {
       userId: null, // User has no ID by default
       fullUserData: null, // User has no data by default
       playlistData: null, // User has no playlists by default
+      topArtistsShortTerm: null, // User has no top artists by default
+      topArtistsMediumTerm: null, // User has no top artists by default
+      topArtistsLongTerm: null, // User has no top artists by default
     };
     
     // Bind methods to this class
@@ -42,7 +46,13 @@ class Home extends Component {
   // Returns true if the user is logged in and if fullUserData and playlistData are not null.
   // Otherwise it returns false.
   checkDataFetched() {
-    if (this.state.loggedIn && this.state.fullUserData && this.state.playlistData) {
+    if (this.state.loggedIn
+      && this.state.fullUserData
+      && this.state.playlistData
+      && this.state.topArtistsShortTerm
+      && this.state.topArtistsMediumTerm
+      && this.state.topArtistsLongTerm
+      ) {
       return true;
     } else {
       return false;
@@ -117,6 +127,34 @@ class Home extends Component {
         // If there's an error, redirect user to login page
         this.redirectLogin();
       });
+
+      spotify.getMyTopArtists({ time_range: 'short_term', limit: 50 })
+      .then((data) => {
+        console.log('Top artists short_term: ', data);
+        this.setState({ topArtistsShortTerm: data });
+      })
+      .catch((error) => {
+        console.log("Error fetching top artists:", error);
+        this.redirectLogin();
+      });
+      spotify.getMyTopArtists({ time_range: 'medium_term', limit: 50 })
+      .then((data) => {
+        console.log('Top artists medium_term: ', data);
+        this.setState({ topArtistsMediumTerm: data });
+      })
+      .catch((error) => {
+        console.log("Error fetching top artists:", error);
+        this.redirectLogin();
+      });
+      spotify.getMyTopArtists({ time_range: 'long_term', limit: 50 })
+      .then((data) => {
+        console.log('Top artists long_term: ', data);
+        this.setState({ topArtistsLongTerm: data });
+      })
+      .catch((error) => {
+        console.log("Error fetching top artists:", error);
+        this.redirectLogin();
+      });
   }
 
   // Method to be executed once component has mounted to the DOM
@@ -151,14 +189,26 @@ class Home extends Component {
 
   // Render function to render appropriate components/pages based on state
   render() {
+    // concat all top artists into one
+    const artistsData = {
+      topArtistsShortTerm: this.state.topArtistsShortTerm,
+      topArtistsMediumTerm: this.state.topArtistsMediumTerm,
+      topArtistsLongTerm: this.state.topArtistsLongTerm,
+    };
+
     if (this.checkDataFetched()) { // If all necessary user data has been fetched
       return (
         <>
           <NavBar fullUserData={this.state.fullUserData} switchPage={this.switchPage} />
 
           {/* Render appropriate component/page based on page state */}
-          {this.state.page === 'stats' && (<DataPage fullUserData={this.state.fullUserData}/>)}
+          {this.state.page === 'stats' && (<DataPage fullUserData={this.state.fullUserData} artistsData={artistsData}
+          />)}
           {this.state.page === 'playlists' && (<PlaylistsPage fullUserData={this.state.fullUserData} playlistData={this.state.playlistData} />)}
+
+
+          {/* Footer */}
+          <Footer></Footer>
 
         </>
       );

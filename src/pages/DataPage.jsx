@@ -7,6 +7,7 @@ class DataPage extends Component {
     super(props);
     this.state = {
       fullUserData: this.props.fullUserData,
+      artistsData: this.props.artistsData,
     };
     this.widgetFactory = new WidgetFactory();
   }
@@ -17,7 +18,10 @@ class DataPage extends Component {
 
 
   render() {
-    const topArtistsWidget = this.widgetFactory.createWidget('topArtists');
+    const { artistsData} = this.state;
+    
+
+    const topArtistsWidget = this.widgetFactory.createWidget('topArtists', artistsData);
     //const topTracksWidget = this.widgetFactory.createWidget('topTracks');
 
     return (

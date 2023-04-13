@@ -2,10 +2,10 @@ import TopArtistsWidget from "./TopArtistsWidget";
 //import TopTracksWidget from "./TopTracksWidget";
 
 class WidgetFactory {
-  createWidget(type) {
+  createWidget(type, data) {
     switch (type) {
       case 'topArtists':
-        return (<TopArtistsWidget key="topArtists" />);
+        return (<TopArtistsWidget key="topArtists" data={data} />);
       // case 'topTracks':
       //   return (<TopTracksWidget key="topTracks" />);
       // Add album widget here
