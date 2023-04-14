@@ -93,7 +93,7 @@ function LoginSplashScreen() {
 				<Button
 					as="a" // Renders button as an anchor tag
 					href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPES}&response_type=${RESPONSE_TYPE}`}
-					marginTop={'2rem'}
+					my={'2rem'}
 					size='lg'
 					backgroundColor='#1DB954' // Green color matching Spotify branding
 					color='black'
