@@ -21,7 +21,7 @@ class DataPage extends Component {
     const { artistsData} = this.state;
     
 
-    const topArtistsWidget = this.widgetFactory.createWidget('topArtists', artistsData);
+    const topArtistsWidget = this.widgetFactory.createWidget('topArtists', artistsData, this.props.obs);
     //const topTracksWidget = this.widgetFactory.createWidget('topTracks');
 
     return (

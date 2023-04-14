@@ -9,7 +9,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 
 import LoginSplashScreen from './pages/LoginSplashScreen.jsx';
-import Home from './pages/Home';
+import HomeWithToast from './pages/Home';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -20,7 +20,7 @@ root.render(
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<LoginSplashScreen />} />
-            <Route path='/spotify' element={<Home/>} />
+            <Route path='/spotify' element={<HomeWithToast/>} />
           </Routes>
         </BrowserRouter>
       </ChakraProvider>

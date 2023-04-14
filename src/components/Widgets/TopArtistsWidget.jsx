@@ -50,9 +50,18 @@ class TopArtistsWidget extends Widget {
 
   // A function to handle time range change event
   onTimeRangeChange(event) {
-    console.log("Time range changed:", event.target.value);
+    //match event.target.value to Last 4 weeks, Last 6 months, All Time
+    const timeRangeMap = {
+      short_term: 'Last 4 weeks',
+      medium_term: 'Last 6 months',
+      long_term: 'All Time',
+    };
+    const timeRange = timeRangeMap[event.target.value];
+
+    
     this.setState({ time_range: event.target.value }, () => {
       this.setState({ artistsList: this.state.allArtistsLists[event.target.value] });
+      this.props.obs.notify({ message: `Time Range\nSet to ${timeRange}`, status: 'success' });
     });
   };
 

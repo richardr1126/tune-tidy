@@ -1,16 +1,19 @@
 // Import necessary modules and components
 import { Component } from 'react';
 import SpotifyAPI from 'spotify-web-api-js';
-import { Box, Spinner } from '@chakra-ui/react';
+import { Box, Spinner, useToast } from '@chakra-ui/react';
 
 // Custom Components and Pages imports
 import NavBar from '../components/Navbar';
 import PlaylistsPage from './PlaylistsPage';
 import DataPage from './DataPage';
 import Footer from '../components/Footer';
+import Observable from '../components/Observable';
 
 // Create a new instance of SpotifyAPI
 const spotify = new SpotifyAPI();
+const obs = new Observable();
+
 
 // Define Home component
 class Home extends Component {
@@ -19,7 +22,6 @@ class Home extends Component {
     // - The state object is used to keep track of data that changes within the Home component.
     // - Several properties are set as key-value pairs in the state object, with default values.
     // - Methods are bound to the component using the bind() function.
-
     // Set initial state of Home component
     this.state = {
       page: 'stats', // Default page to render is stats
@@ -33,13 +35,13 @@ class Home extends Component {
       topArtistsMediumTerm: null, // User has no top artists by default
       topArtistsLongTerm: null, // User has no top artists by default
     };
-    
+
     // Bind methods to this class
     this.switchPage = this.switchPage.bind(this);
     this.fetchUserData = this.fetchUserData.bind(this);
     this.redirectLogin = this.redirectLogin.bind(this);
     this.checkDataFetched = this.checkDataFetched.bind(this);
-    
+
   }
 
   // Method to check if all necessary user data has been fetched
@@ -52,7 +54,7 @@ class Home extends Component {
       && this.state.topArtistsShortTerm
       && this.state.topArtistsMediumTerm
       && this.state.topArtistsLongTerm
-      ) {
+    ) {
       return true;
     } else {
       return false;
@@ -86,6 +88,10 @@ class Home extends Component {
           userName: data.display_name,
           userId: data.id,
         });
+
+        // Notify success
+        //observable.notify({ message: 'User data fetched successfully', status: 'success' });
+
       })
       .catch((error) => {
         console.log("Error fetching user data:", error);
@@ -128,7 +134,7 @@ class Home extends Component {
         this.redirectLogin();
       });
 
-      spotify.getMyTopArtists({ time_range: 'short_term', limit: 50 })
+    spotify.getMyTopArtists({ time_range: 'short_term', limit: 50 })
       .then((data) => {
         console.log('Top artists short_term: ', data);
         this.setState({ topArtistsShortTerm: data });
@@ -137,7 +143,7 @@ class Home extends Component {
         console.log("Error fetching top artists:", error);
         this.redirectLogin();
       });
-      spotify.getMyTopArtists({ time_range: 'medium_term', limit: 50 })
+    spotify.getMyTopArtists({ time_range: 'medium_term', limit: 50 })
       .then((data) => {
         console.log('Top artists medium_term: ', data);
         this.setState({ topArtistsMediumTerm: data });
@@ -146,7 +152,7 @@ class Home extends Component {
         console.log("Error fetching top artists:", error);
         this.redirectLogin();
       });
-      spotify.getMyTopArtists({ time_range: 'long_term', limit: 50 })
+    spotify.getMyTopArtists({ time_range: 'long_term', limit: 50 })
       .then((data) => {
         console.log('Top artists long_term: ', data);
         this.setState({ topArtistsLongTerm: data });
@@ -157,8 +163,27 @@ class Home extends Component {
       });
   }
 
+  handleToast(data) {
+    // Destructure message, status properties from data, and handle undefined case
+    const { message, status } = data;
+    const defaultMessage = "No message\nNo description";
+    const [title, description] = (message || defaultMessage).split("\n");
+  
+    this.props.toast({
+      title,
+      description,
+      status,
+      duration: 3000,
+      isClosable: true,
+    });
+  }
+  
+
   // Method to be executed once component has mounted to the DOM
   componentDidMount() {
+    // Subscribe to the observable object
+    obs.subscribe(this.handleToast.bind(this), 'HomeComponent');
+
     // Get token and token expiration date from localStorage
     const token = window.localStorage.getItem("token");
     const tokenExpiration = window.localStorage.getItem("tokenExpiration");
@@ -172,6 +197,8 @@ class Home extends Component {
 
       spotify.setAccessToken(token); // Set access token for SpotifyAPI
       this.fetchUserData(); // Call fetchUserData method to retrieve user and playlist data
+      obs.notify({ message: 'Account verified\nYour Spotify account has been connected', status: 'success' });
+
 
     } else { // If token is not present or has expired
       this.setState({
@@ -182,6 +209,12 @@ class Home extends Component {
     }
   }
 
+  componentWillUnmount() {
+    // Unsubscribe from the observable object when the component is unmounted
+    obs.unsubscribe('HomeComponent');
+  }
+
+
   // Method to switch between different pages/components
   switchPage(page) {
     this.setState({ page: page }); // Update page state with argument passed to method
@@ -189,30 +222,24 @@ class Home extends Component {
 
   // Render function to render appropriate components/pages based on state
   render() {
-    // concat all top artists into one
     const artistsData = {
       topArtistsShortTerm: this.state.topArtistsShortTerm,
       topArtistsMediumTerm: this.state.topArtistsMediumTerm,
       topArtistsLongTerm: this.state.topArtistsLongTerm,
     };
 
-    if (this.checkDataFetched()) { // If all necessary user data has been fetched
+    if (this.checkDataFetched()) {
       return (
         <>
           <NavBar fullUserData={this.state.fullUserData} switchPage={this.switchPage} />
 
-          {/* Render appropriate component/page based on page state */}
-          {this.state.page === 'stats' && (<DataPage fullUserData={this.state.fullUserData} artistsData={artistsData}
-          />)}
+          {this.state.page === 'stats' && (<DataPage fullUserData={this.state.fullUserData} artistsData={artistsData} obs={obs}/>)}
           {this.state.page === 'playlists' && (<PlaylistsPage fullUserData={this.state.fullUserData} playlistData={this.state.playlistData} />)}
 
-
-          {/* Footer */}
           <Footer></Footer>
-
         </>
       );
-    } else { // If data has not been fetched yet, display loading spinner
+    } else {
       return (
         <Box display="flex" justifyContent="center" alignItems="center" height="100%" margin={100}>
           <Spinner size="lg" />
@@ -220,7 +247,14 @@ class Home extends Component {
       );
     }
   }
+
 }
 
-// Export Home component to be used in other components/pages
-export default Home;
+// Higher-order component to use the useToast hook
+const HomeWithToast = (props) => {
+  const toast = useToast();
+  return <Home key={'home'} {...props} toast={toast} />;
+};
+
+// Export HomeWithToast component to be used in other components/pages
+export default HomeWithToast;
