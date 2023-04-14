@@ -66,8 +66,6 @@ class Home extends Component {
     obs.notify({ message: 'Account not verified\nPlease retry logging in with your Spotify account', status: 'error' });
     //wait 3 seconds before redirecting
     setTimeout(() => {
-
-
       // Set loggedIn state to false
       this.setState({
         loggedIn: false,
@@ -184,7 +182,7 @@ class Home extends Component {
       title,
       description,
       status,
-      duration: 3000,
+      duration: 4000,
       isClosable: true,
     });
   }
@@ -214,7 +212,14 @@ class Home extends Component {
         loggedIn: false,
       });
       // Redirect user to homepage
-      this.redirectLogin();
+      obs.notify({ message: 'Spotify Token Expired\nPlease login again in with your Spotify account', status: 'warning' });
+      this.setState({
+        loggedIn: false,
+      });
+      // Redirect user to homepage
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1000);
     }
   }
 
