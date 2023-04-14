@@ -173,6 +173,8 @@ class Home extends Component {
   }
 
   handleToast(data) {
+    //https://chakra-ui.com/docs/components/toast/usage
+
     // Destructure message, status properties from data, and handle undefined case
     const { message, status } = data;
     const defaultMessage = "No message\nNo description";
