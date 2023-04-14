@@ -80,12 +80,12 @@ function LoginSplashScreen() {
 							Sort your playlists by artist, album, track name, acousticness, danceability, energy, instrumentalness, liveness, loudness, speechiness, tempo, or valence.
 						</ListItem>
 						<ListItem>
-							<ListIcon as={BsClipboardData} color='black' boxSize={5}/>
+							<ListIcon as={BsClipboardData} color='#191414' boxSize={5}/>
 							Access your most frequently played tracks, artists, albums, and genres for three different time periods. Your data is refreshed about once a day.
 						</ListItem>
 						<ListItem>
 							<ListIcon as={RiArrowUpDownFill} color='#156aea' boxSize={6} />
-							Observe how your individual ranking evolves over time, represented by arrows in comparison to your previous visit.
+							Observe how your rankings evolves over time, represented by arrows in comparison to your previous visit.
 						</ListItem>
 					</List>
 					<Text as='h3' fontSize='2ch' textAlign={'center'} fontWeight={'bold'}>To get started, click the button below to login to Spotify.</Text>

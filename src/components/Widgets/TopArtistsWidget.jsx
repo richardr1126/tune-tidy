@@ -33,12 +33,11 @@ class TopArtistsWidget extends Widget {
         long_term: this.props.data.topArtistsLongTerm.items,
       },
     };
-    
+
     // Binding the functions to the component's scope
     this.changePage = this.changePage.bind(this);
     this.onTimeRangeChange = this.onTimeRangeChange.bind(this);
     this.displayArtists = this.displayArtists.bind(this);
-    this.storeAndCompareArtistsRankings = this.storeAndCompareArtistsRankings.bind(this);
     this.renderPaginationButtons = this.renderPaginationButtons.bind(this);
   }
 
@@ -57,91 +56,49 @@ class TopArtistsWidget extends Widget {
     });
   };
 
-  componentDidMount() {
-    this.storeAndCompareArtistsRankings();
-  }
-
-  storeAndCompareArtistsRankings() {
-    // Retrieve all artists lists from state
-    const { allArtistsLists } = this.state;
-  
-    // Define valid time ranges
-    const timeRanges = ['short_term', 'medium_term', 'long_term'];
-  
-    // Get the current time and a 24-hour period in ms
-    const currentTime = new Date().getTime();
-    const twentyFourHours = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-  
-    // Loop through each time range
-    timeRanges.forEach((time_range) => {
-      // Get the current list of artists for this time range
-      const artistsList = allArtistsLists[time_range];
-  
-      // Get the previous artists list and timestamp from web cache
-      const prevArtistsListJSON = localStorage.getItem(`artistsList_${time_range}`);
-      const lastUpdated = localStorage.getItem(`lastUpdated`);
-  
-      // If both previous list and timestamp are available
-      if (prevArtistsListJSON && lastUpdated) {
-        // Parse the previous list and calculate time since last update
-        const prevArtistsList = JSON.parse(prevArtistsListJSON);
-        const timeSinceLastUpdate = currentTime - parseInt(lastUpdated);
-  
-        // Compare the previous and current artists list to find rank changes
-        const newArtistsList = artistsList.map((artist) => {
-          const prevArtistIndex = prevArtistsList.findIndex((prevArtist) => prevArtist.id === artist.id);
-  
-          if (prevArtistIndex !== -1) {
-            artist.rankChange = prevArtistIndex - artistsList.indexOf(artist);
-          } else {
-            artist.rankChange = null;
-          }
-  
-          return artist;
-        });
-  
-        // Update the all artists list with new changes
-        allArtistsLists[time_range] = newArtistsList;
-  
-        // If more than 24 hours have passed, update web cache with new list and timestamp
-        if (timeSinceLastUpdate >= twentyFourHours) {
-          localStorage.setItem(`artistsList_${time_range}`, JSON.stringify(artistsList));
-          localStorage.setItem(`lastUpdated`, currentTime);
-        }
-      } else {
-        // Save the current artists list to web cache and set the timestamp
-        localStorage.setItem(`artistsList_${time_range}`, JSON.stringify(artistsList));
-        localStorage.setItem(`lastUpdated`, currentTime);
-      }
-    });
-  
-    // Update state with updated all artists lists
-    this.setState({ allArtistsLists });
-  }
 
   // A helper function to display the artist cards in the UI
   displayArtists(artistsList) {
-    const { page } = this.state;
+    const { page, time_range } = this.state;
     const start = (page - 1) * 10;
     const end = page * 10;
-
-    // Looping through each artist in the list and returning a Card component with their details
-    return artistsList.slice(start, end).map((artist, index) => (
-      <Card p={2.5} key={artist.id} bg={'linear-gradient(167deg, rgba(255,255,255,1) 20%, rgba(249,249,249,1) 100%), rgb(255,255,255)'}>
-        <HStack key={artist.id} spacing={4}>
-          <Avatar size={'md'} src={artist?.images[0]?.url} icon={<Spinner></Spinner>} />
-          <Text as={'h3'} fontWeight='bold' fontSize={'xl'}>{start + index + 1}.</Text>
-          <Text as={'h3'} fontWeight="black" fontSize={'xl'} margin={'0.5ch !important'}>{artist.name}</Text>
-          {artist.rankChange !== null && (
-            <Box>
-              {artist.rankChange > 0 && <TriangleUpIcon color="green.500" />}
-              {artist.rankChange < 0 && <TriangleDownIcon color="red.500" />}
-            </Box>
-          )}
-        </HStack>
-      </Card>
-    ));
+  
+    const storageKeyPrefix = `prevArtistsList_${time_range}`;
+    const listJSON = localStorage.getItem(storageKeyPrefix);
+    const timestampJSON = localStorage.getItem(`${storageKeyPrefix}Timestamp`);
+  
+    if (!timestampJSON || Date.now() - JSON.parse(timestampJSON) >= 30 * 24 * 60 * 60 * 1000) {
+      localStorage.setItem(storageKeyPrefix, JSON.stringify(this.state.allArtistsLists[time_range]));
+      localStorage.setItem(`${storageKeyPrefix}Timestamp`, JSON.stringify(Date.now()));
+    }
+  
+    const prevArtistsList = listJSON ? JSON.parse(listJSON) : null;
+  
+    return artistsList.slice(start, end).map((artist, index) => {
+      let rankChange = null;
+      if (prevArtistsList) {
+        const prevArtistIndex = prevArtistsList.findIndex((prevArtist) => prevArtist.id === artist.id);
+        rankChange = prevArtistIndex !== -1 ? prevArtistIndex - artistsList.indexOf(artist) : null;
+      }
+  
+      return (
+        <Card p={2.5} key={artist.id}>
+          <HStack spacing={4}>
+            <Avatar size={'md'} src={artist?.images[0]?.url} icon={<Spinner></Spinner>} />
+            <Text as={'h3'} fontWeight='bold' fontSize={'xl'}>{start + index + 1}.</Text>
+            <Text as={'h3'} fontWeight="black" fontSize={'xl'} margin={'0.5ch !important'}>{artist.name}</Text>
+            {rankChange !== null && (
+              <Box>
+                {rankChange > 0 && <TriangleUpIcon color="green.500" />}
+                {rankChange < 0 && <TriangleDownIcon color="red.500" />}
+              </Box>
+            )}
+          </HStack>
+        </Card>
+      );
+    });
   }
+  
 
   renderPaginationButtons() {
     let { page, artistsList } = this.state;
