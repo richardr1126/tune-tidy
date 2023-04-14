@@ -21,7 +21,7 @@ class Widget extends Component {
 
   render() {
     return (
-      <Card key={this.title} mt={this.isMobile() ? 2 : 8} ml={this.isMobile() ? 2 : 8} mr={this.isMobile() ? 2 : 8} mb={8} bgColor={'#edf2f7'}>
+      <Card key={this.title} mt={this.isMobile() ? 2 : 8} ml={this.isMobile() ? 2 : 8} mr={this.isMobile() ? 2 : 8} mb={8} bgColor={'#edf2f7'} boxShadow={'md'}>
         <CardHeader>
           <HStack>
             <Image h={7} src='/Spotify_Logo_CMYK_Black.png' alt='Spotify'/> {/* Spotify logo */}

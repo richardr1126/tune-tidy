@@ -72,8 +72,8 @@ function LoginSplashScreen() {
 					<Heading as='h1' fontSize='4ch'>TuneTidy</Heading>
 				</Flex>
 				<Text as='h2' fontSize='2.5ch' marginTop='1rem'>Spotify Playlist Sorter and Music Manager</Text>
-				<Card padding={'2rem'} marginTop='2rem' marginBottom='2rem' textAlign={'left'} boxShadow={'md'}>
-					<Text as='h3' fontSize='2ch' textAlign={'center'} fontWeight={'bold'}>Welcome to TuneTidy!</Text>
+				<Card padding={'2rem'} marginTop='2rem' marginBottom='2rem' textAlign={'center'} boxShadow={'lg'} bgColor={'#edf2f7'}>
+					<Text as='h3' fontSize='2ch' fontWeight={'bold'}>Welcome to TuneTidy!</Text>
 					<List spacing={3} my={5}>
 						<ListItem>
 							<ListIcon as={FaSortAmountDown} color='#1DB954' boxSize={5} />
@@ -88,7 +88,7 @@ function LoginSplashScreen() {
 							Observe how your rankings evolves over time, represented by arrows in comparison to your previous visit.
 						</ListItem>
 					</List>
-					<Text as='h3' fontSize='2ch' textAlign={'center'} fontWeight={'bold'}>To get started, click the button below to login to Spotify.</Text>
+					<Text as='h3' fontSize='2ch' fontWeight={'bold'}>To get started, click the button below to login to Spotify.</Text>
 				</Card>
 				<Button
 					as="a" // Renders button as an anchor tag
