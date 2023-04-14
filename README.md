@@ -23,7 +23,4 @@ TuneTidy was created by a team of three developers: Richard Roberson, Cebastian 
 - Edit playlist details such as name, description, cover image, etc., and override the playlist to the user’s library
 - Display all-time (as well as last year, last month, custom date, etc.) listening data on the home page
 
-## Technologies
-  
-
  
