@@ -1,4 +1,4 @@
-[![Visit TuneTidy](https://img.shields.io/badge/Visit-TuneTidy-brightgreen)](https://tune-tidy.netlify.app/)
+[![Visit TuneTidy](https://img.shields.io/badge/Visit-TuneTidy-brightgreen)](https://tunetidy.com/)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/b09b6d0f-48c6-4a7b-aba8-da27e2a99b51/deploy-status)](https://app.netlify.com/sites/tune-tidy/deploys)
 <br>
 [![spotify-web-api-js](https://img.shields.io/badge/spotify--web--api--js-1.5.2-red)](https://jmperezperez.com/spotify-web-api-js/)
