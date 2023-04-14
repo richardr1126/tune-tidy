@@ -63,17 +63,23 @@ class Home extends Component {
 
   // Method to log user out
   redirectLogin() {
-    // Set loggedIn state to false
-    this.setState({
-      loggedIn: false,
-    });
+    obs.notify({ message: 'Account not verified\nPlease retry logging in with your Spotify account', status: 'error' });
+    //wait 3 seconds before redirecting
+    setTimeout(() => {
 
-    // Remove token and token expiration date from localStorage
-    window.localStorage.removeItem("token");
-    window.localStorage.removeItem("tokenExpiration");
 
-    // Redirect user to homepage
-    window.location.href = "/";
+      // Set loggedIn state to false
+      this.setState({
+        loggedIn: false,
+      });
+
+      // Remove token and token expiration date from localStorage
+      window.localStorage.removeItem("token");
+      window.localStorage.removeItem("tokenExpiration");
+
+      // Redirect user to homepage
+      window.location.href = "/";
+    }, 1000);
   }
 
   // Method to fetch user data from SpotifyAPI
@@ -90,7 +96,71 @@ class Home extends Component {
         });
 
         // Notify success
-        //observable.notify({ message: 'User data fetched successfully', status: 'success' });
+        obs.notify({ message: 'Account verified\nYour Spotify account has been connected', status: 'success' });
+
+        // Call getUserPlaylists() function to retrieve playlists data
+        spotify.getUserPlaylists({ limit: 50 })
+          .then((data) => {
+            console.log('Playlists: ', data);
+            if (data.total === 50) { // If there are more than 50 playlists, call getUserPlaylists() function with offset of 50 to retrieve remaining playlists
+              console.log('More than 50 playlists, fetching more...');
+              spotify.getUserPlaylists({ limit: 50, offset: 50 })
+                .then((data2) => {
+                  console.log('More playlists: ', data2);
+                  // Combine data and data2 to get all playlists
+                  const combinedData = data.items.concat(data2.items);
+                  data.items = combinedData;
+                  // Set playlist data in state
+                  this.setState({
+                    playlistData: data,
+                  });
+                })
+                .catch((error) => {
+                  console.log("Error fetching more playlists:", error);
+                  // If there's an error, redirect user to login page
+                  this.redirectLogin();
+                });
+            } else {
+              // If there are less than 50 playlists, set playlist data in state
+              this.setState({
+                playlistData: data,
+              });
+            }
+          })
+          .catch((error) => {
+            console.log("Error fetching playlists:", error);
+            // If there's an error, redirect user to login page
+            this.redirectLogin();
+          });
+
+        // Call getMyTopArtists() for all time ranges to send to DataPage, then to TopArtistsWidget
+        spotify.getMyTopArtists({ time_range: 'short_term', limit: 50 })
+          .then((data) => {
+            console.log('Top artists short_term: ', data);
+            this.setState({ topArtistsShortTerm: data });
+          })
+          .catch((error) => {
+            console.log("Error fetching top artists:", error);
+            this.redirectLogin();
+          });
+        spotify.getMyTopArtists({ time_range: 'medium_term', limit: 50 })
+          .then((data) => {
+            console.log('Top artists medium_term: ', data);
+            this.setState({ topArtistsMediumTerm: data });
+          })
+          .catch((error) => {
+            console.log("Error fetching top artists:", error);
+            this.redirectLogin();
+          });
+        spotify.getMyTopArtists({ time_range: 'long_term', limit: 50 })
+          .then((data) => {
+            console.log('Top artists long_term: ', data);
+            this.setState({ topArtistsLongTerm: data });
+          })
+          .catch((error) => {
+            console.log("Error fetching top artists:", error);
+            this.redirectLogin();
+          });
 
       })
       .catch((error) => {
@@ -99,68 +169,7 @@ class Home extends Component {
         this.redirectLogin();
       });
 
-    // Call getUserPlaylists() function to retrieve playlists data
-    spotify.getUserPlaylists({ limit: 50 })
-      .then((data) => {
-        console.log('Playlists: ', data);
-        if (data.total === 50) { // If there are more than 50 playlists, call getUserPlaylists() function with offset of 50 to retrieve remaining playlists
-          console.log('More than 50 playlists, fetching more...');
-          spotify.getUserPlaylists({ limit: 50, offset: 50 })
-            .then((data2) => {
-              console.log('More playlists: ', data2);
-              // Combine data and data2 to get all playlists
-              const combinedData = data.items.concat(data2.items);
-              data.items = combinedData;
-              // Set playlist data in state
-              this.setState({
-                playlistData: data,
-              });
-            })
-            .catch((error) => {
-              console.log("Error fetching more playlists:", error);
-              // If there's an error, redirect user to login page
-              this.redirectLogin();
-            });
-        } else {
-          // If there are less than 50 playlists, set playlist data in state
-          this.setState({
-            playlistData: data,
-          });
-        }
-      })
-      .catch((error) => {
-        console.log("Error fetching playlists:", error);
-        // If there's an error, redirect user to login page
-        this.redirectLogin();
-      });
 
-    spotify.getMyTopArtists({ time_range: 'short_term', limit: 50 })
-      .then((data) => {
-        console.log('Top artists short_term: ', data);
-        this.setState({ topArtistsShortTerm: data });
-      })
-      .catch((error) => {
-        console.log("Error fetching top artists:", error);
-        this.redirectLogin();
-      });
-    spotify.getMyTopArtists({ time_range: 'medium_term', limit: 50 })
-      .then((data) => {
-        console.log('Top artists medium_term: ', data);
-        this.setState({ topArtistsMediumTerm: data });
-      })
-      .catch((error) => {
-        console.log("Error fetching top artists:", error);
-        this.redirectLogin();
-      });
-    spotify.getMyTopArtists({ time_range: 'long_term', limit: 50 })
-      .then((data) => {
-        console.log('Top artists long_term: ', data);
-        this.setState({ topArtistsLongTerm: data });
-      })
-      .catch((error) => {
-        console.log("Error fetching top artists:", error);
-        this.redirectLogin();
-      });
   }
 
   handleToast(data) {
@@ -168,7 +177,7 @@ class Home extends Component {
     const { message, status } = data;
     const defaultMessage = "No message\nNo description";
     const [title, description] = (message || defaultMessage).split("\n");
-  
+
     this.props.toast({
       title,
       description,
@@ -177,7 +186,7 @@ class Home extends Component {
       isClosable: true,
     });
   }
-  
+
 
   // Method to be executed once component has mounted to the DOM
   componentDidMount() {
@@ -197,7 +206,7 @@ class Home extends Component {
 
       spotify.setAccessToken(token); // Set access token for SpotifyAPI
       this.fetchUserData(); // Call fetchUserData method to retrieve user and playlist data
-      obs.notify({ message: 'Account verified\nYour Spotify account has been connected', status: 'success' });
+
 
 
     } else { // If token is not present or has expired
@@ -205,6 +214,7 @@ class Home extends Component {
         loggedIn: false,
       });
       // Redirect user to homepage
+      obs.notify({ message: 'Account not verified\nPlease retry logging in with your Spotify account', status: 'error' });
       window.location.href = "/";
     }
   }
@@ -233,7 +243,7 @@ class Home extends Component {
         <>
           <NavBar fullUserData={this.state.fullUserData} switchPage={this.switchPage} />
 
-          {this.state.page === 'stats' && (<DataPage fullUserData={this.state.fullUserData} artistsData={artistsData} obs={obs}/>)}
+          {this.state.page === 'stats' && (<DataPage fullUserData={this.state.fullUserData} artistsData={artistsData} obs={obs} />)}
           {this.state.page === 'playlists' && (<PlaylistsPage fullUserData={this.state.fullUserData} playlistData={this.state.playlistData} />)}
 
           <Footer></Footer>
