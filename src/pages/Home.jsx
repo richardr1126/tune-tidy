@@ -247,8 +247,8 @@ class Home extends Component {
         <>
           <NavBar fullUserData={this.state.fullUserData} switchPage={this.switchPage} />
 
-          {this.state.page === 'stats' && (<DataPage fullUserData={this.state.fullUserData} artistsData={artistsData} obs={obs} />)}
-          {this.state.page === 'playlists' && (<PlaylistsPage fullUserData={this.state.fullUserData} playlistData={this.state.playlistData} />)}
+          {this.state.page === 'stats' && (<DataPage key={'data_page'} fullUserData={this.state.fullUserData} artistsData={artistsData} obs={obs} />)}
+          {this.state.page === 'playlists' && (<PlaylistsPage key={'playlists_page'} fullUserData={this.state.fullUserData} playlistData={this.state.playlistData} />)}
 
           <Footer></Footer>
         </>

@@ -39,6 +39,7 @@ class TopArtistsWidget extends Widget {
     this.onTimeRangeChange = this.onTimeRangeChange.bind(this);
     this.displayArtists = this.displayArtists.bind(this);
     this.renderPaginationButtons = this.renderPaginationButtons.bind(this);
+    this.directToArtistPage = this.directToArtistPage.bind(this);
   }
 
   // A function to change the page number when pagination buttons are clicked
@@ -64,6 +65,10 @@ class TopArtistsWidget extends Widget {
       this.props.obs.notify({ message: `Time Range\nSet to ${timeRange}`, status: 'success' });
     });
   };
+
+  directToArtistPage(artist) {
+    window.location.href = artist.uri;
+  }
 
 
   // A helper function to display the artist cards in the UI
@@ -93,7 +98,7 @@ class TopArtistsWidget extends Widget {
       const isMobile = window.innerWidth <= 600;
   
       return (
-        <Card p={2.5} key={artist.id}>
+        <Card p={2.5} key={artist.id} onClick={() => this.directToArtistPage(artist)} cursor={'pointer'}>
           <HStack spacing={4}>
             <Avatar size={'md'} src={artist?.images[0]?.url} icon={<Spinner></Spinner>} />
             <Text as={'h3'} fontWeight='bold' fontSize={'xl'}>{start + index + 1}.</Text>
