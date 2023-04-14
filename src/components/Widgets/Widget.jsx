@@ -19,8 +19,6 @@ class Widget extends Component {
     return window.innerWidth <= 768;
   }
 
-
-
   render() {
     return (
       <Card key={this.title} mt={this.isMobile() ? 2 : 8} ml={this.isMobile() ? 2 : 8} mr={this.isMobile() ? 2 : 8} mb={8} bgColor={'#edf2f7'}>

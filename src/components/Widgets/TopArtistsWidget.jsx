@@ -80,6 +80,8 @@ class TopArtistsWidget extends Widget {
         const prevArtistIndex = prevArtistsList.findIndex((prevArtist) => prevArtist.id === artist.id);
         rankChange = prevArtistIndex !== -1 ? prevArtistIndex - artistsList.indexOf(artist) : null;
       }
+
+      const isMobile = window.innerWidth <= 600;
   
       return (
         <Card p={2.5} key={artist.id}>
@@ -89,8 +91,8 @@ class TopArtistsWidget extends Widget {
             <Text as={'h3'} fontWeight="black" fontSize={'xl'} margin={'0.5ch !important'}>{artist.name}</Text>
             {rankChange !== null && (
               <Box>
-                {rankChange > 0 && <TriangleUpIcon color="green.500" />}
-                {rankChange < 0 && <TriangleDownIcon color="red.500" />}
+                {rankChange > 0 && <TriangleUpIcon position={isMobile ? 'absolute': 0} top={isMobile ? 2: 0} right={isMobile ? 2: 0}  color="green.500" />}
+                {rankChange < 0 && <TriangleDownIcon position={isMobile ? 'absolute': 0} top={isMobile ? 2: 0} right={isMobile ? 2: 0} color="red.500" />}
               </Box>
             )}
           </HStack>
