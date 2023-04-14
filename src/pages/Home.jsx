@@ -207,15 +207,12 @@ class Home extends Component {
       spotify.setAccessToken(token); // Set access token for SpotifyAPI
       this.fetchUserData(); // Call fetchUserData method to retrieve user and playlist data
 
-
-
     } else { // If token is not present or has expired
       this.setState({
         loggedIn: false,
       });
       // Redirect user to homepage
-      obs.notify({ message: 'Account not verified\nPlease retry logging in with your Spotify account', status: 'error' });
-      window.location.href = "/";
+      this.redirectLogin();
     }
   }
 
