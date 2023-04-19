@@ -22,7 +22,6 @@ class TopArtistsWidget extends Widget {
     super(props);
     this.title = 'Top Artists';
     this.state = {
-      loggedIn: true,
       time_range: 'medium_term',
       data: this.props.data,
       artistsList: this.props.data.topArtistsMediumTerm.items,

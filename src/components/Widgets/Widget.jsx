@@ -11,7 +11,7 @@ class Widget extends Component {
   }
 
   renderContent() {
-    throw new Error('Method "renderContent" must be implemented');
+    throw new Error('renderContent must be implemented');
   }
 
   //check if mobile
@@ -27,7 +27,6 @@ class Widget extends Component {
             <Image h={7} src='/Spotify_Logo_CMYK_Black.png' alt='Spotify'/> {/* Spotify logo */}
             <Heading m={'0.25ch !important'} size='md' pb={0.75}>{this.title}</Heading>
           </HStack>
-          
         </CardHeader>
         <CardBody pt={0}>
           {this.renderContent()}

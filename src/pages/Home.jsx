@@ -26,9 +26,6 @@ class Home extends Component {
     this.state = {
       page: 'stats', // Default page to render is stats
       loggedIn: false, // User is not logged in by default
-      token: null, // User has no token by default
-      userName: null, // User has no name by default
-      userId: null, // User has no ID by default
       fullUserData: null, // User has no data by default
       playlistData: null, // User has no playlists by default
       topArtistsShortTerm: null, // User has no top artists by default
@@ -41,6 +38,7 @@ class Home extends Component {
     this.fetchUserData = this.fetchUserData.bind(this);
     this.redirectLogin = this.redirectLogin.bind(this);
     this.checkDataFetched = this.checkDataFetched.bind(this);
+    this.handleToast = this.handleToast.bind(this);
 
   }
 
@@ -89,8 +87,6 @@ class Home extends Component {
         // Set user data in state
         this.setState({
           fullUserData: data,
-          userName: data.display_name,
-          userId: data.id,
         });
 
         // Notify success
@@ -201,7 +197,6 @@ class Home extends Component {
       // Set loggedIn state to true and set token
       this.setState({
         loggedIn: true,
-        token: token,
       });
 
       spotify.setAccessToken(token); // Set access token for SpotifyAPI
