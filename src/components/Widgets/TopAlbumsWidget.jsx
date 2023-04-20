@@ -16,10 +16,10 @@ import {
 } from '@chakra-ui/react';
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 
-class TopTracksWidget extends Widget {
+class TopAlbumsWidget extends Widget {
   constructor(props) {
     super(props);
-    this.title = 'Top Tracks';
+    this.title = 'Top Albums';
     this.state = {
       time_range: 'medium_term',
       data: this.props.data,
@@ -128,9 +128,9 @@ class TopTracksWidget extends Widget {
       return (
         <Card p={2.5} key={track.id} onClick={() => this.directToTrackPage(track)} cursor={'pointer'}>
           <HStack spacing={4}>
-            <Avatar size={'md'} src={track?.images[0]?.url} icon={<Spinner></Spinner>} />
+            <Avatar size={'md'} src={track.album?.images[0]?.url} icon={<Spinner></Spinner>} />
             <Text as={'h3'} fontWeight='bold' fontSize={'xl'}>{start + index + 1}.</Text>
-            <Text as={'h3'} fontWeight="black" fontSize={'xl'} margin={'0.5ch !important'}>{track.name}</Text>
+            <Text as={'h3'} fontWeight="black" fontSize={'xl'} margin={'0.5ch !important'}>{track.album.name}</Text>
             {rankChange !== null && (
               <Box>
                 {rankChange > 0 && <TriangleUpIcon position={isMobile ? 'absolute' : 0} top={isMobile ? 2 : 0} right={isMobile ? 2 : 0} color="green.500" />}
@@ -206,4 +206,4 @@ class TopTracksWidget extends Widget {
   }
 }
 
-export default TopTracksWidget;
+export default TopAlbumsWidget;
