@@ -3,6 +3,7 @@ import React from 'react';
 import Widget from './Widget';
 import {
   Box,
+  Center,
   Select,
   Spinner,
 } from '@chakra-ui/react';
@@ -154,29 +155,31 @@ class TopGenresWidget extends Widget {
       }
     ];
     return (
+      <Center>
+        <PieChart width={275} height={350}>
+          <Pie
+            data={piedata}
+            outerRadius={120}
+            dataKey="value"
+            nameKey="name"
+            fill="#8884d8"
+          >
+            {piedata?.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+          <Legend vert align="center" payload={
+            piedata.map(
+              (item, index) => ({
+                id: item.name,
+                type: "square",
+                value: `${item.name}`,
+                color: COLORS[index % COLORS.length],
+              })
+            )} />
+        </PieChart>
+      </Center>
 
-      <PieChart width={275} height={300}>
-        <Pie
-          data={piedata}
-          outerRadius={120}
-          dataKey="value"
-          nameKey="name"
-          fill="#8884d8"
-        >
-          {piedata?.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-        <Legend verticalAlign="bottom" align="center" payload={
-          piedata.map(
-            (item, index) => ({
-              id: item.name,
-              type: "square",
-              value: `${item.name}`,
-              color: COLORS[index % COLORS.length],
-            })
-          )} />
-      </PieChart>
 
 
 
