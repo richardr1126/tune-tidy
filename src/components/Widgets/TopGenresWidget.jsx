@@ -7,9 +7,9 @@ import {
   Spinner,
 } from '@chakra-ui/react';
 
-import { 
-  PieChart, 
-  Pie, 
+import {
+  PieChart,
+  Pie,
   Cell,
   Legend,
 } from 'recharts';
@@ -34,7 +34,7 @@ class TopGenresWidget extends Widget {
 
     // Binding the functions to the component's scope
     this.onTimeRangeChange = this.onTimeRangeChange.bind(this);
-    this.displayGenres= this.displayGenres.bind(this);
+    this.displayGenres = this.displayGenres.bind(this);
     this.directToArtistPage = this.directToArtistPage.bind(this);
     this.updatePrevLists = this.updatePrevLists.bind(this);
   }
@@ -65,19 +65,19 @@ class TopGenresWidget extends Widget {
   updatePrevLists(time_range, artistsList) {
     const storageKey = 'allPrevArtistsLists';
     let allPrevLists = JSON.parse(localStorage.getItem(storageKey)) || {};
-  
+
     if (!allPrevLists[time_range]) {
       allPrevLists[time_range] = {
         prev1: null,
         prev2: null,
       };
     }
-  
+
     const prev1Exists = allPrevLists[time_range].prev1 !== null;
     const prev2Exists = allPrevLists[time_range].prev2 !== null;
     const prev1IsDifferent = prev1Exists && JSON.stringify(allPrevLists[time_range].prev1) !== JSON.stringify(artistsList);
     const prev2IsDifferent = prev1Exists && JSON.stringify(allPrevLists[time_range].prev2) !== JSON.stringify(artistsList);
-  
+
     if (!prev1Exists) {
       allPrevLists[time_range].prev1 = artistsList;
     } else if (prev1Exists && !prev2Exists && prev1IsDifferent) {
@@ -86,14 +86,14 @@ class TopGenresWidget extends Widget {
       allPrevLists[time_range].prev1 = allPrevLists[time_range].prev2;
       allPrevLists[time_range].prev2 = artistsList;
     }
-  
+
     localStorage.setItem(storageKey, JSON.stringify(allPrevLists));
   }
-  
-  
+
+
   componentDidMount() {
     const timeRanges = ['short_term', 'medium_term', 'long_term'];
-    
+
     timeRanges.forEach((time_range) => {
       this.updatePrevLists(time_range, this.state.allArtistsLists[time_range]);
     });
@@ -104,84 +104,84 @@ class TopGenresWidget extends Widget {
 
     var dict = {};
     //count the number of times that each genre occured to find the most popular one
-    for (var j=0; j < artistsList.length; j++) {
-        if(artistsList[j].genres.length !== 0) {
-            for (let i = 0; i < artistsList[j].genres.length; i++) {
-                dict[artistsList[j].genres[i]] = (dict[artistsList[j].genres[i]] || 0) + 1;
-            }
+    for (var j = 0; j < artistsList.length; j++) {
+      if (artistsList[j].genres.length !== 0) {
+        for (let i = 0; i < artistsList[j].genres.length; i++) {
+          dict[artistsList[j].genres[i]] = (dict[artistsList[j].genres[i]] || 0) + 1;
         }
+      }
     }
- //Code below for sorting a dictionary was used from 
- //https://www.educative.io/answers/how-can-we-sort-a-dictionary-by-value-in-javascript
+    //Code below for sorting a dictionary was used from 
+    //https://www.educative.io/answers/how-can-we-sort-a-dictionary-by-value-in-javascript
 
     // Create items array
-    var items = Object.keys(dict).map(function(key) {
+    var items = Object.keys(dict).map(function (key) {
       return [key, dict[key]];
-  });
+    });
 
-  // Sort the array based on the second element
-  items.sort(function(first, second) {
+    // Sort the array based on the second element
+    items.sort(function (first, second) {
       return second[1] - first[1];
-  });
-  // Obtain the list of keys in sorted order of the values.
-  var keys = items.map(
-      (e) => { return e[0]});
-  // Obtain the list of values in sorted order.
-  var percent = items.map(
-      (e) => { return (e[1]/50)*100});
-  
-  //create the data
-  const piedata = [
-  {
-  value:percent[0],
-    name: keys[0]
-  },
-  {
-   value:percent[1],
-   name: keys[1]
-  },
-  {
-    value:percent[2],
-    name: keys[2]
-  },
-  {
-    value:percent[3],
-    name: keys[3]
-  },
-  {
-     value:percent[4],
-     name: keys[4]
-  }
-  ];
-  return (
-    <PieChart width={500} height={300}>
-    <Pie
-       data={piedata}
-       cx="50%"
-       cy="50%"
-       outerRadius={120}
-       dataKey="value"
-       nameKey="name"
-       fill="#8884d8"
-          >
-        {piedata?.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+    });
+    // Obtain the list of keys in sorted order of the values.
+    var keys = items.map(
+      (e) => { return e[0] });
+    // Obtain the list of values in sorted order.
+    var percent = items.map(
+      (e) => { return (e[1] / 50) * 100 });
+
+    //create the data
+    const piedata = [
+      {
+        value: percent[0],
+        name: keys[0]
+      },
+      {
+        value: percent[1],
+        name: keys[1]
+      },
+      {
+        value: percent[2],
+        name: keys[2]
+      },
+      {
+        value: percent[3],
+        name: keys[3]
+      },
+      {
+        value: percent[4],
+        name: keys[4]
+      }
+    ];
+    return (
+      <PieChart width={500} height={300}>
+        <Pie
+          data={piedata}
+          cx="50%"
+          cy="50%"
+          outerRadius={120}
+          dataKey="value"
+          nameKey="name"
+          fill="#8884d8"
+        >
+          {piedata?.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
-    </Pie>
-    <Legend verticalAlign="bottom" align="center" payload={    
-      piedata.map(
-          (item, index) => ({
-          id: item.name,
-          type: "square",
-          value: `${item.name}`,
-          color: COLORS[index % COLORS.length],
-        })
-    )}/>
-    </PieChart>
-  
+        </Pie>
+        <Legend verticalAlign="bottom" align="center" payload={
+          piedata.map(
+            (item, index) => ({
+              id: item.name,
+              type: "square",
+              value: `${item.name}`,
+              color: COLORS[index % COLORS.length],
+            })
+          )} />
+      </PieChart>
+
     );
   }
-  
+
   // A function to render the content of the widget
   renderContent() {
     const { time_range, artistsList } = this.state;
