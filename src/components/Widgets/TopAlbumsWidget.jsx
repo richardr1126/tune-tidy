@@ -26,7 +26,7 @@ class TopAlbumsWidget extends Widget {
       tracksList: this.props.data.topTracksMediumTerm.items,
       page: 1,
       allTracksLists: {
-        short_term: this.props.data.topsShortTerm.items,
+        short_term: this.props.data.topTracksShortTerm.items,
         medium_term: this.props.data.topTracksMediumTerm.items,
         long_term: this.props.data.topTracksLongTerm.items,
       },

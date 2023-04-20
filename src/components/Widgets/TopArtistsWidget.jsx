@@ -125,8 +125,6 @@ class TopArtistsWidget extends Widget {
         rankChange = prevArtistIndex !== -1 ? prevArtistIndex - artistsList.indexOf(artist) : null;
       }
   
-      const isMobile = window.innerWidth <= 600;
-  
       return (
         <Card p={2.5} key={artist.id} onClick={() => this.directToArtistPage(artist)} cursor={'pointer'}>
           <HStack spacing={4}>
@@ -135,8 +133,8 @@ class TopArtistsWidget extends Widget {
             <Text as={'h3'} fontWeight="black" fontSize={'xl'} margin={'0.5ch !important'}>{artist.name}</Text>
             {rankChange !== null && (
               <Box>
-                {rankChange > 0 && <TriangleUpIcon position={isMobile ? 'absolute' : 0} top={isMobile ? 2 : 0} right={isMobile ? 2 : 0} color="green.500" />}
-                {rankChange < 0 && <TriangleDownIcon position={isMobile ? 'absolute' : 0} top={isMobile ? 2 : 0} right={isMobile ? 2 : 0} color="red.500" />}
+                {rankChange > 0 && <TriangleUpIcon position={'absolute'} top={2} right={2} color="green.500" />}
+                {rankChange < 0 && <TriangleDownIcon position={'absolute'} top={2} right={2} color="red.500" />}
               </Box>
             )}
           </HStack>

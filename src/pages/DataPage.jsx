@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Container } from '@chakra-ui/react';
+import { Center, Wrap } from '@chakra-ui/react';
 import WidgetFactory from '../components/Widgets/WidgetFactory';
 
 class DataPage extends Component {
@@ -8,6 +8,7 @@ class DataPage extends Component {
     this.state = {
       fullUserData: this.props.fullUserData,
       artistsData: this.props.artistsData,
+      tracksData: this.props.tracksData,
     };
     this.widgetFactory = new WidgetFactory();
   }
@@ -18,17 +19,18 @@ class DataPage extends Component {
 
 
   render() {
-    const { artistsData} = this.state;
-    
+    const { artistsData, tracksData } = this.state;
 
     const topArtistsWidget = this.widgetFactory.createWidget('topArtists', artistsData, this.props.obs);
-    //const topTracksWidget = this.widgetFactory.createWidget('topTracks');
+    const topTracksWidget = this.widgetFactory.createWidget('topTracks', tracksData, this.props.obs);
 
     return (
-      <Container maxW='container.xl' sx={{ padding: '1ch' }}>
-        {topArtistsWidget}
-        {/* {topTracksWidget} */}
-      </Container>
+      <Center maxW={'container.2xl'} m={5}>
+        <Wrap spacing={5}>
+          {topArtistsWidget}
+          {topTracksWidget}
+        </Wrap>
+      </Center>
     );
   }
 }

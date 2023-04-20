@@ -26,7 +26,7 @@ class TopTracksWidget extends Widget {
       tracksList: this.props.data.topTracksMediumTerm.items,
       page: 1,
       allTracksLists: {
-        short_term: this.props.data.topsShortTerm.items,
+        short_term: this.props.data.topTracksShortTerm.items,
         medium_term: this.props.data.topTracksMediumTerm.items,
         long_term: this.props.data.topTracksLongTerm.items,
       },
@@ -128,9 +128,15 @@ class TopTracksWidget extends Widget {
       return (
         <Card p={2.5} key={track.id} onClick={() => this.directToTrackPage(track)} cursor={'pointer'}>
           <HStack spacing={4}>
-            <Avatar size={'md'} src={track?.images[0]?.url} icon={<Spinner></Spinner>} />
-            <Text as={'h3'} fontWeight='bold' fontSize={'xl'}>{start + index + 1}.</Text>
-            <Text as={'h3'} fontWeight="black" fontSize={'xl'} margin={'0.5ch !important'}>{track.name}</Text>
+            <Avatar borderRadius={2} size={'md'} src={track?.album?.images[0]?.url} icon={<Spinner></Spinner>} />
+            <VStack spacing={0} align={'left'}>
+              <HStack>
+                <Text as={'h3'} fontWeight='bold' fontSize={'xl'}>{start + index + 1}.</Text>
+                <Text as={'h3'} fontWeight="black" fontSize={'xl'}>{track.name}</Text>
+              </HStack>
+              <Text as={'h3'} fontSize={'sm'}>{track.artists.map((artist) => artist.name).join(', ')}</Text>
+            </VStack>
+            
             {rankChange !== null && (
               <Box>
                 {rankChange > 0 && <TriangleUpIcon position={isMobile ? 'absolute' : 0} top={isMobile ? 2 : 0} right={isMobile ? 2 : 0} color="green.500" />}

@@ -31,6 +31,9 @@ class Home extends Component {
       topArtistsShortTerm: null, // User has no top artists by default
       topArtistsMediumTerm: null, // User has no top artists by default
       topArtistsLongTerm: null, // User has no top artists by default
+      topTracksShortTerm: null, // User has no top tracks by default
+      topTracksMediumTerm: null, // User has no top tracks by default
+      topTracksLongTerm: null, // User has no top tracks by default
     };
 
     // Bind methods to this class
@@ -52,6 +55,9 @@ class Home extends Component {
       && this.state.topArtistsShortTerm
       && this.state.topArtistsMediumTerm
       && this.state.topArtistsLongTerm
+      && this.state.topTracksShortTerm
+      && this.state.topTracksMediumTerm
+      && this.state.topTracksLongTerm
     ) {
       return true;
     } else {
@@ -155,6 +161,34 @@ class Home extends Component {
             console.log("Error fetching top artists:", error);
             this.redirectLogin();
           });
+        spotify.getMyTopTracks({ time_range: 'short_term', limit: 50 })
+          .then((data) => {
+            console.log('Top tracks short_term: ', data);
+            this.setState({ topTracksShortTerm: data });
+          })
+          .catch((error) => {
+            console.log("Error fetching top tracks:", error);
+            this.redirectLogin();
+          });
+        spotify.getMyTopTracks({ time_range: 'medium_term', limit: 50 })
+          .then((data) => {
+            console.log('Top tracks medium_term: ', data);
+            this.setState({ topTracksMediumTerm: data });
+          })
+          .catch((error) => {
+            console.log("Error fetching top tracks:", error);
+            this.redirectLogin();
+          });
+        spotify.getMyTopTracks({ time_range: 'long_term', limit: 50 })
+          .then((data) => {
+            console.log('Top tracks long_term: ', data);
+            this.setState({ topTracksLongTerm: data });
+          })
+          .catch((error) => {
+            console.log("Error fetching top tracks:", error);
+            this.redirectLogin();
+          });
+
 
       })
       .catch((error) => {
@@ -237,12 +271,18 @@ class Home extends Component {
       topArtistsLongTerm: this.state.topArtistsLongTerm,
     };
 
+    const tracksData = {
+      topTracksShortTerm: this.state.topTracksShortTerm,
+      topTracksMediumTerm: this.state.topTracksMediumTerm,
+      topTracksLongTerm: this.state.topTracksLongTerm,
+    }
+
     if (this.checkDataFetched()) {
       return (
         <>
           <NavBar fullUserData={this.state.fullUserData} switchPage={this.switchPage} />
 
-          {this.state.page === 'stats' && (<DataPage key={'data_page'} fullUserData={this.state.fullUserData} artistsData={artistsData} obs={obs} />)}
+          {this.state.page === 'stats' && (<DataPage key={'data_page'} fullUserData={this.state.fullUserData} artistsData={artistsData} tracksData={tracksData} obs={obs} />)}
           {this.state.page === 'playlists' && (<PlaylistsPage key={'playlists_page'} fullUserData={this.state.fullUserData} playlistData={this.state.playlistData} />)}
 
           <Footer></Footer>

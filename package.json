@@ -13,6 +13,7 @@
     "react-icons": "^4.8.0",
     "react-router-dom": "latest",
     "react-scripts": "^5.0.1",
+    "recharts": "^2.5.0",
     "spotify-web-api-js": "^1.5.2",
     "web-vitals": "latest"
   },
