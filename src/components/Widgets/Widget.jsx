@@ -7,21 +7,15 @@ class Widget extends Component {
     if (new.target === Widget) {
       throw new TypeError('Cannot construct Widget instances directly');
     }
-    this.isMobile = this.isMobile.bind(this);
   }
 
   renderContent() {
     throw new Error('renderContent must be implemented');
   }
 
-  //check if mobile
-  isMobile() {
-    return window.innerWidth <= 768;
-  }
-
   render() {
     return (
-      <Card key={this.title} mt={this.isMobile() ? 2 : 8} ml={this.isMobile() ? 2 : 8} mr={this.isMobile() ? 2 : 8} mb={8} bgColor={'#edf2f7'} boxShadow={'md'}>
+      <Card key={this.title} mt={8} ml={2} mr={2} mb={8} bgColor={'#edf2f7'} boxShadow={'md'}>
         <CardHeader>
           <HStack>
             <Image h={7} src='/Spotify_Logo_CMYK_Black.png' alt='Spotify'/> {/* Spotify logo */}

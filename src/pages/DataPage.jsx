@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Center, Wrap } from '@chakra-ui/react';
+import { Wrap, WrapItem } from '@chakra-ui/react';
 import WidgetFactory from '../components/Widgets/WidgetFactory';
 
 class DataPage extends Component {
@@ -23,14 +23,20 @@ class DataPage extends Component {
 
     const topArtistsWidget = this.widgetFactory.createWidget('topArtists', artistsData, this.props.obs);
     const topTracksWidget = this.widgetFactory.createWidget('topTracks', tracksData, this.props.obs);
+    const topGenresWidget = this.widgetFactory.createWidget('topGenres', artistsData, this.props.obs);
 
     return (
-      <Center maxW={'container.2xl'} m={5}>
-        <Wrap spacing={5}>
+      <Wrap justify={'center'}>
+        <WrapItem>
           {topArtistsWidget}
+        </WrapItem>
+        <WrapItem>
           {topTracksWidget}
-        </Wrap>
-      </Center>
+        </WrapItem>
+        <WrapItem>
+          {topGenresWidget}
+        </WrapItem>
+      </Wrap>
     );
   }
 }
