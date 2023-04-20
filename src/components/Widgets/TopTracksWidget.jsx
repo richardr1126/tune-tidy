@@ -127,11 +127,11 @@ class TopTracksWidget extends Widget {
   
       return (
         <Card p={2.5} key={track.id} onClick={() => this.directToTrackPage(track)} cursor={'pointer'}>
-          <HStack spacing={4}>
+          <HStack spacing={2}>
             <Avatar borderRadius={2} size={'md'} src={track?.album?.images[0]?.url} icon={<Spinner></Spinner>} />
-            <VStack spacing={0} align={'left'}>
-              <HStack>
-                <Text as={'h3'} fontWeight='bold' fontSize={'lg'}>{start + index + 1}.</Text>
+            <Text as={'h3'} fontWeight='bold' fontSize={'lg'}>{start + index + 1}.</Text>
+            <VStack spacing={0} align={'left'} ml={'0.5rem !important'}>
+              <HStack spacing={0}>
                 <Text as={'h3'} fontWeight="black" fontSize={'lg'}>{track.name}</Text>
               </HStack>
               <Text as={'h3'} fontSize={'sm'}>{track.artists.map((artist) => artist.name).join(', ')}</Text>

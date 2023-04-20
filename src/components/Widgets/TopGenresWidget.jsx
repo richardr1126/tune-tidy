@@ -154,11 +154,10 @@ class TopGenresWidget extends Widget {
       }
     ];
     return (
-      <PieChart width={500} height={300}>
+
+      <PieChart width={275} height={300}>
         <Pie
           data={piedata}
-          cx="50%"
-          cy="50%"
           outerRadius={120}
           dataKey="value"
           nameKey="name"
@@ -178,6 +177,8 @@ class TopGenresWidget extends Widget {
             })
           )} />
       </PieChart>
+
+
 
     );
   }
