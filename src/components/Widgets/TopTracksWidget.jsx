@@ -123,8 +123,6 @@ class TopTracksWidget extends Widget {
         rankChange = prevTrackIndex !== -1 ? prevTrackIndex - tracksList.indexOf(track) : null;
       }
   
-      const isMobile = window.innerWidth <= 600;
-  
       return (
         <Card p={2.5} key={track.id} onClick={() => this.directToTrackPage(track)} cursor={'pointer'}>
           <HStack spacing={2}>
