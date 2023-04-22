@@ -139,8 +139,8 @@ class TopTracksWidget extends Widget {
             
             {rankChange !== null && (
               <Box>
-                {rankChange > 0 && <TriangleUpIcon position={isMobile ? 'absolute' : 0} top={isMobile ? 2 : 0} right={isMobile ? 2 : 0} color="green.500" />}
-                {rankChange < 0 && <TriangleDownIcon position={isMobile ? 'absolute' : 0} top={isMobile ? 2 : 0} right={isMobile ? 2 : 0} color="red.500" />}
+                {rankChange > 0 && <TriangleUpIcon position={'absolute'} top={2} right={2} color="green.500" />}
+                {rankChange < 0 && <TriangleDownIcon position={'absolute'} top={2} right={2} color="red.500" />}
               </Box>
             )}
           </HStack>
