@@ -115,7 +115,6 @@ class TopTracksWidget extends Widget {
     const allPrevLists = JSON.parse(localStorage.getItem('allPrevTracksLists')) || {};
     const prev1TracksList = allPrevLists[time_range] ? allPrevLists[time_range].prev1 : null;
 
-  
     return tracksList.slice(start, end).map((track, index) => {
       let rankChange = null;
       if (prev1TracksList) {

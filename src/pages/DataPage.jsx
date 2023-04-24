@@ -24,6 +24,7 @@ class DataPage extends Component {
     const topArtistsWidget = this.widgetFactory.createWidget('topArtists', artistsData, this.props.obs);
     const topTracksWidget = this.widgetFactory.createWidget('topTracks', tracksData, this.props.obs);
     const topGenresWidget = this.widgetFactory.createWidget('topGenres', artistsData, this.props.obs);
+    const topAlbumsWidget = this.widgetFactory.createWidget('topAlbums', tracksData, this.props.obs);
 
     return (
       <Wrap justify={'center'}>
@@ -32,6 +33,9 @@ class DataPage extends Component {
         </WrapItem>
         <WrapItem>
           {topTracksWidget}
+        </WrapItem>
+        <WrapItem>
+          {topAlbumsWidget}
         </WrapItem>
         <WrapItem>
           {topGenresWidget}

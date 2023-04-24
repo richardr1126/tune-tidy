@@ -115,22 +115,45 @@ class TopAlbumsWidget extends Widget {
     const allPrevLists = JSON.parse(localStorage.getItem('allPrevTracksLists')) || {};
     const prev1TracksList = allPrevLists[time_range] ? allPrevLists[time_range].prev1 : null;
 
-  
-    return tracksList.slice(start, end).map((track, index) => {
+    var dict = {};
+    //count the number of times that each genre occured to find the most popular one
+    for (var j = 0; j < tracksList.length; j++) {
+      if(!(tracksList[j].album.name in dict)) {
+        // dict[tracksList[j].album.name][0].push(tracksList[j]) 
+        dict[tracksList[j].album.name]={
+          count: 1,
+          item: tracksList[j]
+        };
+      }
+      else {
+        dict[tracksList[j].album.name].count+=1;
+      }
+    }
+      // Create items array
+    var items = Object.keys(dict).map(function (key) {
+      return [key, dict[key]];
+    });
+    console.log("items", items)
+    // Sort the array based on the second element
+    items.sort(function (first, second) {
+      return second[1].count - first[1].count;
+    });
+    
+    return items.slice(start, end).map((track, index)=> {
       let rankChange = null;
       if (prev1TracksList) {
-        const prevTrackIndex = prev1TracksList.findIndex((prevTrack) => prevTrack.id === track.id);
-        rankChange = prevTrackIndex !== -1 ? prevTrackIndex - tracksList.indexOf(track) : null;
+        const prevTrackIndex = prev1TracksList.findIndex((prevTrack) => prevTrack.id === track[1].item.id);
+        rankChange = prevTrackIndex !== -1 ? prevTrackIndex - tracksList.indexOf(track[1].item) : null;
       }
   
       const isMobile = window.innerWidth <= 600;
   
       return (
-        <Card p={2.5} key={track.id} onClick={() => this.directToTrackPage(track)} cursor={'pointer'}>
+        <Card p={2.5} key={track[1].item.id} onClick={() => this.directToTrackPage(track[1].item)} cursor={'pointer'}>
           <HStack spacing={4}>
-            <Avatar size={'md'} src={track.album?.images[0]?.url} icon={<Spinner></Spinner>} />
+            <Avatar size={'md'} src={track[1].item.album?.images[0]?.url} icon={<Spinner></Spinner>} />
             <Text as={'h3'} fontWeight='bold' fontSize={'xl'}>{start + index + 1}.</Text>
-            <Text as={'h3'} fontWeight="black" fontSize={'xl'} margin={'0.5ch !important'}>{track.album.name}</Text>
+            <Text as={'h3'} fontWeight="black" fontSize={'xl'} margin={'0.5ch !important'}>{track[0]}</Text>
             {rankChange !== null && (
               <Box>
                 {rankChange > 0 && <TriangleUpIcon position={isMobile ? 'absolute' : 0} top={isMobile ? 2 : 0} right={isMobile ? 2 : 0} color="green.500" />}

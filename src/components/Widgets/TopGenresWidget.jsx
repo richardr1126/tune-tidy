@@ -116,8 +116,6 @@ class TopGenresWidget extends Widget {
         length-=1;
       }
     }
-    console.log(artistsList)
-    console.log(length)
     //Code below for sorting a dictionary was used from 
     //https://www.educative.io/answers/how-can-we-sort-a-dictionary-by-value-in-javascript
 
@@ -130,13 +128,12 @@ class TopGenresWidget extends Widget {
     items.sort(function (first, second) {
       return second[1] - first[1];
     });
-    console.log(items)
     // Obtain the list of keys in sorted order of the values.
     var keys = items.map(
       (e) => { return e[0] });
     // Obtain the list of values in sorted order.
     var percent = items.map(
-      (e) => { return (e[1] / length) * 100 });
+      (e) => { return (e[1]/length)*100});
     var piedata = []
     //create the data
     if(keys.length === 0) { //if no genres, nothing to show
@@ -168,10 +165,6 @@ class TopGenresWidget extends Widget {
         {
           value: percent[4],
           name: keys[4]
-        },
-        {
-          value: 100-percent[0]-percent[1]-percent[2]-percent[3]-percent[4],
-          name: "Other"
         }
       ];
     }
@@ -194,7 +187,7 @@ class TopGenresWidget extends Widget {
               (item, index) => ({
                 id: item.name,
                 type: "square",
-                value: `${item.name} : ${Math.round(item.value)}%`,
+                value: `${item.name}`,
                 color: COLORS[index % COLORS.length],
               })
             )} />
