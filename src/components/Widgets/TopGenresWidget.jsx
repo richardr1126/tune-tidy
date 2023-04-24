@@ -15,7 +15,7 @@ import {
   Legend,
 } from 'recharts';
 
-const COLORS = ["#8884d8", "#82ca9d", "#FFBB28", "#FF8042", "#AF19FF"];
+const COLORS = ["#8884d8", "#82ca9d", "#FFBB28", "#FF8042", "#AF19FF", "#1e90ff"];
 
 // Extends the Widget class for TopArtistsWidget class and sets its initial state
 class TopGenresWidget extends Widget {
@@ -104,6 +104,7 @@ class TopGenresWidget extends Widget {
   displayGenres(artistsList) {
 
     var dict = {};
+    var length = 50;
     //count the number of times that each genre occured to find the most popular one
     for (var j = 0; j < artistsList.length; j++) {
       if (artistsList[j].genres.length !== 0) {
@@ -111,7 +112,12 @@ class TopGenresWidget extends Widget {
           dict[artistsList[j].genres[i]] = (dict[artistsList[j].genres[i]] || 0) + 1;
         }
       }
+      else {
+        length-=1;
+      }
     }
+    console.log(artistsList)
+    console.log(length)
     //Code below for sorting a dictionary was used from 
     //https://www.educative.io/answers/how-can-we-sort-a-dictionary-by-value-in-javascript
 
@@ -124,36 +130,51 @@ class TopGenresWidget extends Widget {
     items.sort(function (first, second) {
       return second[1] - first[1];
     });
+    console.log(items)
     // Obtain the list of keys in sorted order of the values.
     var keys = items.map(
       (e) => { return e[0] });
     // Obtain the list of values in sorted order.
     var percent = items.map(
-      (e) => { return (e[1] / 50) * 100 });
-
+      (e) => { return (e[1] / length) * 100 });
+    var piedata = []
     //create the data
-    const piedata = [
-      {
-        value: percent[0],
-        name: keys[0]
-      },
-      {
-        value: percent[1],
-        name: keys[1]
-      },
-      {
-        value: percent[2],
-        name: keys[2]
-      },
-      {
-        value: percent[3],
-        name: keys[3]
-      },
-      {
-        value: percent[4],
-        name: keys[4]
+    if(keys.length === 0) { //if no genres, nothing to show
+      piedata =[{value: 0, name: "No genres to show"}]
+    }
+    else if (keys.length < 5) {//if less then 5, show what the user has
+      for (var k = 0; k < keys.length; k++) {
+        piedata.push({value: percent[k], name: keys[k]})
       }
-    ];
+    }
+    else {//else more then 5 genres, just show top 5
+      piedata = [
+        {
+          value: percent[0],
+          name: keys[0]
+        },
+        {
+          value: percent[1],
+          name: keys[1]
+        },
+        {
+          value: percent[2],
+          name: keys[2]
+        },
+        {
+          value: percent[3],
+          name: keys[3]
+        },
+        {
+          value: percent[4],
+          name: keys[4]
+        },
+        {
+          value: 100-percent[0]-percent[1]-percent[2]-percent[3]-percent[4],
+          name: "Other"
+        }
+      ];
+    }
     return (
       <Center>
         <PieChart width={275} height={350}>
