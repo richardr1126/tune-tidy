@@ -173,7 +173,7 @@ class TopGenresWidget extends Widget {
               (item, index) => ({
                 id: item.name,
                 type: "square",
-                value: `${item.name}`,
+                value: `${item.name} : ${Math.round(item.value)}%`,
                 color: COLORS[index % COLORS.length],
               })
             )} />
