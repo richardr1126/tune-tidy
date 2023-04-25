@@ -63,6 +63,7 @@ class TopArtistsWidget extends Widget {
     this.setState({ time_range: event.target.value }, () => {
       this.setState({ artistsList: this.state.allArtistsLists[event.target.value] }, () => {
         this.props.obs.notify({ message: `Time Range\nSet to ${timeRange}`, status: 'success' });
+        this.changePage(1);
       });
     });
   };

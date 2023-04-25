@@ -57,11 +57,13 @@ class TopAlbumsWidget extends Widget {
       long_term: 'All Time',
     };
     const timeRange = timeRangeMap[event.target.value];
+    
 
 
     this.setState({ time_range: event.target.value }, () => {
       this.setState({ tracksList: this.state.allTracksLists[event.target.value] }, () => {
         this.props.obs.notify({ message: `Time Range\nSet to ${timeRange}`, status: 'success' });
+        this.changePage(1);
       });
     });
   };
@@ -96,7 +98,6 @@ class TopAlbumsWidget extends Widget {
       );
     });
   }
-
 
 
   getUniqueAlbums(tracksList) {
