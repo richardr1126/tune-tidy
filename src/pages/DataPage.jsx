@@ -77,7 +77,7 @@ class DataPage extends Component {
           </WrapItem>
         </Wrap>
         {isMobile && (<Center m={5}>
-          <Button as="a" href="#nav" size={'xs'}>
+          <Button as="a" href="#nav" size={'md'}>
             Return to Top
           </Button>
         </Center>)}
