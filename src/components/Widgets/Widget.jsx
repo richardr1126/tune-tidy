@@ -17,7 +17,7 @@ class Widget extends Component {
     const isMobile = window.innerWidth < 768;
 
     return (
-      <Card key={this.title} mt={2} ml={2} mr={2} mb={4} bgColor={'#edf2f7'} boxShadow={'md'} minW={isMobile ? 0:500}>
+      <Card key={this.title} mt={2} ml={2} mr={2} mb={4} bgColor={'#edf2f7'} boxShadow={'md'} minW={isMobile ? 0:500} maxW={500}>
         <CardHeader>
           <HStack>
             <Image h={7} src='/Spotify_Logo_CMYK_Black.png' alt='Spotify'/> {/* Spotify logo */}

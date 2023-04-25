@@ -14,7 +14,6 @@ import {
   Center,
   Avatar,
 } from '@chakra-ui/react';
-import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 
 class TopAlbumsWidget extends Widget {
   constructor(props) {
@@ -35,10 +34,11 @@ class TopAlbumsWidget extends Widget {
     // Binding the functions to the component's scope
     this.changePage = this.changePage.bind(this);
     this.onTimeRangeChange = this.onTimeRangeChange.bind(this);
-    this.displayTracks = this.displayTracks.bind(this);
+    this.displayAlbums = this.displayAlbums.bind(this);
     this.renderPaginationButtons = this.renderPaginationButtons.bind(this);
-    this.directToTracksPage = this.directToTrackPage.bind(this);
-    this.updatePrevLists = this.updatePrevLists.bind(this);
+    this.directToAlbumPage = this.directToAlbumPage.bind(this);
+    this.getUniqueAlbums = this.getUniqueAlbums.bind(this);
+
   }
 
   // A function to change the page number when pagination buttons are clicked
@@ -66,111 +66,54 @@ class TopAlbumsWidget extends Widget {
     });
   };
 
-  directToTrackPage(track) {
-    window.location.href = track.uri;
+  directToAlbumPage(track) {
+    window.location.href = track.album?.uri;
   }
 
-  updatePrevLists(time_range, tracksList) {
-    const storageKey = 'allPrevTracksLists';
-    let allPrevLists = JSON.parse(localStorage.getItem(storageKey)) || {};
-  
-    if (!allPrevLists[time_range]) {
-      allPrevLists[time_range] = {
-        prev1: null,
-        prev2: null,
-      };
-    }
-  
-    const prev1Exists = allPrevLists[time_range].prev1 !== null;
-    const prev2Exists = allPrevLists[time_range].prev2 !== null;
-    const prev1IsDifferent = prev1Exists && JSON.stringify(allPrevLists[time_range].prev1) !== JSON.stringify(tracksList);
-    const prev2IsDifferent = prev1Exists && JSON.stringify(allPrevLists[time_range].prev2) !== JSON.stringify(tracksList);
-  
-    if (!prev1Exists) {
-      allPrevLists[time_range].prev1 = tracksList;
-    } else if (prev1Exists && !prev2Exists && prev1IsDifferent) {
-      allPrevLists[time_range].prev2 = tracksList;
-    } else if (prev1Exists && prev2Exists && prev1IsDifferent && prev2IsDifferent) {
-      allPrevLists[time_range].prev1 = allPrevLists[time_range].prev2;
-      allPrevLists[time_range].prev2 = tracksList;
-    }
-  
-    localStorage.setItem(storageKey, JSON.stringify(allPrevLists));
-  }
-  
-  
-  componentDidMount() {
-    const timeRanges = ['short_term', 'medium_term', 'long_term'];
-    
-    timeRanges.forEach((time_range) => {
-      this.updatePrevLists(time_range, this.state.allTracksLists[time_range]);
-    });
-  }
-
-  displayTracks(tracksList) {
-    const { page, time_range } = this.state;
+  displayAlbums(tracksList) {
+    const { page } = this.state;
     const start = (page - 1) * 10;
     const end = page * 10;
-  
-    const allPrevLists = JSON.parse(localStorage.getItem('allPrevTracksLists')) || {};
-    const prev1TracksList = allPrevLists[time_range] ? allPrevLists[time_range].prev1 : null;
 
-    var dict = {};
-    //count the number of times that each genre occured to find the most popular one
-    for (var j = 0; j < tracksList.length; j++) {
-      if(!(tracksList[j].album.name in dict)) {
-        // dict[tracksList[j].album.name][0].push(tracksList[j]) 
-        dict[tracksList[j].album.name]={
-          count: 1,
-          item: tracksList[j]
-        };
-      }
-      else {
-        dict[tracksList[j].album.name].count+=1;
-      }
-    }
-      // Create items array
-    var items = Object.keys(dict).map(function (key) {
-      return [key, dict[key]];
-    });
-    console.log("items", items)
-    // Sort the array based on the second element
-    items.sort(function (first, second) {
-      return second[1].count - first[1].count;
-    });
-    
-    return items.slice(start, end).map((track, index)=> {
-      let rankChange = null;
-      if (prev1TracksList) {
-        const prevTrackIndex = prev1TracksList.findIndex((prevTrack) => prevTrack.id === track[1].item.id);
-        rankChange = prevTrackIndex !== -1 ? prevTrackIndex - tracksList.indexOf(track[1].item) : null;
-      }
-  
-      const isMobile = window.innerWidth <= 600;
-  
+    const uniqueAlbums = this.getUniqueAlbums(tracksList);
+    const albumItems = uniqueAlbums.slice(start, end);
+
+    return albumItems.map((albumName, index) => {
+      const track = tracksList.find(track => track.album.name === albumName);
       return (
-        <Card p={2.5} key={track[1].item.id} onClick={() => this.directToTrackPage(track[1].item)} cursor={'pointer'}>
-          <HStack spacing={4}>
-            <Avatar size={'md'} src={track[1].item.album?.images[0]?.url} icon={<Spinner></Spinner>} />
-            <Text as={'h3'} fontWeight='bold' fontSize={'xl'}>{start + index + 1}.</Text>
-            <Text as={'h3'} fontWeight="black" fontSize={'xl'} margin={'0.5ch !important'}>{track[0]}</Text>
-            {rankChange !== null && (
-              <Box>
-                {rankChange > 0 && <TriangleUpIcon position={isMobile ? 'absolute' : 0} top={isMobile ? 2 : 0} right={isMobile ? 2 : 0} color="green.500" />}
-                {rankChange < 0 && <TriangleDownIcon position={isMobile ? 'absolute' : 0} top={isMobile ? 2 : 0} right={isMobile ? 2 : 0} color="red.500" />}
-              </Box>
-            )}
+        <Card p={2.5} key={track.album.id} onClick={() => this.directToAlbumPage(track)} cursor={'pointer'}>
+          <HStack spacing={2}>
+            <Avatar borderRadius={2} size={'md'} src={track?.album?.images[0]?.url} icon={<Spinner></Spinner>} />
+            <Text as={'h3'} fontWeight='bold' fontSize={'lg'}>{start + index + 1}.</Text>
+            <VStack spacing={0} align={'left'} ml={'0.5rem !important'}>
+              <HStack spacing={0}>
+                <Text as={'h3'} fontWeight="black" fontSize={'lg'}>{albumName}</Text>
+              </HStack>
+              <Text as={'h3'} fontSize={'sm'}>{track.artists.map((artist) => artist.name).join(', ')}</Text>
+            </VStack>
           </HStack>
         </Card>
       );
     });
   }
-  
+
+
+
+  getUniqueAlbums(tracksList) {
+    var albums = new Set();
+    tracksList.forEach((track) => {
+      albums.add(track.album.name);
+    });
+
+    return Array.from(albums);
+  }
+
 
   renderPaginationButtons() {
     let { page, tracksList } = this.state;
 
-    const pageCount = Math.ceil(tracksList.length / 10);
+    const uniqueAlbums = this.getUniqueAlbums(tracksList);
+    const pageCount = Math.ceil(uniqueAlbums.length / 10);
     const buttons = [];
     for (let i = 1; i <= pageCount; i++) {
       buttons.push(
@@ -208,7 +151,7 @@ class TopAlbumsWidget extends Widget {
             <option value="long_term">All time</option>
           </Select>
           <VStack spacing={2} justifyContent={"left"} alignItems={"left"}>
-            {this.displayTracks(tracksList)}
+            {this.displayAlbums(tracksList)}
           </VStack>
           <Center>
             <ButtonGroup paddingTop={5} size="sm">
