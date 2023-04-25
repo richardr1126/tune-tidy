@@ -18,26 +18,28 @@ class DataPage extends Component {
   }
 
   renderBreadcrumb() {
+    const isMobile = window.innerWidth < 768;
+
     return (
       <Center mt={5}>
         <Breadcrumb spacing={1} separator=" " fontSize="sm" mb="1em">
           <BreadcrumbItem>
-            <Button as="a" href="#topArtists" size={'xs'}>
+            <Button as="a" href="#topArtists" size={isMobile ? 'xs':'sm'}>
               Top Artists
             </Button>
           </BreadcrumbItem>
           <BreadcrumbItem>
-            <Button as="a" href="#topTracks" size={'xs'}>
+            <Button as="a" href="#topTracks" size={isMobile ? 'xs':'sm'}>
               Top Tracks
             </Button>
           </BreadcrumbItem>
           <BreadcrumbItem>
-            <Button as="a" href="#topAlbums" size={'xs'}>
+            <Button as="a" href="#topAlbums" size={isMobile ? 'xs':'sm'}>
               Top Albums
             </Button>
           </BreadcrumbItem>
           <BreadcrumbItem>
-            <Button as="a" href="#topGenres" size={'xs'}>
+            <Button as="a" href="#topGenres" size={isMobile ? 'xs':'sm'}>
               Top Genres
             </Button>
           </BreadcrumbItem>
