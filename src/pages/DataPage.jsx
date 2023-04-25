@@ -24,22 +24,22 @@ class DataPage extends Component {
       <Center mt={5}>
         <Breadcrumb spacing={1} separator=" " fontSize="sm" mb="1em">
           <BreadcrumbItem>
-            <Button as="a" href="#topArtists" size={isMobile ? 'xs':'sm'}>
+            <Button as="a" href="#topArtists" size={isMobile ? 'xs' : 'sm'}>
               Top Artists
             </Button>
           </BreadcrumbItem>
           <BreadcrumbItem>
-            <Button as="a" href="#topTracks" size={isMobile ? 'xs':'sm'}>
+            <Button as="a" href="#topTracks" size={isMobile ? 'xs' : 'sm'}>
               Top Tracks
             </Button>
           </BreadcrumbItem>
           <BreadcrumbItem>
-            <Button as="a" href="#topAlbums" size={isMobile ? 'xs':'sm'}>
+            <Button as="a" href="#topAlbums" size={isMobile ? 'xs' : 'sm'}>
               Top Albums
             </Button>
           </BreadcrumbItem>
           <BreadcrumbItem>
-            <Button as="a" href="#topGenres" size={isMobile ? 'xs':'sm'}>
+            <Button as="a" href="#topGenres" size={isMobile ? 'xs' : 'sm'}>
               Top Genres
             </Button>
           </BreadcrumbItem>
@@ -56,6 +56,8 @@ class DataPage extends Component {
     const topTracksWidget = this.widgetFactory.createWidget('topTracks', tracksData, this.props.obs);
     const topGenresWidget = this.widgetFactory.createWidget('topGenres', artistsData, this.props.obs);
     const topAlbumsWidget = this.widgetFactory.createWidget('topAlbums', tracksData, this.props.obs);
+
+    const isMobile = window.innerWidth < 768;
 
     return (
       <>
@@ -74,6 +76,12 @@ class DataPage extends Component {
             {topGenresWidget}
           </WrapItem>
         </Wrap>
+        {isMobile && (<Center m={5}>
+          <Button as="a" href="#nav" size={'xs'}>
+            Return to Top
+          </Button>
+        </Center>)}
+
       </>
     );
   }
