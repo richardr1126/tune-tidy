@@ -100,14 +100,42 @@ class TopAlbumsWidget extends Widget {
   }
 
 
+  // A function that receives a list of tracks and returns an array with the names of the unique albums, sorted by descending popularity.
+  
   getUniqueAlbums(tracksList) {
-    var albums = new Set();
-    tracksList.forEach((track) => {
-      albums.add(track.album.name);
+    // An empty dictionary is created to hold the albums and their count.
+    var dict = {};
+  
+    // Loop through each track in the list.
+    for (var j = 0; j < tracksList.length; j++) {
+      if (!(tracksList[j].album.name in dict)) {
+        dict[tracksList[j].album.name] = { count: 1, item: tracksList[j] };
+      } else {
+        // If the album is already in the dictionary, increment its count.
+        dict[tracksList[j].album.name].count += 1;
+      }
+    }
+  
+    var items = Object.keys(dict).map(function (key) {
+      return [key, dict[key]];
     });
-
-    return Array.from(albums);
+  
+    // Sort the array based on the count of each album
+    items.sort(function (first, second) {
+      return second[1].count - first[1].count;
+    });
+  
+    // Create an array of the sorted album names only.
+    var sortedUniqueAlbumNames = items.map(function (item) {
+      return item[0];
+    });
+  
+    return sortedUniqueAlbumNames;
   }
+  
+  
+  
+  
 
 
   renderPaginationButtons() {
