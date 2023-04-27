@@ -2,8 +2,7 @@
 import { Component } from 'react';
 import { Container } from '@chakra-ui/react';
 import PlaylistList from '../components/PlaylistList';
-// import PlaylistCard from '../components/PlaylistCard';
-import PlaylistFactory from '../components/Playlists/PlaylistFactory';
+import PlaylistEditor from '../components/PlaylistEditor';
 
 // Defining a class component called PlaylistsPage
 class PlaylistsPage extends Component {
@@ -16,7 +15,6 @@ class PlaylistsPage extends Component {
       playlistData: this.props.playlistData // Playlist data is passed as prop and assigned to state
     };
     // Binding method so that it can access 'this' inside method
-    this.playlistFactory = new PlaylistFactory();
     this.setSelection = this.setSelection.bind(this);
   }
 
@@ -33,14 +31,12 @@ class PlaylistsPage extends Component {
   
   // Render method that returns JSX
   render() {
-
     return (
       <Container maxW='container.xl' sx={{ padding: '1ch' }}>
         {/* If selection state is null, display the list of playlists */}
-        {!this.state.selection && (<PlaylistList key={'playlists_list'} userName={this.state.fullUserData.display_name} playlists={this.state.playlistData} setSelection={this.setSelection} />)}
+        {this.state.selection === null && (<PlaylistList key={'playlists_list'} userName={this.state.fullUserData.display_name} playlists={this.state.playlistData} setSelection={this.setSelection} />)}
         {/* If selection state is not null, display the selected playlist */}
-        {/* {this.state.selection && (<PlaylistCard playlist={this.state.selection} setSelection={this.setSelection}/>)} */}
-        {this.state.selection && this.playlistFactory.createPlaylist('playlistTracks', this.state.selection)}
+        {this.state.selection !== null && (<PlaylistEditor key={'playlist_editor'} playlist={this.state.selection} obs={this.props.obs}/>)}
       </Container>
     );
   }
