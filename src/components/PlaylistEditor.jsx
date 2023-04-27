@@ -117,7 +117,7 @@ class PlaylistEditor extends Component {
       // Returning JSX for the UI with dynamic values passed as props or state
       return (
 
-        <Center py={2}>
+        <Center>
           <Box
             rounded={'sm'}
             my={3}

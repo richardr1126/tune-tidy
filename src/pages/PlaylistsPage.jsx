@@ -1,6 +1,6 @@
 // Importing necessary dependencies
 import { Component } from 'react';
-import { Container } from '@chakra-ui/react';
+import { Container, Button, Box } from '@chakra-ui/react';
 import PlaylistList from '../components/PlaylistList';
 import PlaylistEditor from '../components/PlaylistEditor';
 
@@ -33,6 +33,13 @@ class PlaylistsPage extends Component {
   render() {
     return (
       <Container maxW='container.xl' sx={{ padding: '1ch' }}>
+        {/* Back button to set the selection back to null*/}
+        {this.state.selection !== null && (
+          <Box px={8} py={2}>
+            <Button variant={'link'} onClick={() => this.setSelection(null)}>&lt; Back</Button>
+          </Box>
+        )}
+
         {/* If selection state is null, display the list of playlists */}
         {this.state.selection === null && (<PlaylistList key={'playlists_list'} userName={this.state.fullUserData.display_name} playlists={this.state.playlistData} setSelection={this.setSelection} />)}
         {/* If selection state is not null, display the selected playlist */}
