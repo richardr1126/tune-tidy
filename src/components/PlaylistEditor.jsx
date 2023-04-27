@@ -166,7 +166,7 @@ class PlaylistEditor extends Component {
     } else {
       // Returning a spinner component while the data is being fetched
       return (
-        <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+        <Box display="flex" justifyContent="center" alignItems="center" height="100%" p={150}>
           <Spinner size="lg" />
         </Box>
       );
