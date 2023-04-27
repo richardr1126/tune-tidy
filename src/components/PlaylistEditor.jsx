@@ -5,18 +5,11 @@ import {
   Box,
   Text,
   Spinner,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableContainer,
   Image,
   Center,
   Heading,
-  Card,
 } from '@chakra-ui/react';
+import TracksList from './TracksList';
 
 // Creating a new instance of the Spotify API
 const spotify = new SpotifyAPI();
@@ -32,7 +25,6 @@ class PlaylistEditor extends Component {
     // Binding the functions to the component's scope
     this.fetchPlaylistTracks = this.fetchPlaylistTracks.bind(this);
     this.redirectLogin = this.redirectLogin.bind(this);
-    this.displayTracks = this.displayTracks.bind(this);
   }
 
   //A function to redirect the user to login page when they are not authenticated or their token has expired
@@ -115,50 +107,13 @@ class PlaylistEditor extends Component {
     }
   }
 
-  displayTracks() {
-    const { tracks } = this.state;
-    if (tracks) {
-      return (
-        <Card mt={5} key='table_card'>
-          <TableContainer>
-            <Table>
-              <Thead>
-                <Tr>
-                  <Th isNumeric sx={{ paddingLeft: '0.85rem', paddingRight: '0.85rem' }}>#</Th>
-                  <Th>Track</Th>
-                  <Th>Album</Th>
-                  <Th>Artist</Th>
-                </Tr>
-              </Thead>
-              <Tbody key={'table_body'}>
-                {tracks.items.map((track_obj, index) => (
-                  track_obj.track.id && (<Tr key={track_obj.track.id}>
-                    <Td isNumeric sx={{ paddingLeft: '0.85rem', paddingRight: '0.85rem' }}>{index + 1}</Td>
-                    <Td fontWeight={'bold'}>{track_obj.track.name}</Td>
-                    <Td>{track_obj.track.album.name}</Td>
-                    <Td fontWeight={'black'}>{track_obj.track.artists[0].name}</Td>
-                  </Tr>)
-                ))}
-              </Tbody>
-            </Table>
-          </TableContainer>
-        </Card>
-
-      );
-    } else {
-      return (
-        <Box display="flex" justifyContent="center" alignItems="center" height="100%">
-          <Spinner size="lg" />
-        </Box>
-      );
-    }
-  }
+  
 
   // A function to render the content of the widget
   render() {
-    const { playlist } = this.state;
+    const { playlist, tracks } = this.state;
 
-    if (playlist) {
+    if (playlist && tracks) {
       // Returning JSX for the UI with dynamic values passed as props or state
       return (
 
@@ -202,7 +157,7 @@ class PlaylistEditor extends Component {
                   {playlist.description}
                 </Text>
               )}
-              {this.displayTracks()}
+              <TracksList tracks={tracks}/>
             </Box>
           </Box>
         </Center>
