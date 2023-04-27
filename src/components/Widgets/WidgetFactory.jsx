@@ -3,7 +3,6 @@ import TopTracksWidget from "./TopTracksWidget";
 import TopGenresWidget from "./TopGenresWidget";
 import TopAlbumsWidget from "./TopAlbumsWidget";
 
-
 class WidgetFactory {
   createWidget(type, data, obs) {
     switch (type) {

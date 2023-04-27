@@ -28,6 +28,7 @@ class Home extends Component {
       loggedIn: false, // User is not logged in by default
       fullUserData: null, // User has no data by default
       playlistData: null, // User has no playlists by default
+      // playlistSpecificData: null,
       topArtistsShortTerm: null, // User has no top artists by default
       topArtistsMediumTerm: null, // User has no top artists by default
       topArtistsLongTerm: null, // User has no top artists by default
@@ -52,6 +53,7 @@ class Home extends Component {
     if (this.state.loggedIn
       && this.state.fullUserData
       && this.state.playlistData
+      // && this.state.playlistSpecificData
       && this.state.topArtistsShortTerm
       && this.state.topArtistsMediumTerm
       && this.state.topArtistsLongTerm
