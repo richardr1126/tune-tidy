@@ -101,7 +101,13 @@ const NavBar = ({ switchPage, fullUserData }) => {
                   )}
                 </MenuButton>
                 <MenuList>
-                  <MenuItem>Settings</MenuItem>
+                  <MenuItem>
+                    <Button variant={'link'}  onClick={() =>switchPage("settings")}>
+                    <a href="#settings" key ={"settings"}>
+                  Settings
+                  </a>
+                        </Button>
+                  </MenuItem>
                   <MenuDivider />
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </MenuList>

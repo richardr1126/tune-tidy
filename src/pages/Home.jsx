@@ -7,6 +7,7 @@ import { Box, Spinner, useToast } from '@chakra-ui/react';
 import NavBar from '../components/Navbar';
 import PlaylistsPage from './PlaylistsPage';
 import DataPage from './DataPage';
+import Settings from './Settings';
 import Footer from '../components/Footer';
 import Observable from '../components/Observable';
 
@@ -282,8 +283,8 @@ class Home extends Component {
     if (this.checkDataFetched()) {
       return (
         <>
-          <NavBar fullUserData={this.state.fullUserData} switchPage={this.switchPage} />
-
+          <NavBar fullUserData={this.state.fullUserData} switchPage={this.switchPage} obs={obs} />
+           {this.state.page === 'settings' && (<Settings key={'settings'} fullUserData={this.state.fullUserData} />)}
           {this.state.page === 'stats' && (<DataPage key={'data_page'} fullUserData={this.state.fullUserData} artistsData={artistsData} tracksData={tracksData} obs={obs} />)}
           {this.state.page === 'playlists' && (<PlaylistsPage key={'playlists_page'} fullUserData={this.state.fullUserData} playlistData={this.state.playlistData} obs={obs}/>)}
 
