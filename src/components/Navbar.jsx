@@ -19,7 +19,7 @@ import {
   useColorModeValue,
   Stack,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon, SettingsIcon } from '@chakra-ui/icons';
 
 const Links = ['Stats', 'Playlists'];
 
@@ -68,7 +68,7 @@ const NavBar = ({ switchPage, fullUserData }) => {
               {Links.map((link) => (
                 <NavLink
                   key={link}
-                  href={'#'+link.toLowerCase()}
+                  href={'#' + link.toLowerCase()}
                   onClick={() => {
                     switchPage(link.toLowerCase());
                   }}>
@@ -92,21 +92,18 @@ const NavBar = ({ switchPage, fullUserData }) => {
                     size='md'
                   />
                   )}
-                  {(fullUserData.images.length === 0) &&(
+                  {(fullUserData.images.length === 0) && (
                     <Avatar
                       name={fullUserData.display_name}
                       size='md'
-                      
+
                     />
                   )}
                 </MenuButton>
                 <MenuList>
-                  <MenuItem>
-                    <Button variant={'link'}  onClick={() =>switchPage("settings")}>
-                    <a href="#settings" key ={"settings"}>
-                  Settings
-                  </a>
-                        </Button>
+                  <MenuItem onClick={() => switchPage("settings")} as={'a'} href='#settings'>
+                    <SettingsIcon mr={2} />
+                    Settings
                   </MenuItem>
                   <MenuDivider />
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
@@ -122,7 +119,7 @@ const NavBar = ({ switchPage, fullUserData }) => {
               {Links.map((link) => (
                 <NavLink
                   key={link}
-                  href={'#'+link.toLowerCase()}
+                  href={'#' + link.toLowerCase()}
                   onClick={() => {
                     switchPage(link.toLowerCase());
                     onClose();

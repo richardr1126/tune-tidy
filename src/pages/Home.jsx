@@ -44,6 +44,7 @@ class Home extends Component {
     this.redirectLogin = this.redirectLogin.bind(this);
     this.checkDataFetched = this.checkDataFetched.bind(this);
     this.handleToast = this.handleToast.bind(this);
+    this.getPageFromUrl = this.getPageFromUrl.bind(this);
 
   }
 
@@ -238,6 +239,7 @@ class Home extends Component {
 
       spotify.setAccessToken(token); // Set access token for SpotifyAPI
       this.fetchUserData(); // Call fetchUserData method to retrieve user and playlist data
+      this.switchPage(this.getPageFromUrl()); // Call switchPage method to switch to page specified in url (if any
 
     } else { // If token is not present or has expired
       this.setState({
@@ -266,6 +268,16 @@ class Home extends Component {
     this.setState({ page: page }); // Update page state with argument passed to method
   };
 
+  // get page from url localhost:3000/spotify#stats, localhost:3000/spotify#settings, localhost:3000/spotify#playlists
+  getPageFromUrl() {
+    const page = window.location.hash.substring(1);
+    if (page === 'stats' || page === 'settings' || page === 'playlists') {
+      return page;
+    } else {
+      return 'stats';
+    }
+  }
+
   // Render function to render appropriate components/pages based on state
   render() {
     const artistsData = {
@@ -284,7 +296,7 @@ class Home extends Component {
       return (
         <>
           <NavBar fullUserData={this.state.fullUserData} switchPage={this.switchPage} obs={obs} />
-           {this.state.page === 'settings' && (<Settings key={'settings'} fullUserData={this.state.fullUserData} />)}
+          {this.state.page === 'settings' && (<Settings key={'settings'} fullUserData={this.state.fullUserData} />)}
           {this.state.page === 'stats' && (<DataPage key={'data_page'} fullUserData={this.state.fullUserData} artistsData={artistsData} tracksData={tracksData} obs={obs} />)}
           {this.state.page === 'playlists' && (<PlaylistsPage key={'playlists_page'} fullUserData={this.state.fullUserData} playlistData={this.state.playlistData} obs={obs}/>)}
 
