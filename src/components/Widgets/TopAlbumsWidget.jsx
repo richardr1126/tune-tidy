@@ -173,6 +173,7 @@ class TopAlbumsWidget extends Widget {
     if (tracksList) {
       return (
         <Box>
+          
           <Select
             value={time_range}
             onChange={this.onTimeRangeChange}
@@ -188,11 +189,14 @@ class TopAlbumsWidget extends Widget {
             <option value="medium_term">Last 6 months</option>
             <option value="long_term">All time</option>
           </Select>
+          
           <VStack spacing={2} justifyContent={"left"} alignItems={"left"}>
             {this.displayAlbums(tracksList)}
+            
           </VStack>
+          <Text fontSize={'xs'} textAlign={'center'} mt={3}>Only albums with 6 or more songs are ranked.</Text>
           <Center>
-            <ButtonGroup paddingTop={5} size="sm">
+            <ButtonGroup paddingTop={1} size="sm">
               {this.renderPaginationButtons()}
             </ButtonGroup>
           </Center>
