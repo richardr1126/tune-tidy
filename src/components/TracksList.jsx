@@ -12,7 +12,7 @@ export default function DisplayTracks({ tracks }) {
   };
 
   return (
-    <Card mt={5} key='table_card'>
+    <Card mt={3} key='table_card'>
       <TableContainer>
         <Table>
           <Thead>
@@ -21,7 +21,6 @@ export default function DisplayTracks({ tracks }) {
               <Th>Track</Th>
               <Th>Album</Th>
               <Th>Artist</Th>
-              <Th>Tempo</Th>
             </Tr>
           </Thead>
           <Tbody key={'table_body'}>
@@ -32,7 +31,6 @@ export default function DisplayTracks({ tracks }) {
                   <Td fontWeight={'bold'} sx={dataCellStyle}>{track.name}</Td>
                   <Td sx={dataCellStyle}>{track.album.name}</Td>
                   <Td fontWeight={'black'} sx={dataCellStyle}>{track.artists[0].name}</Td>
-                  <Td isNumeric sx={dataCellStyle}>{track.tempo}</Td>
                 </Tr>
               )
             ))}

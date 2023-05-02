@@ -9,7 +9,7 @@ import PlaylistsPage from './PlaylistsPage';
 import DataPage from './DataPage';
 import Settings from './Settings';
 import Footer from '../components/Footer';
-import Observable from '../components/Observable';
+import Observable from '../Observable';
 
 // Create a new instance of SpotifyAPI
 const spotify = new SpotifyAPI();

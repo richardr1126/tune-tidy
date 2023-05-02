@@ -8,8 +8,13 @@ import {
   Image,
   Center,
   Heading,
+  Breadcrumb,
+  BreadcrumbItem,
+  Button,
+  Container
 } from '@chakra-ui/react';
 import TracksList from './TracksList';
+import { sortByIndex, sortByName, sortByValue } from '../Sorter';
 
 // Creating a new instance of the Spotify API
 const spotify = new SpotifyAPI();
@@ -46,7 +51,7 @@ class PlaylistEditor extends Component {
     //https://jmperezperez.com/spotify-web-api-js/
     spotify.getPlaylistTracks(id, { limit: 50 })
       .then(async (data) => {
-        console.log('Tracks: ', data);
+        console.log('Fetched tracks');
         let combinedTracks = data.items;
         const totalTracks = data.total;
 
@@ -54,7 +59,7 @@ class PlaylistEditor extends Component {
           for (let offset = 50; offset < totalTracks; offset += 50) {
             try {
               const additionalData = await spotify.getPlaylistTracks(id, { limit: 50, offset });
-              console.log('More tracks: ', additionalData);
+              console.log('Fetching more tracks...');
               combinedTracks = combinedTracks.concat(additionalData.items);
             } catch (error) {
               console.log("Error fetching more tracks from playlist:", error);
@@ -64,6 +69,7 @@ class PlaylistEditor extends Component {
           }
         }
 
+        
         //full list of tracks, in a simple json object
         combinedTracks = combinedTracks.map((track) => {
           return {
@@ -90,13 +96,16 @@ class PlaylistEditor extends Component {
         //console.log(trackFeatures);
 
         //Combine the track objects with their audio features
+        let counter = 0;
         combinedTracks = combinedTracks.map((track, index) => {
+          counter++;
           return {
             ...track,
             ...trackFeatures[index],
+            original_position: counter,
           };
         });
-        //console.log(combinedTracks);
+        console.log(combinedTracks);
 
         this.setState({
           tracks: combinedTracks,
@@ -184,14 +193,59 @@ class PlaylistEditor extends Component {
               />
             </Box>
             <Box p={4}>
+
+
               <Heading color={'black'} fontSize={'2xl'}>
                 {playlist.name}
               </Heading>
+
+
               {playlist.description && (
                 <Text color={'gray.500'}>
                   {playlist.description}
                 </Text>
+
               )}
+
+              {/* Sorting buttons */}
+              <Box mt={1.5}>
+                <Breadcrumb spacing={1} separator=" " fontSize="sm" mb="1em">
+                  <BreadcrumbItem>
+                    <Button size={'sm'} 
+                      onClick={() => {this.setState({ tracks: sortByValue(tracks, 'original_position') })}}>
+                      #
+                    </Button>
+                  </BreadcrumbItem>
+                  <BreadcrumbItem>
+                    <Button size={'sm'}
+                      onClick={() => {this.setState({ tracks: sortByName(tracks) })}}>
+                      Track Name
+                    </Button>
+                  </BreadcrumbItem>
+                  <BreadcrumbItem>
+                    <Button size={'sm'}>
+                      Album Name
+                    </Button>
+                  </BreadcrumbItem>
+                  <BreadcrumbItem>
+                    <Button size={'sm'}>
+                      Artist Name
+                    </Button>
+                  </BreadcrumbItem>
+                  <BreadcrumbItem>
+                    <Button size={'sm'}>
+                      Tempo
+                    </Button>
+                  </BreadcrumbItem>
+                  <BreadcrumbItem>
+                    <Button size={'sm'}>
+                      Energy
+                    </Button>
+                  </BreadcrumbItem>
+                </Breadcrumb>
+              </Box>
+              
+              {/* Tracks list */}
               <TracksList tracks={tracks} />
             </Box>
           </Box>
