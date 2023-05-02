@@ -5,7 +5,7 @@ export function sortByName(tracks) {
 }
 
 //sort by value ascending
-export function sortByValue(tracks, value) {
+export function sortByOriginalPostion(tracks, value) {
   return tracks.sort((a, b) => {
     return a[value] - b[value];
   });
