@@ -10,7 +10,6 @@ import {
   Heading,
   Button,
   Wrap,
-  Select
 } from '@chakra-ui/react';
 import TracksList from './TracksList';
 import { sortByName, sortByOriginalPostion } from '../Sorter';
@@ -153,10 +152,10 @@ class PlaylistEditor extends Component {
 
   displaySortButtons() {
     const { sorter } = this.state;
-    const isMobile = window.innerWidth < 768;
 
-    if (!isMobile) return (
+    return (
       <Wrap mt={1.5}>
+        <Text>Sort by:</Text>
         <Button size={'sm'}
           onClick={() => this.setState({ sorter: 'original_position', tracks: sortByOriginalPostion(this.state.tracks, 'original_position') })}
           isActive={sorter === 'original_position'}
@@ -204,31 +203,6 @@ class PlaylistEditor extends Component {
           Valence
         </Button>
       </Wrap>
-    );
-    if (isMobile) return (
-      <Select
-        value={sorter}
-        onChange={(e) => this.setState({ sorter: e.target.value, tracks: e.target.value === 'track_name' ? sortByName(this.state.tracks) : sortByOriginalPostion(this.state.tracks, e.target.value) })}
-        bgColor={'white'}
-        size="sm"
-        border={"1px solid #e2e8f0"}
-        borderRadius={"md"}
-        variant={"filled"}
-        width="fit-content"
-        mb={2}
-      >
-        <option value="original_position">#</option>
-        <option value="track_name">Track Name</option>
-        <option value="tempo">Tempo</option>
-        <option value="acousticness">Acousticness</option>
-        <option value="danceability">Danceability</option>
-        <option value="energy">Energy</option>
-        <option value="instrumentalness">Instrumentalness</option>
-        <option value="liveness">Liveness</option>
-        <option value="loudness">Loudness</option>
-        <option value="speechiness">Speechiness</option>
-        <option value="valence">Valence</option>
-      </Select>
     );
   }
 
@@ -289,6 +263,7 @@ class PlaylistEditor extends Component {
               )}
 
               {/* Sorting buttons */}
+              
               {this.displaySortButtons()}
 
               {/* Tracks list */}
