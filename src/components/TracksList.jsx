@@ -48,7 +48,7 @@ export default function DisplayTracks({ tracks }) {
               <Tbody key={'table_body'}>
                 {tracks.map((track) => (
                   track.id && (
-                    <Tr key={track.id}>
+                    <Tr key={track.id+track.added_at}>
                       <Td isNumeric sx={dataCellStyle}>{track.original_position}</Td>
                       <Td fontWeight={'bold'} sx={dataCellStyle}>
                         <HStack>

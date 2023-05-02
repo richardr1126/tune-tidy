@@ -95,6 +95,7 @@ class PlaylistEditor extends Component {
             added_at: track.added_at,
           };
         });
+        
 
         //list of track ids
         const trackIds = combinedTracks.map((track) => track.id);
