@@ -8,9 +8,8 @@ import {
   Image,
   Center,
   Heading,
-  Breadcrumb,
-  BreadcrumbItem,
-  Button
+  Button,
+  Wrap
 } from '@chakra-ui/react';
 import TracksList from './TracksList';
 import { sortByName, sortByValue } from '../Sorter';
@@ -25,10 +24,12 @@ class PlaylistEditor extends Component {
       loggedIn: true,
       playlist: this.props.playlist,
       tracks: null,
+      sorter: 'original_position',
     };
     // Binding the functions to the component's scope
     this.fetchPlaylistTracks = this.fetchPlaylistTracks.bind(this);
     this.redirectLogin = this.redirectLogin.bind(this);
+    this.displaySortButtons = this.displaySortButtons.bind(this);
   }
 
   //A function to redirect the user to login page when they are not authenticated or their token has expired
@@ -68,7 +69,6 @@ class PlaylistEditor extends Component {
           }
         }
 
-        
         //full list of tracks, in a simple json object
         combinedTracks = combinedTracks.map((track) => {
           return {
@@ -150,6 +150,61 @@ class PlaylistEditor extends Component {
     }
   }
 
+  displaySortButtons() {
+    const { sorter } = this.state;
+
+    return (
+      <Wrap mt={1.5}>
+        <Button size={'sm'}
+        onClick={() => this.setState({ sorter: 'original_position', tracks: sortByValue(this.state.tracks, 'original_position') })}
+        isActive={sorter === 'original_position'}
+        >
+          #
+        </Button>
+        <Button size={'sm'}
+        onClick={() => this.setState({ sorter: 'track_name', tracks: sortByName(this.state.tracks) })}
+        isActive={sorter === 'track_name'}>
+          Track Name
+        </Button>
+        <Button size={'sm'}>
+          Album Name
+        </Button>
+        <Button size={'sm'}>
+          Artist Name
+        </Button>
+        <Button size={'sm'}
+        onClick={() => this.setState({ sorter: 'tempo', tracks: sortByValue(this.state.tracks, 'tempo') })}
+        isActive={sorter === 'tempo'}>
+          Tempo
+        </Button>
+        <Button size={'sm'}>
+          Acousticness
+        </Button>
+        <Button size={'sm'}>
+          Danceability
+        </Button>
+        <Button size={'sm'}>
+          Energy
+        </Button>
+        <Button size={'sm'}>
+          Instrumentalness
+        </Button>
+        <Button size={'sm'}>
+          Liveness
+        </Button>
+        <Button size={'sm'}>
+          Loudness
+        </Button>
+        <Button size={'sm'}>
+          Speechiness
+        </Button>
+        <Button size={'sm'}>
+          Valence
+        </Button>
+      </Wrap>
+    );
+  }
+
 
 
   // A function to render the content of the widget
@@ -207,43 +262,8 @@ class PlaylistEditor extends Component {
               )}
 
               {/* Sorting buttons */}
-              <Box mt={1.5}>
-                <Breadcrumb spacing={1} separator=" " fontSize="sm" mb="1em">
-                  <BreadcrumbItem>
-                    <Button size={'sm'} 
-                      onClick={() => {this.setState({ tracks: sortByValue(tracks, 'original_position') })}}>
-                      #
-                    </Button>
-                  </BreadcrumbItem>
-                  <BreadcrumbItem>
-                    <Button size={'sm'}
-                      onClick={() => {this.setState({ tracks: sortByName(tracks) })}}>
-                      Track Name
-                    </Button>
-                  </BreadcrumbItem>
-                  <BreadcrumbItem>
-                    <Button size={'sm'}>
-                      Album Name
-                    </Button>
-                  </BreadcrumbItem>
-                  <BreadcrumbItem>
-                    <Button size={'sm'}>
-                      Artist Name
-                    </Button>
-                  </BreadcrumbItem>
-                  <BreadcrumbItem>
-                    <Button size={'sm'}>
-                      Tempo
-                    </Button>
-                  </BreadcrumbItem>
-                  <BreadcrumbItem>
-                    <Button size={'sm'}>
-                      Energy
-                    </Button>
-                  </BreadcrumbItem>
-                </Breadcrumb>
-              </Box>
-              
+              {this.displaySortButtons()}
+
               {/* Tracks list */}
               <TracksList tracks={tracks} />
             </Box>
