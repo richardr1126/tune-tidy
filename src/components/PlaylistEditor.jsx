@@ -95,7 +95,8 @@ class PlaylistEditor extends Component {
             added_at: track.added_at,
           };
         });
-        
+        //remove null ids
+        combinedTracks = combinedTracks.filter((track) => track.id);
 
         //list of track ids
         const trackIds = combinedTracks.map((track) => track.id);
