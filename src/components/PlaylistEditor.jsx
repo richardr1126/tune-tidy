@@ -12,7 +12,22 @@ import {
   Wrap,
 } from '@chakra-ui/react';
 import TracksList from './TracksList';
-import { sortByName, sortByOriginalPostion } from '../Sorter';
+import { sortByName,
+  sortByOriginalPostion,
+  sortByTempo,
+  sortByDanceability,
+  sortByEnergy,
+  sortByValence,
+  sortByLoudness,
+  sortByAcousticness,
+  sortByInstrumentalness,
+  sortBySpeechiness,
+  sortByAlbumName,
+  sortByArtistName,
+  sortByLiveness,
+} from '../Sorter';
+import { TriangleUpIcon, TriangleDownIcon } from '@chakra-ui/icons';
+
 
 // Creating a new instance of the Spotify API
 const spotify = new SpotifyAPI();
@@ -25,6 +40,7 @@ class PlaylistEditor extends Component {
       playlist: this.props.playlist,
       tracks: null,
       sorter: 'original_position',
+      sortOrder: 'asc',
     };
     // Binding the functions to the component's scope
     this.fetchPlaylistTracks = this.fetchPlaylistTracks.bind(this);
@@ -151,60 +167,81 @@ class PlaylistEditor extends Component {
   }
 
   displaySortButtons() {
-    const { sorter } = this.state;
+    const { sorter, sortOrder } = this.state;
+
+    const getNextSortOrder = () => {
+      return sortOrder === 'asc' ? 'desc' : 'asc';
+    };
+
+    const applySorting = (newSorter, sortingFunction) => {
+      const newSortOrder = newSorter === sorter ? getNextSortOrder() : 'asc';
+      this.setState({
+        sorter: newSorter,
+        sortOrder: newSortOrder,
+        tracks: sortingFunction(this.state.tracks, newSortOrder),
+      });
+    };
 
     return (
       <Wrap mt={1.5}>
         <Text>Sort by:</Text>
-        <Button size={'sm'}
-          onClick={() => this.setState({ sorter: 'original_position', tracks: sortByOriginalPostion(this.state.tracks, 'original_position') })}
-          isActive={sorter === 'original_position'}
-        >
+        <Button size={'sm'} onClick={() => applySorting('original_position', sortByOriginalPostion)} isActive={sorter === 'original_position'}>
           #
+          {sorter === 'original_position' && (sortOrder === 'asc' ? <TriangleUpIcon ml={1} /> : <TriangleDownIcon ml={1} />)}
         </Button>
-        <Button size={'sm'}
-          onClick={() => this.setState({ sorter: 'track_name', tracks: sortByName(this.state.tracks) })}
-          isActive={sorter === 'track_name'}>
+        <Button size={'sm'} onClick={() => applySorting('track_name', sortByName)} isActive={sorter === 'track_name'}>
           Track Name
+          {sorter === 'track_name' && (sortOrder === 'asc' ? <TriangleUpIcon ml={1} /> : <TriangleDownIcon ml={1} />)}
         </Button>
-        <Button size={'sm'}>
+        <Button size={'sm'} onClick={() => applySorting('album_name', sortByAlbumName)} isActive={sorter === 'album_name'}>
           Album Name
+          {sorter === 'album_name' && (sortOrder === 'asc' ? <TriangleUpIcon ml={1} /> : <TriangleDownIcon ml={1} />)}
         </Button>
-        <Button size={'sm'}>
+        <Button size={'sm'} onClick={() => applySorting('artist_name', sortByArtistName)} isActive={sorter === 'artist_name'}>
           Artist Name
+          {sorter === 'artist_name' && (sortOrder === 'asc' ? <TriangleUpIcon ml={1} /> : <TriangleDownIcon ml={1} />)}
         </Button>
-        <Button size={'sm'}
-          onClick={() => this.setState({ sorter: 'tempo', tracks: sortByOriginalPostion(this.state.tracks, 'tempo') })}
-          isActive={sorter === 'tempo'}>
+        <Button size={'sm'} onClick={() => applySorting('tempo', sortByTempo)} isActive={sorter === 'tempo'}>
           Tempo
+          {sorter === 'tempo' && (sortOrder === 'asc' ? <TriangleUpIcon ml={1} /> : <TriangleDownIcon ml={1} />)}
         </Button>
-        <Button size={'sm'}>
+        <Button size={'sm'} onClick={() => applySorting('acousticness', sortByAcousticness)} isActive={sorter === 'acousticness'}>
           Acousticness
+          {sorter === 'acousticness' && (sortOrder === 'asc' ? <TriangleUpIcon ml={1} /> : <TriangleDownIcon ml={1} />)}
         </Button>
-        <Button size={'sm'}>
+        <Button size={'sm'} onClick={() => applySorting('danceability', sortByDanceability)} isActive={sorter === 'danceability'}>
           Danceability
+          {sorter === 'danceability' && (sortOrder === 'asc' ? <TriangleUpIcon ml={1} /> : <TriangleDownIcon ml={1} />)}
         </Button>
-        <Button size={'sm'}>
+        <Button size={'sm'} onClick={() => applySorting('energy', sortByEnergy)} isActive={sorter === 'energy'}>
           Energy
+          {sorter === 'energy' && (sortOrder === 'asc' ? <TriangleUpIcon ml={1} /> : <TriangleDownIcon ml={1} />)}
         </Button>
-        <Button size={'sm'}>
+        <Button size={'sm'} onClick={() => applySorting('instrumentalness', sortByInstrumentalness)} isActive={sorter === 'instrumentalness'}>
           Instrumentalness
+          {sorter === 'instrumentalness' && (sortOrder === 'asc' ? <TriangleUpIcon ml={1} /> : <TriangleDownIcon ml={1} />)}
         </Button>
-        <Button size={'sm'}>
+        <Button size={'sm'} onClick={() => applySorting('liveness', sortByLiveness)} isActive={sorter === 'liveness'}>
           Liveness
+          {sorter === 'liveness' && (sortOrder === 'asc' ? <TriangleUpIcon ml={1} /> : <TriangleDownIcon ml={1} />)}
         </Button>
-        <Button size={'sm'}>
+        <Button size={'sm'} onClick={() => applySorting('loudness', sortByLoudness)} isActive={sorter === 'loudness'}>
           Loudness
+          {sorter === 'loudness' && (sortOrder === 'asc' ? <TriangleUpIcon ml={1} /> : <TriangleDownIcon ml={1} />)}
         </Button>
-        <Button size={'sm'}>
+        <Button size={'sm'} onClick={() => applySorting('speechiness', sortBySpeechiness)} isActive={sorter === 'speechiness'}>
           Speechiness
+          {sorter === 'speechiness' && (sortOrder === 'asc' ? <TriangleUpIcon ml={1} /> : <TriangleDownIcon ml={1} />)}
         </Button>
-        <Button size={'sm'}>
+        <Button size={'sm'} onClick={() => applySorting('valence', sortByValence)} isActive={sorter === 'valence'}>
           Valence
+          {sorter === 'valence' && (sortOrder === 'asc' ? <TriangleUpIcon ml={1} /> : <TriangleDownIcon ml={1} />)}
         </Button>
       </Wrap>
+      
     );
   }
+
 
 
 
@@ -263,7 +300,7 @@ class PlaylistEditor extends Component {
               )}
 
               {/* Sorting buttons */}
-              
+
               {this.displaySortButtons()}
 
               {/* Tracks list */}
