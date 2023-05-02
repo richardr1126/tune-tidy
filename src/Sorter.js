@@ -46,6 +46,42 @@ export function sortByArtistName(tracks, order) {
   });
 }
 
+export function sortByRelease(tracks, order) {
+  return tracks.sort((a, b) => {
+    if (a.album.release_date < b.album.release_date) {
+      return order === 'asc' ? -1 : 1;
+    }
+    if (a.album.release_date > b.album.release_date) {
+      return order === 'asc' ? 1 : -1;
+    }
+    return 0;
+  });
+}
+
+export function sortByPopularity(tracks, order) {
+  return tracks.sort((a, b) => {
+    if (a.popularity < b.popularity) {
+      return order === 'asc' ? -1 : 1;
+    }
+    if (a.popularity > b.popularity) {
+      return order === 'asc' ? 1 : -1;
+    }
+    return 0;
+  });
+}
+
+export function sortByDateAdded(tracks, order) {
+  return tracks.sort((a, b) => {
+    if (a.added_at < b.added_at) {
+      return order === 'asc' ? -1 : 1;
+    }
+    if (a.added_at > b.added_at) {
+      return order === 'asc' ? 1 : -1;
+    }
+    return 0;
+  });
+}
+
 export function sortByTempo(tracks, order) {
   return tracks.sort((a, b) => {
     if (a.tempo < b.tempo) {

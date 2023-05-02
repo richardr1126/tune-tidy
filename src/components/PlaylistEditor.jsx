@@ -25,6 +25,9 @@ import { sortByName,
   sortByAlbumName,
   sortByArtistName,
   sortByLiveness,
+  sortByRelease,
+  sortByPopularity,
+  sortByDateAdded,
 } from '../Sorter';
 import { TriangleUpIcon, TriangleDownIcon } from '@chakra-ui/icons';
 
@@ -200,6 +203,18 @@ class PlaylistEditor extends Component {
         <Button size={'sm'} onClick={() => applySorting('artist_name', sortByArtistName)} isActive={sorter === 'artist_name'}>
           Artist Name
           {sorter === 'artist_name' && (sortOrder === 'asc' ? <TriangleUpIcon ml={1} /> : <TriangleDownIcon ml={1} />)}
+        </Button>
+        <Button size={'sm'} onClick={() => applySorting('release_date', sortByRelease)} isActive={sorter === 'release_date'}>
+          Release Date
+          {sorter === 'release_date' && (sortOrder === 'asc' ? <TriangleUpIcon ml={1} /> : <TriangleDownIcon ml={1} />)}
+        </Button>
+        <Button size={'sm'} onClick={() => applySorting('added_at', sortByDateAdded)} isActive={sorter === 'added_at'}>
+          Date Added
+          {sorter === 'added_at' && (sortOrder === 'asc' ? <TriangleUpIcon ml={1} /> : <TriangleDownIcon ml={1} />)}
+        </Button>
+        <Button size={'sm'} onClick={() => applySorting('popularity', sortByPopularity)} isActive={sorter === 'popularity'}>
+          Popularity
+          {sorter === 'popularity' && (sortOrder === 'asc' ? <TriangleUpIcon ml={1} /> : <TriangleDownIcon ml={1} />)}
         </Button>
         <Button size={'sm'} onClick={() => applySorting('tempo', sortByTempo)} isActive={sorter === 'tempo'}>
           Tempo
