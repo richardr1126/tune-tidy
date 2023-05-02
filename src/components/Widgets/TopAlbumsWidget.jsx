@@ -108,7 +108,7 @@ class TopAlbumsWidget extends Widget {
   
     // Loop through each track in the list.
     for (var j = 0; j < tracksList.length; j++) {
-      if (tracksList[j].album.total_tracks >= 4) {
+      if (tracksList[j].album.total_tracks >= 6) {
         if (!(tracksList[j].album.name in dict)) {
           dict[tracksList[j].album.name] = {
             count: 1,
