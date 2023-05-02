@@ -108,11 +108,17 @@ class TopAlbumsWidget extends Widget {
   
     // Loop through each track in the list.
     for (var j = 0; j < tracksList.length; j++) {
-      if (!(tracksList[j].album.name in dict)) {
-        dict[tracksList[j].album.name] = { count: 1, item: tracksList[j] };
-      } else {
-        // If the album is already in the dictionary, increment its count.
-        dict[tracksList[j].album.name].count += 1;
+      if (tracksList[j].album.total_tracks >= 4) {
+        if (!(tracksList[j].album.name in dict)) {
+          dict[tracksList[j].album.name] = {
+            count: 1,
+            totalSongs: tracksList[j].album.total_tracks,
+            item: tracksList[j],
+          };
+        } else {
+          // If the album is already in the dictionary, increment its count.
+          dict[tracksList[j].album.name].count += 1;
+        }
       }
     }
   
@@ -120,9 +126,14 @@ class TopAlbumsWidget extends Widget {
       return [key, dict[key]];
     });
   
-    // Sort the array based on the count of each album
+    // Calculate album scores and add them to the items array
+    items.forEach(function (item) {
+      item[1].score = item[1].count / item[1].totalSongs;
+    });
+  
+    // Sort the array based on the score of each album
     items.sort(function (first, second) {
-      return second[1].count - first[1].count;
+      return second[1].score - first[1].score;
     });
   
     // Create an array of the sorted album names only.
@@ -132,8 +143,6 @@ class TopAlbumsWidget extends Widget {
   
     return sortedUniqueAlbumNames;
   }
-  
-  
   
   
 
