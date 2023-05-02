@@ -21,16 +21,18 @@ export default function DisplayTracks({ tracks }) {
               <Th>Track</Th>
               <Th>Album</Th>
               <Th>Artist</Th>
+              <Th>Tempo</Th>
             </Tr>
           </Thead>
           <Tbody key={'table_body'}>
-            {tracks.items.map((track_obj, index) => (
-              track_obj.track.id && (
-                <Tr key={track_obj.track.id}>
+            {tracks.map((track, index) => (
+              track.id && (
+                <Tr key={track.id}>
                   <Td isNumeric sx={dataCellStyle}>{index + 1}</Td>
-                  <Td fontWeight={'bold'} sx={dataCellStyle}>{track_obj.track.name}</Td>
-                  <Td sx={dataCellStyle}>{track_obj.track.album.name}</Td>
-                  <Td fontWeight={'black'} sx={dataCellStyle}>{track_obj.track.artists[0].name}</Td>
+                  <Td fontWeight={'bold'} sx={dataCellStyle}>{track.name}</Td>
+                  <Td sx={dataCellStyle}>{track.album.name}</Td>
+                  <Td fontWeight={'black'} sx={dataCellStyle}>{track.artists[0].name}</Td>
+                  <Td isNumeric sx={dataCellStyle}>{track.tempo}</Td>
                 </Tr>
               )
             ))}

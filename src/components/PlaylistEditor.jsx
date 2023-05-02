@@ -42,13 +42,14 @@ class PlaylistEditor extends Component {
   fetchPlaylistTracks() {
     const id = this.state.playlist.id;
     console.log('id: ', id);
-  
+
+    //https://jmperezperez.com/spotify-web-api-js/
     spotify.getPlaylistTracks(id, { limit: 50 })
       .then(async (data) => {
         console.log('Tracks: ', data);
         let combinedTracks = data.items;
         const totalTracks = data.total;
-  
+
         if (totalTracks > 50) {
           for (let offset = 50; offset < totalTracks; offset += 50) {
             try {
@@ -62,9 +63,43 @@ class PlaylistEditor extends Component {
             }
           }
         }
-  
+
+        //full list of tracks, in a simple json object
+        combinedTracks = combinedTracks.map((track) => {
+          return {
+            ...track.track,
+            added_at: track.added_at,
+          };
+        });
+
+        //list of track ids
+        const trackIds = combinedTracks.map((track) => track.id);
+        //put track ids into chunks of 100
+        const trackIdChunks = {};
+        for (let i = 0; i < trackIds.length; i += 100) {
+          const chunkIndex = i / 100;
+          trackIdChunks[chunkIndex] = trackIds.slice(i, i + 100);
+        }
+
+        const trackFeatures = [];
+        for (const trackIds of Object.values(trackIdChunks)) {
+          const chunk = await spotify.getAudioFeaturesForTracks(trackIds);
+          trackFeatures.push(...chunk.audio_features); // Destructure the audio_features array
+        }
+
+        //console.log(trackFeatures);
+
+        //Combine the track objects with their audio features
+        combinedTracks = combinedTracks.map((track, index) => {
+          return {
+            ...track,
+            ...trackFeatures[index],
+          };
+        });
+        //console.log(combinedTracks);
+
         this.setState({
-          tracks: { ...data, items: combinedTracks },
+          tracks: combinedTracks,
         });
       })
       .catch((error) => {
@@ -72,9 +107,9 @@ class PlaylistEditor extends Component {
         this.redirectLogin();
       });
   }
-  
-  
-  
+
+
+
   // A lifecycle method to check if the user is authenticated and fetch their top artists
   componentDidMount() {
     const token = window.localStorage.getItem("token");
@@ -107,7 +142,7 @@ class PlaylistEditor extends Component {
     }
   }
 
-  
+
 
   // A function to render the content of the widget
   render() {
@@ -157,7 +192,7 @@ class PlaylistEditor extends Component {
                   {playlist.description}
                 </Text>
               )}
-              <TracksList tracks={tracks}/>
+              <TracksList tracks={tracks} />
             </Box>
           </Box>
         </Center>
