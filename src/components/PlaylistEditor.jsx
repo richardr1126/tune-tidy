@@ -10,11 +10,10 @@ import {
   Heading,
   Breadcrumb,
   BreadcrumbItem,
-  Button,
-  Container
+  Button
 } from '@chakra-ui/react';
 import TracksList from './TracksList';
-import { sortByIndex, sortByName, sortByValue } from '../Sorter';
+import { sortByName, sortByValue } from '../Sorter';
 
 // Creating a new instance of the Spotify API
 const spotify = new SpotifyAPI();
