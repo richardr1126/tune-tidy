@@ -13,7 +13,6 @@ import {
   HStack,
   Avatar,
   Divider,
-  VStack,
 } from '@chakra-ui/react';
 
 export default function PlaylistCard({ playlist, setSelection }) {

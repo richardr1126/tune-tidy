@@ -10,9 +10,12 @@ import {
   Heading,
   Button,
   Wrap,
+  ButtonGroup,
+  Spacer
 } from '@chakra-ui/react';
 import TracksList from './TracksList';
-import { sortByName,
+import {
+  sortByName,
   sortByOriginalPostion,
   sortByTempo,
   sortByDanceability,
@@ -29,7 +32,7 @@ import { sortByName,
   sortByPopularity,
   sortByDateAdded,
 } from '../Sorter';
-import { TriangleUpIcon, TriangleDownIcon } from '@chakra-ui/icons';
+import { TriangleUpIcon, TriangleDownIcon, AddIcon, EditIcon } from '@chakra-ui/icons';
 
 
 // Creating a new instance of the Spotify API
@@ -137,6 +140,37 @@ class PlaylistEditor extends Component {
       });
   }
 
+  // Creates a new playlist with the same name as the original playlist, but with "(Tune Tidy)" appended to the end
+  createNewPlaylist(playlist, tracks) {
+    spotify.createPlaylist(playlist.owner.id, {
+      name: playlist.name+" (Tune Tidy)",
+      description: playlist.description,
+      public: false,
+    }).then(async (data) => {
+      console.log(data);
+      const newPlaylistId = data.id;
+      const trackUris = tracks.map((track) => track.uri);
+      
+      //track URIs into chunks of 100
+      const trackUriChunks = {};
+      for (let i = 0; i < trackUris.length; i += 100) {
+        const chunkIndex = i / 100;
+        trackUriChunks[chunkIndex] = trackUris.slice(i, i + 100);
+      }
+
+      //adding tracks to new playlist in chunks of 100
+      for (const trackUris of Object.values(trackUriChunks)) {
+        const chunk = await spotify.addTracksToPlaylist(newPlaylistId, trackUris);
+        console.log(chunk);
+      }
+
+      this.props.obs.notify({ message: 'Playlist created successfully', status: 'success' });
+
+    }).catch((error) => {
+      console.log(error);
+    });
+    
+  }
 
 
   // A lifecycle method to check if the user is authenticated and fetch their top artists
@@ -255,16 +289,15 @@ class PlaylistEditor extends Component {
           {sorter === 'valence' && (sortOrder === 'asc' ? <TriangleUpIcon ml={1} /> : <TriangleDownIcon ml={1} />)}
         </Button>
       </Wrap>
-      
+
     );
   }
-
-
 
 
   // A function to render the content of the widget
   render() {
     const { playlist, tracks } = this.state;
+    const isMobile = window.innerWidth <= 425;
 
     if (playlist && tracks) {
       // Returning JSX for the UI with dynamic values passed as props or state
@@ -303,10 +336,16 @@ class PlaylistEditor extends Component {
             </Box>
             <Box p={4}>
 
-
-              <Heading color={'black'} fontSize={'2xl'}>
-                {playlist.name}
-              </Heading>
+              <Wrap mb={3}>
+                <Heading color={'black'} fontSize={'2xl'}>
+                  {playlist.name}
+                </Heading>
+                <Spacer />
+                <ButtonGroup size='sm' isAttached>
+                  <Button size={isMobile?'xs':'sm'} colorScheme='red'><EditIcon mr={1} /> Override Playlist</Button>
+                  <Button onClick={() => this.createNewPlaylist(playlist, tracks)} size={isMobile?'xs':'sm'}><AddIcon mr={1} /> Create New Playlist</Button>
+                </ButtonGroup>
+              </Wrap>
 
 
               {playlist.description && (
