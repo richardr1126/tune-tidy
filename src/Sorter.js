@@ -1,5 +1,7 @@
-// Module pattern implementation
-// These will be imported in the PlaylistEditor component to sort the tracks.
+/*
+*MODULE PATTERN: Organize code into components to accomplish a different sorting behavior which will be invoked in
+*PlaylistEditor 
+*/
 export function sortByName(tracks, order) {
   return tracks.sort((a, b) => {
     if (a.name.toLowerCase() < b.name.toLowerCase()) {

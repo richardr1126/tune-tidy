@@ -20,6 +20,11 @@ import Observable from '../Observable';
 const spotify = new SpotifyAPI();
 const obs = new Observable();
 
+/*
+*PROVIDER PATTERN: Fetch user data at the beginning as this will need to be made available to many components in our application
+*including the data page, playlist page, playlist card and settings page. This prevents having to manually pass this information
+*down to these layers
+*/
 
 // Define Home component
 class Home extends Component {
