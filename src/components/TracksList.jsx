@@ -1,4 +1,4 @@
-import React from 'react';
+// Functional TracksList component
 import {
   Card,
   Table,
@@ -29,6 +29,7 @@ export default function DisplayTracks({ tracks }) {
     maxWidth: '30rem',
   };
 
+  // Check if the screen is mobile, this will auto update if the screen is resized
   const [isMobile] = useMediaQuery('(max-width: 768px)');
 
   return (

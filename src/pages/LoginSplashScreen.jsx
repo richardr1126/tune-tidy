@@ -1,3 +1,4 @@
+// Functional LoginSplashScreen component
 import { useEffect } from "react";
 import { Container, Flex, Box, Heading, Button, Text, Image, Card, List, ListItem, ListIcon } from "@chakra-ui/react";
 import { FaSortAmountDown } from "react-icons/fa";

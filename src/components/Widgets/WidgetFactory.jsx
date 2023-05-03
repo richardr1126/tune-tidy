@@ -1,3 +1,4 @@
+// Part of the Factory pattern implementation for the widgets.
 import TopArtistsWidget from "./TopArtistsWidget";
 import TopTracksWidget from "./TopTracksWidget";
 import TopGenresWidget from "./TopGenresWidget";

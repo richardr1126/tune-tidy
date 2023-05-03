@@ -1,4 +1,5 @@
-//Source template: https://chakra-templates.dev/navigation/navbar
+// Functional Navbar component
+// Source template: https://chakra-templates.dev/navigation/navbar
 
 import {
   Box,

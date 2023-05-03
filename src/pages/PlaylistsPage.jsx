@@ -1,4 +1,4 @@
-// Importing necessary dependencies
+// Part of the Provider pattern implementation for the API data: this is the PlaylistsPage component.
 import { Component } from 'react';
 import { Container, Button, Box, Heading, Highlight } from '@chakra-ui/react';
 

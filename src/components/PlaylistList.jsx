@@ -1,3 +1,4 @@
+// Functional PlaylistList component
 import { Stack, VStack, useMediaQuery } from '@chakra-ui/react';
 import PlaylistCard from './PlaylistCard';
 

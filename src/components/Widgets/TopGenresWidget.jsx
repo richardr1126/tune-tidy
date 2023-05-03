@@ -1,4 +1,4 @@
-// Importing necessary dependencies and components
+// Part of the Factory pattern implementation for the widgets.
 import React from 'react';
 import Widget from './Widget';
 import {
@@ -17,7 +17,6 @@ import {
 
 const COLORS = ["#8884d8", "#82ca9d", "#FFBB28", "#FF8042", "#AF19FF", "#1e90ff"];
 
-// Extends the Widget class for TopArtistsWidget class and sets its initial state
 class TopGenresWidget extends Widget {
   constructor(props) {
     super(props);

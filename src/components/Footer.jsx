@@ -42,8 +42,8 @@ const SocialButton = ({
   );
 };
 
+// Functional Footer component
 export default function Footer() {
-  //get year
   const year = new Date().getFullYear();
 
   return (

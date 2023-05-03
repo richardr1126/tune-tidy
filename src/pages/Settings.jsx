@@ -1,3 +1,4 @@
+// Settings page
 import { Component } from 'react';
 import {
   Box,
@@ -51,11 +52,6 @@ class Settings extends Component {
 
 
   }
-
-
-
-
-
 }
 
 export default Settings;

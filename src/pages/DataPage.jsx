@@ -1,3 +1,4 @@
+// Part of the Provider pattern implementation for the API data: this is the DataPage component.
 import { Component } from 'react';
 import { Wrap, WrapItem, Breadcrumb, BreadcrumbItem, Button, Center } from '@chakra-ui/react';
 import WidgetFactory from '../components/Widgets/WidgetFactory';

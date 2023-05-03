@@ -1,3 +1,4 @@
+// Part of the Factory pattern implementation for the widgets.
 import { Component } from 'react';
 import { Card, CardBody, CardHeader, HStack, Heading, Image } from '@chakra-ui/react';
 

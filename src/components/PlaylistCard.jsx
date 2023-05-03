@@ -1,3 +1,4 @@
+// Functional PlaylistCard component
 //Source template: https://chakra-templates.dev/components/cards
 
 import {

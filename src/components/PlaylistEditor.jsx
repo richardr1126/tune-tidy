@@ -1,5 +1,5 @@
-// Importing necessary dependencies and components
-import { Component } from 'react';
+// PlaylistEditor is outside of the Provider pattern becuase we need to make more requests to the Spotify API
+import { Component, createRef } from 'react';
 import SpotifyAPI from 'spotify-web-api-js';
 import {
   Box,
@@ -14,7 +14,7 @@ import {
   Spacer
 } from '@chakra-ui/react';
 import TracksList from './TracksList';
-import {
+import { // Module pattern for Importing the sorting functions
   sortByName,
   sortByOriginalPostion,
   sortByTempo,
@@ -47,11 +47,16 @@ class PlaylistEditor extends Component {
       tracks: null,
       sorter: 'original_position',
       sortOrder: 'asc',
+      loading: false,
     };
     // Binding the functions to the component's scope
     this.fetchPlaylistTracks = this.fetchPlaylistTracks.bind(this);
     this.redirectLogin = this.redirectLogin.bind(this);
     this.displaySortButtons = this.displaySortButtons.bind(this);
+    this.createNewPlaylist = this.createNewPlaylist.bind(this);
+    this.overridePlaylist = this.overridePlaylist.bind(this);
+    this.overrideButtonRef = createRef();
+    this.createButtonRef = createRef();
   }
 
   //A function to redirect the user to login page when they are not authenticated or their token has expired
@@ -140,17 +145,66 @@ class PlaylistEditor extends Component {
       });
   }
 
+  async overridePlaylist(playlist, tracks) {
+    const playlistId = playlist.id;
+    const newOrder = tracks.slice();
+
+    // Get the snapshot_id of the playlist
+    const playlistDetails = await spotify.getPlaylist(playlistId);
+    let snapshotId = playlistDetails.snapshot_id;
+
+    // Create a list of reordering operations
+    const reorderingOperations = newOrder.map((track, newPosition) => {
+      const currentPosition = track.original_position - 1;
+      return { currentPosition, newPosition };
+    });
+
+    // Sort the reordering operations by newPosition
+    reorderingOperations.sort((a, b) => a.newPosition - b.newPosition);
+
+    // Apply the reordering operations
+    for (const operation of reorderingOperations) {
+      const { currentPosition, newPosition } = operation;
+
+      if (currentPosition !== newPosition) {
+        try {
+          console.log(`Reordering track from position ${currentPosition} to ${newPosition}`);
+
+          // Move the track to the new position using the initial snapshot_id
+          const data = await spotify.reorderTracksInPlaylist(playlistId, currentPosition, newPosition, {
+            snapshot_id: snapshotId,
+          });
+          snapshotId = data.snapshot_id;
+
+          // Update currentPosition values in the reorderingOperations list
+          for (const op of reorderingOperations) {
+            if (op.currentPosition > currentPosition && op.currentPosition <= newPosition) {
+              op.currentPosition -= 1;
+            } else if (op.currentPosition < currentPosition && op.currentPosition >= newPosition) {
+              op.currentPosition += 1;
+            }
+          }
+        } catch (error) {
+          console.error(`Error reordering track from position ${currentPosition} to ${newPosition}:`, error);
+        }
+      }
+    }
+
+    this.props.obs.notify({ message: 'Playlist order updated successfully', status: 'success' });
+    this.fetchPlaylistTracks();
+  }
+
   // Creates a new playlist with the same name as the original playlist, but with "(Tune Tidy)" appended to the end
-  createNewPlaylist(playlist, tracks) {
+  async createNewPlaylist(playlist, tracks) {
     spotify.createPlaylist(playlist.owner.id, {
-      name: playlist.name+" (Tune Tidy)",
+      name: playlist.name + " (Tune Tidy)",
       description: playlist.description,
       public: false,
     }).then(async (data) => {
       console.log(data);
       const newPlaylistId = data.id;
       const trackUris = tracks.map((track) => track.uri);
-      
+
       //track URIs into chunks of 100
       const trackUriChunks = {};
       for (let i = 0; i < trackUris.length; i += 100) {
@@ -169,7 +223,7 @@ class PlaylistEditor extends Component {
     }).catch((error) => {
       console.log(error);
     });
-    
+
   }
 
 
@@ -205,13 +259,16 @@ class PlaylistEditor extends Component {
     }
   }
 
+
   displaySortButtons() {
     const { sorter, sortOrder } = this.state;
 
+    // Get the next sort order
     const getNextSortOrder = () => {
       return sortOrder === 'asc' ? 'desc' : 'asc';
     };
 
+    // Apply the sorting function to the tracks and update the state
     const applySorting = (newSorter, sortingFunction) => {
       const newSortOrder = newSorter === sorter ? getNextSortOrder() : 'asc';
       this.setState({
@@ -221,6 +278,8 @@ class PlaylistEditor extends Component {
       });
     };
 
+
+    // Module pattern, each sortByFunction from the Sorter.js module is called here
     return (
       <Wrap mt={1.5}>
         <Text>Sort by:</Text>
@@ -342,8 +401,21 @@ class PlaylistEditor extends Component {
                 </Heading>
                 <Spacer />
                 <ButtonGroup size='sm' isAttached>
-                  <Button size={isMobile?'xs':'sm'} colorScheme='red'><EditIcon mr={1} /> Override Playlist</Button>
-                  <Button onClick={() => this.createNewPlaylist(playlist, tracks)} size={isMobile?'xs':'sm'}><AddIcon mr={1} /> Create New Playlist</Button>
+                  <Button ref={this.createButtonRef} onClick={async () => {
+                    // Disabling the button while the creation is in progress
+                    this.createButtonRef.current.disabled = true;
+                    await this.createNewPlaylist(this.state.playlist, this.state.tracks);
+                    this.createButtonRef.current.disabled = false;
+
+                  }} size={isMobile ? 'xs' : 'sm'}><AddIcon mr={1} /> Create Playlist</Button>
+                  <Button ref={this.overrideButtonRef} onClick={async () => {
+                    // Disabling the button while the override is in progress
+                    this.overrideButtonRef.current.disabled = true;
+                    await this.overridePlaylist(this.state.playlist, this.state.tracks);
+                    this.overrideButtonRef.current.disabled = false;
+                    
+                  }} size={isMobile ? 'xs' : 'sm'} colorScheme='red'><EditIcon mr={1} /> Override Playlist</Button>
+
                 </ButtonGroup>
               </Wrap>
 

@@ -1,3 +1,4 @@
+// Observer pattern implementation
 class Observable {
   constructor() {
     this.observers = [];

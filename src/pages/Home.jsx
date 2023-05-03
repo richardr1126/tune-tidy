@@ -1,4 +1,9 @@
-// Import necessary modules and components
+// Start of the Provider Pattern implementation for the API data: this is the Home component.
+// Top Level Home class based Component
+// - This component is the parent component of the application.
+// - It is responsible for rendering the NavBar, the Footer and the page content.
+// - It also handles the authentication process and the fetching of data from the Spotify API.
+// - The state object is used to keep track of data that changes within the Home component.
 import { Component } from 'react';
 import SpotifyAPI from 'spotify-web-api-js';
 import { Box, Spinner, useToast } from '@chakra-ui/react';
@@ -204,7 +209,8 @@ class Home extends Component {
 
   }
 
-  handleToast(data) {
+  // Part of the Observer pattern, handleToast() is called when the observable object is notified, which renders a toast notification to the home page from anywhere in the app
+  handleToast(data) { 
     //https://chakra-ui.com/docs/components/toast/usage
 
     // Destructure message, status properties from data, and handle undefined case

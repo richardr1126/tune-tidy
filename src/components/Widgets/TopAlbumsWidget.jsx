@@ -1,4 +1,4 @@
-// Importing necessary dependencies and components
+// Part of the Factory pattern implementation for the widgets.
 import React from 'react';
 import Widget from './Widget';
 import {
