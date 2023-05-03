@@ -20,13 +20,7 @@ function LoginSplashScreen() {
 		"playlist-read-collaborative",
 		"playlist-modify-public",
 		"playlist-modify-private",
-		"user-library-read",
-		"user-library-modify",
 		"user-top-read",
-		"user-read-recently-played",
-		"user-read-currently-playing",
-		"user-follow-read",
-		"user-follow-modify",
 	].join("%20");
 
 	// This useEffect hook runs when the component mounts 
