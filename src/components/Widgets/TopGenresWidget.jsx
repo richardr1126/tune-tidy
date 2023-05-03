@@ -169,6 +169,7 @@ class TopGenresWidget extends Widget {
       ];
     }
     return (
+      //https://www.tutorialspoint.com/reactjs-how-to-create-a-pie-chart-using-recharts
       <Center>
         <PieChart width={275} height={350}>
           <Pie

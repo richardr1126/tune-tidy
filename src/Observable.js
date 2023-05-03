@@ -1,3 +1,7 @@
+/*
+*OBSERVER PATTERN: Notify the user on various events such as when they login in sucessfully
+*/
+
 class Observable {
   constructor() {
     this.observers = [];

@@ -3,6 +3,10 @@ import TopTracksWidget from "./TopTracksWidget";
 import TopGenresWidget from "./TopGenresWidget";
 import TopAlbumsWidget from "./TopAlbumsWidget";
 
+/*
+*FACTORY PATTERN: Constructs the various widgets that will display user's listening data
+*/
+
 class WidgetFactory {
   createWidget(type, data, obs) {
     switch (type) {
