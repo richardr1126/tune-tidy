@@ -47,7 +47,6 @@ class PlaylistEditor extends Component {
       tracks: null,
       sorter: 'original_position',
       sortOrder: 'asc',
-      loading: false,
     };
     // Binding the functions to the component's scope
     this.fetchPlaylistTracks = this.fetchPlaylistTracks.bind(this);
@@ -226,7 +225,6 @@ class PlaylistEditor extends Component {
 
   }
 
-
   // A lifecycle method to check if the user is authenticated and fetch their top artists
   componentDidMount() {
     const token = window.localStorage.getItem("token");
@@ -258,7 +256,6 @@ class PlaylistEditor extends Component {
 
     }
   }
-
 
   displaySortButtons() {
     const { sorter, sortOrder } = this.state;
@@ -351,7 +348,6 @@ class PlaylistEditor extends Component {
 
     );
   }
-
 
   // A function to render the content of the widget
   render() {
