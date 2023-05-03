@@ -5,15 +5,21 @@ import {
   Heading,
   Text,
   Center,
-  useColorModeValue,
   LinkBox,
   LinkOverlay,
   Spinner,
-  Image
+  Image,
+  useMediaQuery,
+  HStack,
+  Avatar,
+  Divider,
+  VStack,
 } from '@chakra-ui/react';
 
 export default function PlaylistCard({ playlist, setSelection }) {
-  return (
+  const [isMobile] = useMediaQuery("(max-width: 680px)");
+
+  if (!isMobile) return (
     <LinkBox key={playlist.id}>
       <Center py={2}>
         <Box
@@ -25,7 +31,7 @@ export default function PlaylistCard({ playlist, setSelection }) {
           bg="white"
           border={'1px'}
           borderColor="black"
-          boxShadow={useColorModeValue('6px 6px 0 black', '6px 6px 0 cyan')}>
+          boxShadow={'6px 6px 0 black'}>
 
           <Box borderBottom={'1px'} borderColor="black">
             <LinkOverlay onClick={() => setSelection(playlist)} sx={{ cursor: 'pointer' }} role="button">
@@ -63,5 +69,39 @@ export default function PlaylistCard({ playlist, setSelection }) {
         </Box>
       </Center>
     </LinkBox>
+  )
+  else return (
+
+    <LinkBox key={playlist.id} m={'0px !important'}>
+      <Divider />
+      <Box p={2}>
+        <HStack>
+          <LinkOverlay onClick={() => setSelection(playlist)} sx={{ cursor: 'pointer' }} role="button">
+            <Avatar icon={
+              <>
+                {playlist.images.length !== 0 ? (
+                  <Center p={100}><Box>
+                    <Spinner />
+                  </Box></Center>
+                ) : (
+                  <Image src='/playlist_placeholder.png' alt='No cover art' w={'full'} h={'full'} />
+                )}
+              </>
+            } borderRadius={3} size={'md'} src={playlist.images[0]?.url} />
+          </LinkOverlay>
+          <Heading color={'black'} fontSize={'lg'}>
+            {playlist.name}
+          </Heading>
+        </HStack>
+        {playlist.description && (
+          <Text color={'gray.500'} pt={2} fontSize={'md'}>
+            {playlist.description}
+          </Text>
+        )}
+      </Box>
+    </LinkBox>
+
+
+
   );
 }

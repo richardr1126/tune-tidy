@@ -21,7 +21,7 @@ import {
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon, SettingsIcon } from '@chakra-ui/icons';
 
-const Links = ['Stats', 'Playlists'];
+const Links = ['Stats', 'Playlist Editor'];
 
 const NavLink = ({ children, href, onClick }) => (
   <Link

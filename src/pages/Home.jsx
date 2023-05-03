@@ -271,7 +271,10 @@ class Home extends Component {
   // get page from url localhost:3000/spotify#stats, localhost:3000/spotify#settings, localhost:3000/spotify#playlists
   getPageFromUrl() {
     const page = window.location.hash.substring(1);
-    if (page === 'stats' || page === 'settings' || page === 'playlists') {
+    if (page === 'stats' || page === 'settings' || page === 'playlist%20editor') {
+      if (page === 'playlist%20editor') {
+        return 'playlist editor';
+      }
       return page;
     } else {
       return 'stats';
@@ -298,7 +301,7 @@ class Home extends Component {
           <NavBar fullUserData={this.state.fullUserData} switchPage={this.switchPage} obs={obs} />
           {this.state.page === 'settings' && (<Settings key={'settings'} fullUserData={this.state.fullUserData} />)}
           {this.state.page === 'stats' && (<DataPage key={'data_page'} fullUserData={this.state.fullUserData} artistsData={artistsData} tracksData={tracksData} obs={obs} />)}
-          {this.state.page === 'playlists' && (<PlaylistsPage key={'playlists_page'} fullUserData={this.state.fullUserData} playlistData={this.state.playlistData} obs={obs}/>)}
+          {this.state.page === 'playlist editor' && (<PlaylistsPage key={'playlists_page'} fullUserData={this.state.fullUserData} playlistData={this.state.playlistData} obs={obs}/>)}
 
           <Footer></Footer>
         </>

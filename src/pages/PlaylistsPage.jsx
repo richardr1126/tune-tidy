@@ -1,8 +1,10 @@
 // Importing necessary dependencies
 import { Component } from 'react';
-import { Container, Button, Box } from '@chakra-ui/react';
+import { Container, Button, Box, Heading, Highlight } from '@chakra-ui/react';
+
 import PlaylistList from '../components/PlaylistList';
 import PlaylistEditor from '../components/PlaylistEditor';
+import { ChevronLeftIcon } from '@chakra-ui/icons';
 
 // Defining a class component called PlaylistsPage
 class PlaylistsPage extends Component {
@@ -26,24 +28,38 @@ class PlaylistsPage extends Component {
   }
 
   componentDidMount() {
-    document.title = `Playlists | TuneTidy`;
+    document.title = `Playlist Editor | TuneTidy`;
   }
-  
+
   // Render method that returns JSX
   render() {
+    const isMobile = window.innerWidth < 680;
+
     return (
-      <Container maxW='container.xl' sx={{ padding: '1ch' }}>
+      <Container maxW='container.xl' sx={{ padding: isMobile ? '2ch' : '4ch' }}>
         {/* Back button to set the selection back to null*/}
         {this.state.selection !== null && (
-          <Box px={8} py={2}>
-            <Button variant={'link'} onClick={() => this.setSelection(null)}>&lt; Back</Button>
+          <Box>
+            <Button variant={'link'} onClick={() => this.setSelection(null)}><ChevronLeftIcon boxSize={'1.5rem'}/> Back</Button>
           </Box>
         )}
 
         {/* If selection state is null, display the list of playlists */}
-        {this.state.selection === null && (<PlaylistList key={'playlists_list'} userName={this.state.fullUserData.display_name} playlists={this.state.playlistData} setSelection={this.setSelection} />)}
+        {this.state.selection === null && (
+          <>
+            <Heading lineHeight='tall'>
+              <Highlight
+                query={['playlist']}
+                styles={{ px: 2, py: 1, rounded: '1rem', bg: 'teal.100' }}
+              >
+                Chose a playlist to sort.
+              </Highlight>
+            </Heading>
+            <PlaylistList key={'playlists_list'} userName={this.state.fullUserData.display_name} playlists={this.state.playlistData} setSelection={this.setSelection} />
+          </>
+        )}
         {/* If selection state is not null, display the selected playlist */}
-        {this.state.selection !== null && (<PlaylistEditor key={'playlist_editor'} playlist={this.state.selection} obs={this.props.obs}/>)}
+        {this.state.selection !== null && (<PlaylistEditor key={'playlist_editor'} playlist={this.state.selection} obs={this.props.obs} />)}
       </Container>
     );
   }

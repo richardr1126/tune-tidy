@@ -21,7 +21,7 @@ const COLORS = ["#8884d8", "#82ca9d", "#FFBB28", "#FF8042", "#AF19FF", "#1e90ff"
 class TopGenresWidget extends Widget {
   constructor(props) {
     super(props);
-    this.title = 'Top Genres';
+    this.title = 'Top 5 Genres';
     this.state = {
       time_range: 'medium_term',
       data: this.props.data,
