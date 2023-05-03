@@ -14,6 +14,24 @@ Welcome to TuneTidy, a web app built using React and Node.js that provides a con
 
 TuneTidy was created by a team of three developers: Richard Roberson, Cebastian Adams, and Rebecca Rasmussen.
 
+## Limitations
+- In order to use the Spotify API, you must have a Spotify account. Since our app is still considered to be in 'dev' mode by Spotify, you must be added as a tester in order to use it. If you would like to be added as a tester, please contact me.
+- We are going to try to submit the app to Spotify for approval in order to bring the app into 'production' so anyone can use it without being a tester.
+
+## Installation
+1) First make sure you have npm and node.js installed on you computer. If you don't lookup on google nvm this should let you install npm and node.
+
+2) Once you clone the repo, you will need to cd into it and run command npm i (you need to have npm and Node.js installed).  That should create the node_modules folder for you (it is not being upload to github becuase it is huge).
+
+3) You will need to create a file called .env (just .env) in the main directory of the repo (not inside any folder). In the .env file copy and paste what I have below.
+```
+REACT_APP_NODE_ENV=dev
+REACT_APP_SPOTIFY_CLIENT_ID=ad262abcde7048a29f081c4a5d8bbbd3
+REACT_APP_SPOTIFY_CLIENT_SECRET=f3d5a00ab7204a2a9b3bdf973cc9b2d9
+```
+
+4) Then in the your terminal type npm start. This should open the web page in your browser, running on http://localhost:3000/
+
 ## Features
 
 - Authenticate users with Spotify OAuth and Passport
