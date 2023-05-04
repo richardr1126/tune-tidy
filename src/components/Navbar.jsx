@@ -19,8 +19,16 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverCloseButton,
+  PopoverArrow,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon, SettingsIcon } from '@chakra-ui/icons';
+import { useState } from 'react';
 
 const Links = ['Stats', 'Playlist Editor'];
 
@@ -45,23 +53,46 @@ const NavLink = ({ children, href, onClick }) => (
 
 const NavBar = ({ switchPage, fullUserData }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isMobile] = useMediaQuery('(max-width: 680px)');
+
+  // Load the value from localStorage
+  const storedPopoverState = localStorage.getItem('hasPopoverBeenClosed') === 'true';
+  const [hasPopoverBeenClosed, setHasPopoverBeenClosed] = useState(storedPopoverState);
+
+  const handlePopoverClose = () => {
+    setHasPopoverBeenClosed(true);
+    localStorage.setItem('hasPopoverBeenClosed', 'true');
+  };
 
   const handleLogout = () => {
     window.localStorage.removeItem('token');
     window.location.href = '/';
   };
 
+
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4} id='nav'>
         <Flex h={'8ch'} alignItems={'center'} justifyContent={'space-between'}>
-          <IconButton
-            size={'md'}
-            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-            aria-label={'Open Menu'}
-            display={{ md: 'none' }}
-            onClick={isOpen ? onClose : onOpen}
-          />
+        
+        <Popover isOpen={(!isMobile) ? false : !hasPopoverBeenClosed} onClose={handlePopoverClose} closeOnBlur={false}>
+            <PopoverTrigger>
+              <IconButton
+                size={'md'}
+                icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+                aria-label={'Open Menu'}
+                display={{ md: 'none' }}
+                onClick={isOpen ? onClose : onOpen}
+              />
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverArrow />
+              <PopoverHeader>
+                Click here to get to the Playlist Editor
+                <PopoverCloseButton />
+              </PopoverHeader>
+            </PopoverContent>
+          </Popover>
           <Flex alignItems='center'>
             <Image boxSize='3ch' src='/large-logo.png' alt='' />
             <Heading as='h1' fontSize='2ch' sx={{ padding: '0ch 1ch 0ch 0.5ch' }}>TuneTidy</Heading>

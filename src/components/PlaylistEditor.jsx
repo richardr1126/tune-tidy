@@ -411,7 +411,7 @@ class PlaylistEditor extends Component {
                     this.props.obs.notify({ message: 'Playlist created successfully', status: 'success' });
                     this.props.obs.notify({ message: 'Refresh the page to see your new playlist', status: 'info' });
 
-                  }} size={isMobile ? 'xs' : 'sm'}><AddIcon mr={1} /> Create Playlist</Button>
+                  }} size={isMobile ? 'xs' : 'sm'}><AddIcon mr={1} /> Create Copy</Button>
                   <Button ref={this.overrideButtonRef} onClick={async () => {
                     // Disabling the button while the override is in progress
                     this.overrideButtonRef.current.disabled = true;
