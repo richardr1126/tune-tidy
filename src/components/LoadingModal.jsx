@@ -4,15 +4,18 @@ export default function LoadingModal({isOpen}) {
   return (
     <Modal closeOnOverlayClick={false} isOpen={isOpen}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent m={10}>
         <ModalHeader>
           Sorting your playlist...
         </ModalHeader>
         <ModalBody mb={10}>
           <Text>
-            This may take a few minutes depending on the size of your playlist.
+            This may take a minute or so depending on the size of your playlist.
+            <br></br>
+            <br></br>
+            Please wait, or else the sorting may not be accurate.
           </Text>
-          <Center mt={4}>
+          <Center mt={10}>
             <Spinner />
           </Center>
         </ModalBody>

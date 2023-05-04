@@ -79,9 +79,17 @@ export default function DisplayTracks({ tracks }) {
           {tracks.map((track) => (
             (
               <>
-                <Divider key={track.id} />
-                <HStack spacing={2}>
-                  <Avatar borderRadius={2} size={'md'} src={track?.album?.images[0]?.url} icon={<Spinner></Spinner>} />
+                <Divider/>
+                <HStack spacing={2} key={track?.id+track?.added_at}>
+                  <Avatar borderRadius={2} size={'md'} src={track?.album?.images[0]?.url} icon={
+                    <>
+                      {track.album.images.length !== 0 ? (
+                        <Spinner />
+                      ) : (
+                        <Avatar borderRadius={1} size={'md'} src='/playlist_placeholder.png' alt='No cover art' />
+                      )}
+                    </>
+                  } />
                   <Text as={'h3'} fontWeight='bold' fontSize={'md'}>{track.original_position}.</Text>
                   <VStack spacing={0} align={'left'} ml={'0.5rem !important'}>
                     <HStack spacing={0}>
