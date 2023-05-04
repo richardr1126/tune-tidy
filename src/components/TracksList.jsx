@@ -16,7 +16,6 @@ import {
   Avatar,
   Divider,
 
-
 } from '@chakra-ui/react';
 
 
@@ -48,12 +47,20 @@ export default function DisplayTracks({ tracks }) {
               </Thead>
               <Tbody key={'table_body'}>
                 {tracks.map((track) => (
-                  track.id && (
-                    <Tr key={track.id+track.added_at}>
+                  (
+                    <Tr key={track.id + track.added_at}>
                       <Td isNumeric sx={dataCellStyle}>{track.original_position}</Td>
                       <Td fontWeight={'bold'} sx={dataCellStyle}>
                         <HStack>
-                          <Avatar borderRadius={1} size={'sm'} src={track?.album?.images[0]?.url} icon={<Spinner></Spinner>} sx={{margin: '0px'}} />
+                          <Avatar borderRadius={1} size={'sm'} src={track?.album?.images[0]?.url} icon={
+                            <>
+                              {track.album.images.length !== 0 ? (
+                                <Spinner />
+                              ) : (
+                                <Avatar borderRadius={1} size={'sm'} src='/playlist_placeholder.png' alt='No cover art' />
+                              )}
+                            </>
+                          } sx={{ margin: '0px' }} />
                           <Text>{track.name}</Text>
                         </HStack>
                       </Td>
@@ -70,7 +77,7 @@ export default function DisplayTracks({ tracks }) {
       {isMobile && (
         <VStack align={'left'} mt={2}>
           {tracks.map((track) => (
-            track.id && (
+            (
               <>
                 <Divider key={track.id} />
                 <HStack spacing={2}>
