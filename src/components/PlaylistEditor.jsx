@@ -68,6 +68,7 @@ class PlaylistEditor extends Component {
 
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("tokenExpiration");
+    window.localStorage.removeItem('hasPopoverBeenClosed');
     window.location.href = "/";
   }
 
@@ -220,7 +221,7 @@ class PlaylistEditor extends Component {
         console.log(chunk);
       }
 
-      
+
 
     }).catch((error) => {
       console.log(error);
@@ -360,7 +361,7 @@ class PlaylistEditor extends Component {
     if (playlist && tracks) {
       // Returning JSX for the UI with dynamic values passed as props or state
       return (
-        
+
 
         <Center>
           <LoadingModal isOpen={this.state.loading} />
@@ -409,7 +410,7 @@ class PlaylistEditor extends Component {
                     await this.createNewPlaylist(this.state.playlist, this.state.tracks);
                     this.createButtonRef.current.disabled = false;
                     this.props.obs.notify({ message: 'Playlist created successfully', status: 'success' });
-                    this.props.obs.notify({ message: 'Refresh the page to see your new playlist', status: 'info' });
+                    this.props.obs.notify({ message: 'Refresh the page...\nto see your new playlist', status: 'info' });
 
                   }} size={isMobile ? 'xs' : 'sm'}><AddIcon mr={1} /> Create Copy</Button>
                   <Button ref={this.overrideButtonRef} onClick={async () => {
@@ -420,7 +421,7 @@ class PlaylistEditor extends Component {
                       this.setState({ loading: false });
                       this.overrideButtonRef.current.disabled = false;
                     });
-                    
+
                   }} size={isMobile ? 'xs' : 'sm'} colorScheme='red'><EditIcon mr={1} /> Override Playlist</Button>
 
                 </ButtonGroup>

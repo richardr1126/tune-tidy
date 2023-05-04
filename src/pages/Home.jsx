@@ -92,6 +92,7 @@ class Home extends Component {
       // Remove token and token expiration date from localStorage
       window.localStorage.removeItem("token");
       window.localStorage.removeItem("tokenExpiration");
+      window.localStorage.removeItem('hasPopoverBeenClosed');
 
       // Redirect user to homepage
       window.location.href = "/";
@@ -215,7 +216,7 @@ class Home extends Component {
   }
 
   // Part of the Observer pattern, handleToast() is called when the observable object is notified, which renders a toast notification to the home page from anywhere in the app
-  handleToast(data) { 
+  handleToast(data) {
     //https://chakra-ui.com/docs/components/toast/usage
 
     // Destructure message, status properties from data, and handle undefined case
@@ -264,6 +265,9 @@ class Home extends Component {
       // Redirect user to homepage
       setTimeout(() => {
         window.location.href = "/";
+        window.localStorage.removeItem("token");
+        window.localStorage.removeItem("tokenExpiration");
+        window.localStorage.removeItem('hasPopoverBeenClosed');
       }, 1000);
     }
   }
@@ -312,7 +316,7 @@ class Home extends Component {
           <NavBar fullUserData={this.state.fullUserData} switchPage={this.switchPage} obs={obs} />
           {this.state.page === 'settings' && (<Settings key={'settings'} fullUserData={this.state.fullUserData} />)}
           {this.state.page === 'stats' && (<DataPage key={'data_page'} fullUserData={this.state.fullUserData} artistsData={artistsData} tracksData={tracksData} obs={obs} />)}
-          {this.state.page === 'playlist editor' && (<PlaylistsPage key={'playlists_page'} fullUserData={this.state.fullUserData} playlistData={this.state.playlistData} obs={obs}/>)}
+          {this.state.page === 'playlist editor' && (<PlaylistsPage key={'playlists_page'} fullUserData={this.state.fullUserData} playlistData={this.state.playlistData} obs={obs} />)}
 
           <Footer></Footer>
         </>
