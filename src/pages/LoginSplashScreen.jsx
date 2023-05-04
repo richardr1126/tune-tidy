@@ -1,6 +1,22 @@
 // Functional LoginSplashScreen component
 import { useEffect } from "react";
-import { Container, Flex, Box, Heading, Button, Text, Image, Card, List, ListItem, ListIcon } from "@chakra-ui/react";
+import {
+	Container,
+	Flex,
+	Box,
+	Heading,
+	Button,
+	Text,
+	Image,
+	Card,
+	List,
+	ListItem,
+	ListIcon,
+	FormControl,
+	FormLabel,
+	Input,
+	FormHelperText,
+} from "@chakra-ui/react";
 import { FaSortAmountDown } from "react-icons/fa";
 import { BsClipboardData } from "react-icons/bs";
 import { RiArrowUpDownFill } from "react-icons/ri";
@@ -75,7 +91,7 @@ function LoginSplashScreen() {
 							Sort your playlists by artist, album, track name, acousticness, danceability, energy, instrumentalness, liveness, loudness, speechiness, tempo, or valence.
 						</ListItem>
 						<ListItem>
-							<ListIcon as={BsClipboardData} color='#191414' boxSize={5}/>
+							<ListIcon as={BsClipboardData} color='#191414' boxSize={5} />
 							Access your most frequently played tracks, artists, albums, and genres for three different time periods. Your data is refreshed about once a day.
 						</ListItem>
 						<ListItem>
@@ -83,7 +99,39 @@ function LoginSplashScreen() {
 							Observe how your rankings evolves over time, represented by arrows in comparison to your previous visit.
 						</ListItem>
 					</List>
-					<Text as='h3' fontSize='2ch' fontWeight={'bold'}>To get started, click the button below to login to Spotify.</Text>
+
+
+					<Card mt={4} p={5}>
+						<form
+							action="https://formspree.io/f/xdobkayk"
+							method="POST"
+							style={{ width: "100%" }}
+						>
+							<FormControl id="name" isRequired>
+								<Text as="h3" fontSize="2ch" fontWeight={"bold"}>
+									To get started, request beta access.
+								</Text>
+								<FormHelperText>
+									Since our app is waiting for approval from Spotify, we must manually add users to
+									our beta testing list. Please enter your name and email below to request access.
+									If we havent added you within 24 hours you can request access again.
+								</FormHelperText>
+								<FormLabel mt={3}>Name</FormLabel>
+								<Input type="text" name="name" bgColor={'white'} placeholder="Full Name" />
+							</FormControl>
+							<FormControl id="email" isRequired mt={4}>
+								<FormLabel>Email address</FormLabel>
+								<Input type="email" name="email" bgColor={'white'} placeholder="spotifyemail@spotify.com" />
+								<FormHelperText>
+									You must enter the email associated with your Spotify account.
+								</FormHelperText>
+							</FormControl>
+							<Button mt={4} colorScheme="blue" type="submit">
+								Request Access
+							</Button>
+						</form>
+					</Card>
+
 				</Card>
 				<Button
 					as="a" // Renders button as an anchor tag
