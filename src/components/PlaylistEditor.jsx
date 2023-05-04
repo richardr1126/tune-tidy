@@ -198,9 +198,8 @@ class PlaylistEditor extends Component {
   // Creates a new playlist with the same name as the original playlist, but with "(Tune Tidy)" appended to the end
   async createNewPlaylist(playlist, tracks) {
     spotify.createPlaylist(playlist.owner.id, {
-      name: playlist.name + " (Tune Tidy)",
-      description: playlist.description,
-      public: false,
+      name: playlist.name + " - Sorted",
+      description: playlist.description + (playlist.description ? ". " : "") + "Sorted by " + this.state.sorter + " " + this.state.sortOrder,
     }).then(async (data) => {
       console.log(data);
       const newPlaylistId = data.id;
@@ -219,7 +218,7 @@ class PlaylistEditor extends Component {
         console.log(chunk);
       }
 
-      this.props.obs.notify({ message: 'Playlist created successfully', status: 'success' });
+      
 
     }).catch((error) => {
       console.log(error);
@@ -403,9 +402,12 @@ class PlaylistEditor extends Component {
                 <ButtonGroup size='sm' isAttached>
                   <Button ref={this.createButtonRef} onClick={async () => {
                     // Disabling the button while the creation is in progress
+
                     this.createButtonRef.current.disabled = true;
                     await this.createNewPlaylist(this.state.playlist, this.state.tracks);
                     this.createButtonRef.current.disabled = false;
+                    this.props.obs.notify({ message: 'Playlist created successfully', status: 'success' });
+                    this.props.obs.notify({ message: 'Refresh the page to see your new playlist', status: 'info' });
 
                   }} size={isMobile ? 'xs' : 'sm'}><AddIcon mr={1} /> Create Playlist</Button>
                   <Button ref={this.overrideButtonRef} onClick={async () => {
