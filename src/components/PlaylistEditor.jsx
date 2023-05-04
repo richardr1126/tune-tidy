@@ -33,6 +33,7 @@ import { // Module pattern for Importing the sorting functions
   sortByDateAdded,
 } from '../Sorter';
 import { TriangleUpIcon, TriangleDownIcon, AddIcon, EditIcon } from '@chakra-ui/icons';
+import LoadingModal from './LoadingModal';
 
 
 // Creating a new instance of the Spotify API
@@ -47,6 +48,7 @@ class PlaylistEditor extends Component {
       tracks: null,
       sorter: 'original_position',
       sortOrder: 'asc',
+      loading: false,
     };
     // Binding the functions to the component's scope
     this.fetchPlaylistTracks = this.fetchPlaylistTracks.bind(this);
@@ -357,8 +359,10 @@ class PlaylistEditor extends Component {
     if (playlist && tracks) {
       // Returning JSX for the UI with dynamic values passed as props or state
       return (
+        
 
         <Center>
+          <LoadingModal isOpen={this.state.loading} />
           <Box
             rounded={'sm'}
             my={3}
@@ -407,8 +411,11 @@ class PlaylistEditor extends Component {
                   <Button ref={this.overrideButtonRef} onClick={async () => {
                     // Disabling the button while the override is in progress
                     this.overrideButtonRef.current.disabled = true;
-                    await this.overridePlaylist(this.state.playlist, this.state.tracks);
-                    this.overrideButtonRef.current.disabled = false;
+                    this.setState({ loading: true }, async () => {
+                      await this.overridePlaylist(this.state.playlist, this.state.tracks);
+                      this.setState({ loading: false });
+                      this.overrideButtonRef.current.disabled = false;
+                    });
                     
                   }} size={isMobile ? 'xs' : 'sm'} colorScheme='red'><EditIcon mr={1} /> Override Playlist</Button>
 
