@@ -112,9 +112,9 @@ function LoginSplashScreen() {
 									To get started, request beta access.
 								</Text>
 								<FormHelperText>
-									Since our app is waiting for approval from Spotify, we must manually add users to
-									our beta testing list. Please enter your name and email below to request access.
-									If we havent added you within 24 hours you can request access again.
+									Since the app is waiting for approval from Spotify, we must manually add users to
+									the beta testing list. Please enter your name and email below to request access.
+									If you still don't have access within 24 hours you can request access again.
 								</FormHelperText>
 								<FormLabel mt={3}>Name</FormLabel>
 								<Input type="text" name="name" bgColor={'white'} placeholder="Full Name" />
