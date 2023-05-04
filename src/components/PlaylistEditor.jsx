@@ -203,7 +203,8 @@ class PlaylistEditor extends Component {
     }).then(async (data) => {
       console.log(data);
       const newPlaylistId = data.id;
-      const trackUris = tracks.map((track) => track.uri);
+      //only map uris of tracks that have an id
+      const trackUris = tracks.filter((track) => track.id).map((track) => track.uri);
 
       //track URIs into chunks of 100
       const trackUriChunks = {};
@@ -214,6 +215,7 @@ class PlaylistEditor extends Component {
 
       //adding tracks to new playlist in chunks of 100
       for (const trackUris of Object.values(trackUriChunks)) {
+        console.log(trackUris);
         const chunk = await spotify.addTracksToPlaylist(newPlaylistId, trackUris);
         console.log(chunk);
       }
