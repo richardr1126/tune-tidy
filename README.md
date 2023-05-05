@@ -25,9 +25,7 @@ TuneTidy was created by a team of three developers: Richard Roberson, Cebastian 
 
 3) You will need to create a file called .env (just .env) in the main directory of the repo (not inside any folder). In the .env file copy and paste what I have below.
 ```
-REACT_APP_NODE_ENV=dev
-REACT_APP_SPOTIFY_CLIENT_ID=ad262abcde7048a29f081c4a5d8bbbd3
-REACT_APP_SPOTIFY_CLIENT_SECRET=f3d5a00ab7204a2a9b3bdf973cc9b2d9
+GOT A WARNING TO NOT POST MY SECRET KEYS ON PUBLIC GIHUB REPOS FROM GITHUB. EMAIL ME IF YOU WOULD LIKE THE SPOTIFY KEYS
 ```
 
 4) Then in the your terminal type npm start. This should open the web page in your browser, running on http://localhost:3000/
