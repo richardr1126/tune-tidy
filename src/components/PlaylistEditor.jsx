@@ -91,6 +91,7 @@ class PlaylistEditor extends Component {
         if (totalTracks > 50) {
           for (let offset = 50; offset < totalTracks; offset += 50) {
             try {
+              await new Promise((resolve) => setTimeout(resolve, 1500));
               const additionalData = await spotify.getPlaylistTracks(id, { limit: 50, offset });
               console.log('Fetching more tracks...');
               combinedTracks = combinedTracks.concat(additionalData.items);
@@ -177,6 +178,8 @@ class PlaylistEditor extends Component {
           console.log(`Reordering track from position ${currentPosition} to ${newPosition}`);
 
           // Move the track to the new position using the initial snapshot_id
+          // Wait 100ms between each reordering operation to avoid rate limiting
+          await new Promise((resolve) => setTimeout(resolve, 500));
           const data = await spotify.reorderTracksInPlaylist(playlistId, currentPosition, newPosition, {
             snapshot_id: snapshotId,
           });
