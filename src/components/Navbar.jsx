@@ -74,8 +74,8 @@ const NavBar = ({ switchPage, fullUserData }) => {
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4} id='nav'>
         <Flex h={'8ch'} alignItems={'center'} justifyContent={'space-between'}>
-        
-        <Popover isOpen={(!isMobile) ? false : !hasPopoverBeenClosed} onClose={handlePopoverClose} closeOnBlur={false}>
+
+          <Popover isOpen={(!isMobile) ? false : !hasPopoverBeenClosed} onClose={handlePopoverClose} closeOnBlur={false}>
             <PopoverTrigger>
               <IconButton
                 size={'md'}

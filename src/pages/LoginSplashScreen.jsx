@@ -112,7 +112,7 @@ function LoginSplashScreen() {
 									To get started, request beta access.
 								</Text>
 								<FormHelperText>
-									Since the app is waiting for approval from Spotify, we must manually add users to
+									Since the app is waiting for approval from Spotify, you must be manually added to
 									the beta testing list. Please enter your name and email below to request access.
 									If you still don't have access within 24 hours you can request access again.
 								</FormHelperText>

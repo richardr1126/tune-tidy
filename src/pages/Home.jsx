@@ -92,7 +92,6 @@ class Home extends Component {
       // Remove token and token expiration date from localStorage
       window.localStorage.removeItem("token");
       window.localStorage.removeItem("tokenExpiration");
-      window.localStorage.removeItem('hasPopoverBeenClosed');
 
       // Redirect user to homepage
       window.location.href = "/";
@@ -267,7 +266,6 @@ class Home extends Component {
         window.location.href = "/";
         window.localStorage.removeItem("token");
         window.localStorage.removeItem("tokenExpiration");
-        window.localStorage.removeItem('hasPopoverBeenClosed');
       }, 1000);
     }
   }

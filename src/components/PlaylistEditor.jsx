@@ -11,7 +11,9 @@ import {
   Button,
   Wrap,
   ButtonGroup,
-  Spacer
+  Spacer,
+  IconButton,
+  Card
 } from '@chakra-ui/react';
 import TracksList from './TracksList';
 import { // Module pattern for Importing the sorting functions
@@ -32,8 +34,9 @@ import { // Module pattern for Importing the sorting functions
   sortByPopularity,
   sortByDateAdded,
 } from '../Sorter';
-import { TriangleUpIcon, TriangleDownIcon, AddIcon, EditIcon } from '@chakra-ui/icons';
+import { TriangleUpIcon, TriangleDownIcon, AddIcon, EditIcon, InfoIcon } from '@chakra-ui/icons';
 import LoadingModal from './LoadingModal';
+import InstructionsModal from './IntructionsModal';
 
 
 // Creating a new instance of the Spotify API
@@ -49,6 +52,7 @@ class PlaylistEditor extends Component {
       sorter: 'original_position',
       sortOrder: 'asc',
       loading: false,
+      showInstructions: false,
     };
     // Binding the functions to the component's scope
     this.fetchPlaylistTracks = this.fetchPlaylistTracks.bind(this);
@@ -238,11 +242,11 @@ class PlaylistEditor extends Component {
     if (token && tokenExpiration > Date.now()) {
       this.setState({
         loggedIn: true,
+        showInstructions: localStorage.getItem('hasPopover2BeenClosed') === 'true' ? false : true,
       });
 
       spotify.setAccessToken(token);
       this.fetchPlaylistTracks();
-
 
     } else {
       this.setState({
@@ -361,11 +365,10 @@ class PlaylistEditor extends Component {
     if (playlist && tracks) {
       // Returning JSX for the UI with dynamic values passed as props or state
       return (
-
-
         <Center>
+          <InstructionsModal isOpen={this.state.showInstructions} onClose={() => { this.setState({ showInstructions: false }); window.localStorage.setItem('hasPopover2BeenClosed', 'true'); }} />
           <LoadingModal isOpen={this.state.loading} />
-          <Box
+          <Card
             rounded={'sm'}
             my={3}
             mx={[0, 3]}
@@ -393,6 +396,16 @@ class PlaylistEditor extends Component {
                 objectFit="cover"
                 h={64}
                 w="full"
+              />
+              <IconButton
+                colorScheme='blue'
+                aria-label='View instructions'
+                icon={<InfoIcon />}
+                position={'absolute'}
+                size={'xs'}
+                top={2}
+                right={2}
+                onClick={() => { this.setState({ showInstructions: true }); window.localStorage.setItem('hasPopover2BeenClosed', 'false'); }}
               />
             </Box>
             <Box p={4}>
@@ -442,7 +455,7 @@ class PlaylistEditor extends Component {
               {/* Tracks list */}
               <TracksList tracks={tracks} />
             </Box>
-          </Box>
+          </Card>
         </Center>
 
       );
