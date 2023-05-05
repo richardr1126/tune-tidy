@@ -91,7 +91,7 @@ class PlaylistEditor extends Component {
         if (totalTracks > 50) {
           for (let offset = 50; offset < totalTracks; offset += 50) {
             try {
-              await new Promise((resolve) => setTimeout(resolve, 1500));
+              await new Promise((resolve) => setTimeout(resolve, 100));
               const additionalData = await spotify.getPlaylistTracks(id, { limit: 50, offset });
               console.log('Fetching more tracks...');
               combinedTracks = combinedTracks.concat(additionalData.items);
@@ -370,7 +370,7 @@ class PlaylistEditor extends Component {
       return (
         <Center>
           <InstructionsModal isOpen={this.state.showInstructions} onClose={() => { this.setState({ showInstructions: false }); window.localStorage.setItem('hasPopover2BeenClosed', 'true'); }} />
-          <LoadingModal isOpen={this.state.loading} />
+          <LoadingModal isOpen={this.state.loading} tracks={this.state.tracks} />
           <Card
             rounded={'sm'}
             my={3}
