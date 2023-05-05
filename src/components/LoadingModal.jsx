@@ -12,12 +12,11 @@ import {
 } from "@chakra-ui/react";
 
 export default function LoadingModal({ isOpen, tracks }) {
-  const estimatedTime = (tracks.length * 0.69 / 60) + 1;
-  let minutes = Math.round(estimatedTime * 2) / 2;
-  if (minutes % 1 === 0.5) {
-    minutes = minutes + 0.5;
-  }
-  const estimatedSeconds = (estimatedTime * 60) + 60; //give an extra minute
+  let minutes = (tracks.length * 0.70 / 60);
+  //round to 2 decimal places
+  minutes = Math.round(minutes * 100) / 100;
+
+  const estimatedSeconds = (minutes * 60);
 
   const [progress, setProgress] = useState(0);
 
