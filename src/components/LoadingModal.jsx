@@ -38,7 +38,7 @@ export default function LoadingModal({ isOpen, tracks, progress }) {
       <ModalOverlay />
       <ModalContent m={10}>
         <ModalHeader>Sorting your playlist...</ModalHeader>
-        <ModalBody mb={10}>
+        <ModalBody mb={5}>
           <Text>
             This may take a while depending on the size of your playlist.
             <br></br>
@@ -47,13 +47,13 @@ export default function LoadingModal({ isOpen, tracks, progress }) {
             we are limited by Spotify, in terms of how fast we can sort your playlist. Once the app is out of beta, it will speed up.
             <br></br>
             <br></br>
-            Estimated wait time: {estimatedTime.minutes > 0 ? `${estimatedTime.minutes} minute(s)` : ""} {`${estimatedTime.seconds} second(s)`}.
-            <br></br>
-            <br></br>
             Please don't close or refresh the page, or else the sorting may not be accurate.
+            <br></br>
+            <br></br>
+            Estimated wait time: {estimatedTime.minutes > 0 ? `${estimatedTime.minutes} minute(s)` : ""} {`${estimatedTime.seconds} second(s)`}.
           </Text>
-          <Center mt={10}>
-            {progress !== 100 && (<Progress value={progress} size="md" w="90%" borderRadius={3} />)}
+          <Center mt={5}>
+            {progress !== 100 && (<Progress value={progress} size="md" w="100%" borderRadius={3} />)}
             {progress === 100 && (<Spinner></Spinner>)}
           </Center>
         </ModalBody>
