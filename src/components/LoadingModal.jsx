@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import {
   Center,
   Modal,
@@ -11,29 +11,27 @@ import {
   Spinner
 } from "@chakra-ui/react";
 
-export default function LoadingModal({ isOpen, tracks }) {
-  let minutes = (tracks.length * 0.70 / 60);
-  //round to 2 decimal places
-  minutes = Math.round(minutes * 100) / 100;
-
-  const estimatedSeconds = (minutes * 60);
-
-  const [progress, setProgress] = useState(0);
+export default function LoadingModal({ isOpen, tracks, progress }) {
+  const [startTime, setStartTime] = useState(null);
+  const [estimatedTime, setEstimatedTime] = useState({ minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    if (isOpen) {
-      const interval = setInterval(() => {
-        setProgress((prevProgress) =>
-          prevProgress < 100
-            ? prevProgress + 100 / estimatedSeconds
-            : 100
-        );
-      }, 1000);
-      return () => clearInterval(interval);
-    } else {
-      setProgress(0);
+    if (progress > 0 && progress < 100) {
+      if (!startTime) {
+        setStartTime(new Date());
+      } else {
+        const currentTime = new Date();
+        const timeElapsed = (currentTime - startTime) / 1000;
+        const avgTimePerPercent = timeElapsed / progress;
+        const remainingPercent = 100 - progress;
+        const remainingSeconds = remainingPercent * avgTimePerPercent;
+        const minutes = Math.floor(remainingSeconds / 60);
+        const seconds = Math.round(remainingSeconds % 60);
+
+        setEstimatedTime({ minutes, seconds });
+      }
     }
-  }, [isOpen, estimatedSeconds]);
+  }, [progress, startTime]);
 
   return (
     <Modal closeOnOverlayClick={false} isOpen={isOpen}>
@@ -49,7 +47,7 @@ export default function LoadingModal({ isOpen, tracks }) {
             we are limited by Spotify, in terms of how fast we can sort your playlist. Once the app is out of beta, it will speed up.
             <br></br>
             <br></br>
-            Estimated wait time: {minutes} minute(s).
+            Estimated wait time: {estimatedTime.minutes > 0 ? `${estimatedTime.minutes} minute(s)` : ""} {`${estimatedTime.seconds} second(s)`}.
             <br></br>
             <br></br>
             Please don't close or refresh the page, or else the sorting may not be accurate.

@@ -53,6 +53,7 @@ class PlaylistEditor extends Component {
       sortOrder: 'asc',
       loading: false,
       showInstructions: false,
+      progress: 0,
     };
     // Binding the functions to the component's scope
     this.fetchPlaylistTracks = this.fetchPlaylistTracks.bind(this);
@@ -144,7 +145,10 @@ class PlaylistEditor extends Component {
 
         this.setState({
           tracks: combinedTracks,
-        });
+        }, () => {
+          this.props.obs.notify({ message: 'All tracks fetched', status: 'success' });
+        }
+        );
       })
       .catch((error) => {
         console.log("Error fetching tracks from playlist:", error);
@@ -155,37 +159,32 @@ class PlaylistEditor extends Component {
   async overridePlaylist(playlist, tracks) {
     const playlistId = playlist.id;
     const newOrder = tracks.slice();
+    const batchSize = 10; // Adjust the batch size to your preference
 
-    // Get the snapshot_id of the playlist
     const playlistDetails = await spotify.getPlaylist(playlistId);
     let snapshotId = playlistDetails.snapshot_id;
 
-    // Create a list of reordering operations
     const reorderingOperations = newOrder.map((track, newPosition) => {
       const currentPosition = track.original_position - 1;
       return { currentPosition, newPosition };
     });
 
-    // Sort the reordering operations by newPosition
     reorderingOperations.sort((a, b) => a.newPosition - b.newPosition);
 
-    // Apply the reordering operations
-    for (const operation of reorderingOperations) {
+    for (let i = 0; i < reorderingOperations.length; i++) {
+      const operation = reorderingOperations[i];
       const { currentPosition, newPosition } = operation;
 
       if (currentPosition !== newPosition) {
         try {
           console.log(`Reordering track from position ${currentPosition} to ${newPosition}`);
 
-          // Move the track to the new position using the initial snapshot_id
-          // Wait 100ms between each reordering operation to avoid rate limiting
-          await new Promise((resolve) => setTimeout(resolve, 500));
+          await new Promise((resolve) => setTimeout(resolve, 50));
           const data = await spotify.reorderTracksInPlaylist(playlistId, currentPosition, newPosition, {
             snapshot_id: snapshotId,
           });
           snapshotId = data.snapshot_id;
 
-          // Update currentPosition values in the reorderingOperations list
           for (const op of reorderingOperations) {
             if (op.currentPosition > currentPosition && op.currentPosition <= newPosition) {
               op.currentPosition -= 1;
@@ -193,15 +192,24 @@ class PlaylistEditor extends Component {
               op.currentPosition += 1;
             }
           }
+
+          // Update the progress bar after every batchSize operations
+          if (i % batchSize === batchSize - 1 || i === reorderingOperations.length - 1) {
+            this.setState({ progress: ((i + 1) / tracks.length) * 100 });
+          }
         } catch (error) {
           console.error(`Error reordering track from position ${currentPosition} to ${newPosition}:`, error);
+          this.props.obs.notify({ message: 'Error reordering tracks\nPlease try again', status: 'error' });
+          this.redirectLogin();
+          return;
         }
       }
     }
 
-    this.props.obs.notify({ message: 'Playlist order updated successfully', status: 'success' });
+    this.props.obs.notify({ message: 'Playlist order updated successfully\nSorted by ' + this.state.sorter + ' ' + this.state.sortOrder, status: 'success' });
     this.fetchPlaylistTracks();
   }
+
 
   // Creates a new playlist with the same name as the original playlist, but with "(Tune Tidy)" appended to the end
   async createNewPlaylist(playlist, tracks) {
@@ -370,7 +378,7 @@ class PlaylistEditor extends Component {
       return (
         <Center>
           <InstructionsModal isOpen={this.state.showInstructions} onClose={() => { this.setState({ showInstructions: false }); window.localStorage.setItem('hasPopover2BeenClosed', 'true'); }} />
-          <LoadingModal isOpen={this.state.loading} tracks={this.state.tracks} />
+          <LoadingModal isOpen={this.state.loading} progress={this.state.progress} tracks={this.state.tracks} />
           <Card
             rounded={'sm'}
             my={3}
@@ -434,7 +442,7 @@ class PlaylistEditor extends Component {
                     this.overrideButtonRef.current.disabled = true;
                     this.setState({ loading: true }, async () => {
                       await this.overridePlaylist(this.state.playlist, this.state.tracks);
-                      this.setState({ loading: false });
+                      this.setState({ loading: false, progress: 0 });
                       this.overrideButtonRef.current.disabled = false;
                     });
 

@@ -15,6 +15,7 @@ import {
   Spinner,
   Avatar,
   Divider,
+  Container,
 
 } from '@chakra-ui/react';
 
@@ -78,9 +79,9 @@ export default function DisplayTracks({ tracks }) {
         <VStack align={'left'} mt={2}>
           {tracks.map((track) => (
             (
-              <>
+              <Container sx={{ padding: '0px', margin: '0px' }} key={track?.id+track?.added_at}>
                 <Divider/>
-                <HStack spacing={2} key={track?.id+track?.added_at}>
+                <HStack spacing={2} py={1}>
                   <Avatar borderRadius={2} size={'md'} src={track?.album?.images[0]?.url} icon={
                     <>
                       {track.album.images.length !== 0 ? (
@@ -99,7 +100,7 @@ export default function DisplayTracks({ tracks }) {
                     <Text as={'h3'} fontSize={'sm'}>{track.artists.map((artist) => artist.name).join(', ')}</Text>
                   </VStack>
                 </HStack>
-              </>
+              </Container>
             )
           ))}
         </VStack>
