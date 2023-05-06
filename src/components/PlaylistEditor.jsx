@@ -146,7 +146,7 @@ class PlaylistEditor extends Component {
         this.setState({
           tracks: combinedTracks,
         }, () => {
-          this.props.obs.notify({ message: 'All tracks fetched', status: 'success' });
+          this.props.obs.notify({ message: 'Tracks fetched', status: 'success' });
         }
         );
       })
