@@ -74,8 +74,8 @@ export default function DisplayTracks({ tracks }) {
                         <IconButton
                           backgroundColor={'#1DB954'}
                           aria-label='View playlist on Spotify'
-                          icon={<Image src={'/Spotify_Icon_CMYK_Black.png'} boxSize={'15px'} fallback={<Spinner size={'xs'}></Spinner>} />}
-                          size={'xs'}
+                          icon={<Image src={'/Spotify_Icon_CMYK_Black.png'} boxSize={'20px'} fallback={<Spinner size={'xs'}></Spinner>} />}
+                          size={'sm'}
                           ml={2}
                           onClick={() => window.open(track?.uri, '_blank')}
                           title={'View track on Spotify'}

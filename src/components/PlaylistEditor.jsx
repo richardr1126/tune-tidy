@@ -401,7 +401,7 @@ class PlaylistEditor extends Component {
                     colorScheme='blue'
                     aria-label='View instructions'
                     icon={<InfoIcon />}
-                    size={'xs'}
+                    size={'sm'}
                     ml={2}
                     onClick={() => { this.setState({ showInstructions: true }); window.localStorage.setItem('hasPopover2BeenClosed', 'false'); }}
                     title={'View instructions'}
@@ -410,8 +410,8 @@ class PlaylistEditor extends Component {
                   <IconButton 
                     backgroundColor={'#1DB954'}
                     aria-label='View playlist on Spotify'
-                    icon={<Image src={'/Spotify_Icon_CMYK_Black.png'} boxSize={'15px'} fallback={<Spinner size={'xs'}></Spinner>} />}
-                    size={'xs'}
+                    icon={<Image src={'/Spotify_Icon_CMYK_Black.png'} boxSize={'20px'} fallback={<Spinner size={'xs'}></Spinner>} />}
+                    size={'sm'}
                     ml={2}
                     onClick={() => window.open(playlist?.uri, '_blank')}
                     title={'View playlist on Spotify'}
