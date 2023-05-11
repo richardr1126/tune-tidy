@@ -77,7 +77,7 @@ export default function DisplayTracks({ tracks }) {
                           icon={<Image src={'/Spotify_Icon_CMYK_Black.png'} boxSize={'20px'} fallback={<Spinner size={'xs'}></Spinner>} />}
                           size={'sm'}
                           ml={2}
-                          onClick={() => window.open(track?.uri, '_blank')}
+                          onClick={() => window.open(track?.uri)}
                           title={'View track on Spotify'}
                         />
                       </Td>
@@ -93,7 +93,7 @@ export default function DisplayTracks({ tracks }) {
         <VStack align={'left'} mt={2}>
           {tracks.map((track) => (
             (
-              <Container sx={{ padding: '0px', margin: '0px', cursor: 'pointer' }} as={'a'} key={track?.id + track?.added_at} onClick={() => window.open(track?.uri, '_blank')}>
+              <Container sx={{ padding: '0px', margin: '0px', cursor: 'pointer' }} as={'a'} key={track?.id + track?.added_at} onClick={() => window.open(track?.uri)}>
                 <Divider />
                 <HStack spacing={2} py={1}>
                   <Avatar borderRadius={2} size={'md'} src={track?.album?.images[0]?.url} icon={

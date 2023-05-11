@@ -413,7 +413,7 @@ class PlaylistEditor extends Component {
                     icon={<Image src={'/Spotify_Icon_CMYK_Black.png'} boxSize={'20px'} fallback={<Spinner size={'xs'}></Spinner>} />}
                     size={'sm'}
                     ml={2}
-                    onClick={() => window.open(playlist?.uri, '_blank')}
+                    onClick={() => window.open(playlist?.uri)}
                     title={'View playlist on Spotify'}
                   />
                 </Heading>
