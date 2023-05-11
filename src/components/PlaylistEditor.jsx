@@ -14,7 +14,8 @@ import {
   Spacer,
   IconButton,
   Card,
-  Avatar
+  Avatar,
+  WrapItem
 } from '@chakra-ui/react';
 import TracksList from './TracksList';
 import { // Module pattern for Importing the sorting functions
@@ -394,29 +395,36 @@ class PlaylistEditor extends Component {
             <Box p={4}>
 
               <Wrap mb={3}>
-                <Heading color={'black'} fontSize={'2xl'}>
-                  <Avatar size={'md'} src={playlist?.images[0]?.url} mr={2} icon={<Spinner></Spinner>} borderRadius={2} />
-                  {playlist.name}
-                  <IconButton
-                    colorScheme='blue'
-                    aria-label='View instructions'
-                    icon={<InfoIcon />}
-                    size={'sm'}
-                    ml={2}
-                    onClick={() => { this.setState({ showInstructions: true }); window.localStorage.setItem('hasPopover2BeenClosed', 'false'); }}
-                    title={'View instructions'}
-                  />
-                  {/* SpotifyIcon Button */}
-                  <IconButton 
-                    backgroundColor={'#1DB954'}
-                    aria-label='View playlist on Spotify'
-                    icon={<Image src={'/Spotify_Icon_CMYK_Black.png'} boxSize={'20px'} fallback={<Spinner size={'xs'}></Spinner>} />}
-                    size={'sm'}
-                    ml={2}
-                    onClick={() => window.open(playlist?.uri)}
-                    title={'View playlist on Spotify'}
-                  />
-                </Heading>
+
+                <Wrap>
+                  <Heading color={'black'} fontSize={'2xl'}>
+                    <Avatar size={'md'} src={playlist?.images[0]?.url} mr={2} icon={<Spinner></Spinner>} borderRadius={2} />
+                    {playlist.name}
+
+                  </Heading>
+                  <WrapItem>
+                    <IconButton
+                      colorScheme='blue'
+                      aria-label='View instructions'
+                      icon={<InfoIcon />}
+                      size={'sm'}
+                      ml={2}
+                      onClick={() => { this.setState({ showInstructions: true }); window.localStorage.setItem('hasPopover2BeenClosed', 'false'); }}
+                      title={'View instructions'}
+                    />
+                    {/* SpotifyIcon Button */}
+                    <IconButton
+                      backgroundColor={'#1DB954'}
+                      aria-label='View playlist on Spotify'
+                      icon={<Image src={'/Spotify_Icon_CMYK_Black.png'} boxSize={'20px'} fallback={<Spinner size={'xs'}></Spinner>} />}
+                      size={'sm'}
+                      ml={2}
+                      onClick={() => window.open(playlist?.uri)}
+                      title={'View playlist on Spotify'}
+                    />
+                  </WrapItem>
+
+                </Wrap>
                 <Spacer />
                 <ButtonGroup size='sm' isAttached>
                   <Button ref={this.createButtonRef} onClick={async () => {

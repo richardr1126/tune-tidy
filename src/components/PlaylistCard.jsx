@@ -101,6 +101,14 @@ export default function PlaylistCard({ playlist, setSelection }) {
           <Heading color={'black'} fontSize={'lg'}>
             {playlist.name}
           </Heading>
+          <Image
+            src={'/Spotify_Icon_CMYK_Black.png'}
+            alt='Spotify logo'
+            boxSize={'16px'}
+            position={'absolute'}
+            top={2}
+            right={2}
+          />
         </HStack>
         {playlist.description && (
           <Text color={'gray.500'} pt={2} fontSize={'md'}>
