@@ -14,6 +14,7 @@ import {
   HStack,
   Avatar,
   Divider,
+  Card,
 } from '@chakra-ui/react';
 
 export default function PlaylistCard({ playlist, setSelection }) {
@@ -56,7 +57,7 @@ export default function PlaylistCard({ playlist, setSelection }) {
               />
             </LinkOverlay>
           </Box>
-          <Box p={4}>
+          <Card p={4} shadow={''} m={0}>
             <Heading color={'black'} fontSize={'2xl'}>
               {playlist.name}
             </Heading>
@@ -65,7 +66,15 @@ export default function PlaylistCard({ playlist, setSelection }) {
                 {playlist.description}
               </Text>
             )}
-          </Box>
+            <Image
+              src={'/Spotify_Icon_CMYK_Black.png'}
+              alt='Spotify logo'
+              boxSize={'16px'}
+              position={'absolute'}
+              top={2}
+              right={2}
+            />
+          </Card>
         </Box>
       </Center>
     </LinkBox>

@@ -13,6 +13,7 @@ import {
   Button,
   Center,
   Avatar,
+  Image,
 } from '@chakra-ui/react';
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 
@@ -124,7 +125,7 @@ class TopTracksWidget extends Widget {
       }
   
       return (
-        <Card p={2.5} key={track.id} onClick={() => this.directToTrackPage(track)} cursor={'pointer'}>
+        <Card p={2.5} key={track.id} onClick={() => this.directToTrackPage(track)} cursor={'pointer'} title={`View ${track.name} on Spotify`} _hover={{ backgroundColor: '#f7fafc' }}>
           <HStack spacing={2}>
             <Avatar borderRadius={2} size={'md'} src={track?.album?.images[0]?.url} icon={<Spinner></Spinner>} />
             <Text as={'h3'} fontWeight='bold' fontSize={'lg'}>{start + index + 1}.</Text>
@@ -137,8 +138,17 @@ class TopTracksWidget extends Widget {
             
             {rankChange !== null && (
               <Box>
-                {rankChange > 0 && <TriangleUpIcon position={'absolute'} top={2} right={2} color="green.500" />}
-                {rankChange < 0 && <TriangleDownIcon position={'absolute'} top={2} right={2} color="red.500" />}
+                {rankChange > 0 && <TriangleUpIcon position={'absolute'} bottom={2} right={2} color="green.500" />}
+                {rankChange < 0 && <TriangleDownIcon position={'absolute'} bottom={2} right={2} color="red.500" />}
+                <Image
+                  src={'/Spotify_Icon_CMYK_Black.png'}
+                  alt='Spotify logo'
+                  boxSize={'16px'}
+                  fallback={<Spinner size={'xs'}></Spinner>}
+                  position={'absolute'}
+                  top={2}
+                  right={2}
+                />
               </Box>
             )}
           </HStack>

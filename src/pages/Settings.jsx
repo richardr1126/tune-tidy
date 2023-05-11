@@ -1,43 +1,51 @@
-// Settings page
-import { Component } from 'react';
+import { useEffect } from 'react';
 import {
   Box,
   Center,
   Button,
   VStack,
+  Text,
+  Image,
+  Stack,
 } from '@chakra-ui/react';
-import React from 'react';
 
+const Settings = ({ fullUserData }) => {
+  useEffect(() => {
+    document.title = 'Settings | TuneTidy';
+  }, []);
 
-class Settings extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      fullUserData: this.props.fullUserData,
-    };
-  }
+  const Support = 'https://support.spotify.com/us/';
+  const Account = 'https://www.spotify.com/us/account/overview/';
 
-  componentDidMount() {
-    document.title = `settings | TuneTidy`;
-  }
-
-  render() {
-    let Support = 'https://support.spotify.com/us/'
-    let Account = 'https://www.spotify.com/us/account/overview/'
-    return (
-      <Center>
-        <Box // Larger box settings
-          rounded={'sm'}
-          my={3}
-          mx={[0, 3]}
-          p={'15rem'} // padding controls size of box
-          overflow={'hidden'}
-          bg="white"
-          border={'1px'}
-          borderColor="black"
-          boxShadow={'6px 6px 0 black'}>
-
-          <VStack spacing={10}>
+  return (
+    <Center>
+      <Box // Larger box settings
+        rounded={'sm'}
+        my={3}
+        mx={[0, 3]}
+        p={'4rem'} // padding controls size of box
+        overflow={'hidden'}
+        bg="white"
+        border={'1px'}
+        borderColor="black"
+        boxShadow={'6px 6px 0 black'}>
+        
+        <Stack
+          direction={['column', 'row']}
+          alignItems="center"
+          justifyContent="center"
+          spacing={10}>
+          <VStack spacing={1}>
+            <Image
+              boxSize="150px"
+              borderRadius="full"
+              src={fullUserData && fullUserData.images.length ? fullUserData.images[0].url : ''}
+              alt={`${fullUserData.display_name}'s profile image`}
+            />
+            <Text fontSize="2xl">{fullUserData.display_name}</Text>
+            <Text fontSize="md">Followers: {fullUserData.followers.total}</Text>
+          </VStack>
+          <VStack spacing={5}>
             <Button href={Account} as={'a'} target="_blank">
               Spotify Account
             </Button>
@@ -45,13 +53,10 @@ class Settings extends Component {
               Spotify Support
             </Button>
           </VStack>
-        </Box>
-      </Center>
-
-    );
-
-
-  }
-}
+        </Stack>
+      </Box>
+    </Center>
+  );
+};
 
 export default Settings;

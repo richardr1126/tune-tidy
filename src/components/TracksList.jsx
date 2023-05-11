@@ -16,7 +16,9 @@ import {
   Avatar,
   Divider,
   Container,
-
+  Image,
+  Spacer,
+  IconButton,
 } from '@chakra-ui/react';
 
 
@@ -44,6 +46,7 @@ export default function DisplayTracks({ tracks }) {
                   <Th sx={dataCellStyle}>Track</Th>
                   <Th sx={dataCellStyle}>Album</Th>
                   <Th sx={dataCellStyle}>Artist</Th>
+                  <Th minW={'16px'}></Th>
                 </Tr>
               </Thead>
               <Tbody key={'table_body'}>
@@ -67,6 +70,17 @@ export default function DisplayTracks({ tracks }) {
                       </Td>
                       <Td sx={dataCellStyle}>{track.album.name}</Td>
                       <Td fontWeight={'black'} sx={dataCellStyle}>{track.artists[0].name}</Td>
+                      <Td sx={dataCellStyle}> {/* Added for Spotify Logo */}
+                        <IconButton
+                          backgroundColor={'#1DB954'}
+                          aria-label='View playlist on Spotify'
+                          icon={<Image src={'/Spotify_Icon_CMYK_Black.png'} boxSize={'15px'} fallback={<Spinner size={'xs'}></Spinner>} />}
+                          size={'xs'}
+                          ml={2}
+                          onClick={() => window.open(track?.uri, '_blank')}
+                          title={'View track on Spotify'}
+                        />
+                      </Td>
                     </Tr>
                   )
                 ))}
@@ -79,8 +93,8 @@ export default function DisplayTracks({ tracks }) {
         <VStack align={'left'} mt={2}>
           {tracks.map((track) => (
             (
-              <Container sx={{ padding: '0px', margin: '0px' }} key={track?.id+track?.added_at}>
-                <Divider/>
+              <Container sx={{ padding: '0px', margin: '0px', cursor: 'pointer' }} as={'a'} key={track?.id + track?.added_at} onClick={() => window.open(track?.uri, '_blank')}>
+                <Divider />
                 <HStack spacing={2} py={1}>
                   <Avatar borderRadius={2} size={'md'} src={track?.album?.images[0]?.url} icon={
                     <>
@@ -99,6 +113,8 @@ export default function DisplayTracks({ tracks }) {
                     <Text as={'h3'} fontSize={'sm'} fontWeight={'semibold'}>{track.album.name}</Text>
                     <Text as={'h3'} fontSize={'sm'}>{track.artists.map((artist) => artist.name).join(', ')}</Text>
                   </VStack>
+                  <Spacer />
+                  <Image src={'/Spotify_Icon_CMYK_Black.png'} alt='Spotify logo' boxSize={'16px'} fallback={<Spinner size={'xs'}></Spinner>} title='View track on Spotify' />
                 </HStack>
               </Container>
             )

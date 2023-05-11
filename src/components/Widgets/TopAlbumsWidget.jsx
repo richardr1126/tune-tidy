@@ -13,6 +13,7 @@ import {
   Button,
   Center,
   Avatar,
+  Image,
 } from '@chakra-ui/react';
 
 class TopAlbumsWidget extends Widget {
@@ -57,7 +58,7 @@ class TopAlbumsWidget extends Widget {
       long_term: 'All Time',
     };
     const timeRange = timeRangeMap[event.target.value];
-    
+
 
 
     this.setState({ time_range: event.target.value }, () => {
@@ -83,7 +84,7 @@ class TopAlbumsWidget extends Widget {
     return albumItems.map((albumName, index) => {
       const track = tracksList.find(track => track.album.name === albumName);
       return (
-        <Card p={2.5} key={track.album.id} onClick={() => this.directToAlbumPage(track)} cursor={'pointer'}>
+        <Card p={2.5} key={track.album.id} onClick={() => this.directToAlbumPage(track)} cursor={'pointer'} _hover={{ backgroundColor: '#f7fafc' }} title={`View ${albumName} on Spotify`}>
           <HStack spacing={2}>
             <Avatar borderRadius={2} size={'md'} src={track?.album?.images[0]?.url} icon={<Spinner></Spinner>} />
             <Text as={'h3'} fontWeight='bold' fontSize={'lg'}>{start + index + 1}.</Text>
@@ -93,6 +94,17 @@ class TopAlbumsWidget extends Widget {
               </HStack>
               <Text as={'h3'} fontSize={'sm'}>{track.artists.map((artist) => artist.name).join(', ')}</Text>
             </VStack>
+            <Box>
+              <Image
+                src={'/Spotify_Icon_CMYK_Black.png'}
+                alt='Spotify logo'
+                boxSize={'16px'}
+                fallback={<Spinner size={'xs'}></Spinner>}
+                position={'absolute'}
+                top={2}
+                right={2}
+              />
+            </Box>
           </HStack>
         </Card>
       );
@@ -101,11 +113,11 @@ class TopAlbumsWidget extends Widget {
 
 
   // A function that receives a list of tracks and returns an array with the names of the unique albums, sorted by descending popularity.
-  
+
   getUniqueAlbums(tracksList) {
     // An empty dictionary is created to hold the albums and their count.
     var dict = {};
-  
+
     // Loop through each track in the list.
     for (var j = 0; j < tracksList.length; j++) {
       if (tracksList[j].album.total_tracks >= 6) {
@@ -121,30 +133,30 @@ class TopAlbumsWidget extends Widget {
         }
       }
     }
-  
+
     var items = Object.keys(dict).map(function (key) {
       return [key, dict[key]];
     });
-  
+
     // Calculate album scores and add them to the items array
     items.forEach(function (item) {
       item[1].score = item[1].count / item[1].totalSongs;
     });
-  
+
     // Sort the array based on the score of each album
     items.sort(function (first, second) {
       return second[1].score - first[1].score;
     });
-  
+
     // Create an array of the sorted album names only.
     var sortedUniqueAlbumNames = items.map(function (item) {
       return item[0];
     });
-  
+
     return sortedUniqueAlbumNames;
   }
-  
-  
+
+
 
 
   renderPaginationButtons() {
@@ -189,7 +201,7 @@ class TopAlbumsWidget extends Widget {
             <option value="long_term">All time</option>
           </Select>
           <VStack spacing={2} justifyContent={"left"} alignItems={"left"}>
-            {this.displayAlbums(tracksList)} 
+            {this.displayAlbums(tracksList)}
           </VStack>
           <Text fontSize={'xs'} textAlign={'center'} mt={3}>Only albums with 6 or more songs are ranked.</Text>
           <Center>
