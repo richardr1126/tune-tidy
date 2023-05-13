@@ -40,14 +40,7 @@ export default function LoadingModal({ isOpen, tracks, progress }) {
         <ModalHeader>Sorting your playlist...</ModalHeader>
         <ModalBody mb={5}>
           <Text>
-            This may take a while depending on the size of your playlist.
-            <br></br>
-            <br></br>
-            Since our app is still in beta,
-            we are limited by Spotify, in terms of how fast we can sort your playlist. Once the app is out of beta, it will speed up.
-            <br></br>
-            <br></br>
-            Please don't close or refresh the page, or else the sorting may not be accurate.
+            This may take a while depending on the size of your playlist. Please don't close or refresh the page, or else the sorting may not be accurate.
             <br></br>
             <br></br>
             Estimated wait time: {estimatedTime.minutes > 0 ? `${estimatedTime.minutes} minute(s)` : ""} {`${estimatedTime.seconds} second(s)`}.
