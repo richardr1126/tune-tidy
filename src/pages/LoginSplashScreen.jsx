@@ -99,39 +99,6 @@ function LoginSplashScreen() {
 							Observe how your rankings evolves over time, represented by arrows in comparison to your previous visit.
 						</ListItem>
 					</List>
-
-
-					<Card mt={4} p={5}>
-						<form
-							action="https://formspree.io/f/xdobkayk"
-							method="POST"
-							style={{ width: "100%" }}
-						>
-							<FormControl id="name" isRequired>
-								<Text as="h3" fontSize="2ch" fontWeight={"bold"}>
-									To get started, request beta access.
-								</Text>
-								<FormHelperText>
-									Since the app is waiting for approval from Spotify, you must be manually added to
-									the beta testing list. Please enter your name and email below to request access.
-									If you still don't have access within 24 hours you can request access again.
-								</FormHelperText>
-								<FormLabel mt={3}>Name</FormLabel>
-								<Input type="text" name="name" bgColor={'white'} placeholder="Full Name" />
-							</FormControl>
-							<FormControl id="email" isRequired mt={4}>
-								<FormLabel>Email address</FormLabel>
-								<Input type="email" name="email" bgColor={'white'} placeholder="spotifyemail@spotify.com" />
-								<FormHelperText>
-									You must enter the email associated with your Spotify account.
-								</FormHelperText>
-							</FormControl>
-							<Button mt={4} colorScheme="blue" type="submit">
-								Request Access
-							</Button>
-						</form>
-					</Card>
-
 				</Card>
 				<Button
 					as="a" // Renders button as an anchor tag
