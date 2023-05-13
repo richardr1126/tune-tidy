@@ -12,10 +12,6 @@ import {
 	List,
 	ListItem,
 	ListIcon,
-	FormControl,
-	FormLabel,
-	Input,
-	FormHelperText,
 } from "@chakra-ui/react";
 import { FaSortAmountDown } from "react-icons/fa";
 import { BsClipboardData } from "react-icons/bs";
