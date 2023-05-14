@@ -181,7 +181,7 @@ class PlaylistEditor extends Component {
         try {
           console.log(`Reordering track from position ${currentPosition} to ${newPosition}`);
 
-          await new Promise((resolve) => setTimeout(resolve, 100));
+          await new Promise((resolve) => setTimeout(resolve, 50));
           const data = await spotify.reorderTracksInPlaylist(playlistId, currentPosition, newPosition, {
             snapshot_id: snapshotId,
           });
