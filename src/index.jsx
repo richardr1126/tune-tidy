@@ -10,6 +10,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 
 import LoginSplashScreen from './pages/LoginSplashScreen.jsx';
 import HomeWithToast from './pages/Home';
+import PublicPlaylistEditor from './pages/PublicPlaylistEditor';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -21,6 +22,8 @@ root.render(
           <Routes>
             <Route path='/' element={<LoginSplashScreen />} />
             <Route path='/spotify' element={<HomeWithToast/>} />
+            <Route path='/spotify-playlist-editor' element={<PublicPlaylistEditor />} />
+            <Route path='/spotify-playlist-sorter' element={<PublicPlaylistEditor />} />
           </Routes>
         </BrowserRouter>
       </ChakraProvider>

@@ -38,7 +38,7 @@ import { // Module pattern for Importing the sorting functions
 } from '../Sorter';
 import { TriangleUpIcon, TriangleDownIcon, AddIcon, EditIcon, InfoIcon } from '@chakra-ui/icons';
 import LoadingModal from './LoadingModal';
-import InstructionsModal from './IntructionsModal';
+import InstructionsModal from './InstructionsModal';
 
 
 // Creating a new instance of the Spotify API
@@ -108,10 +108,16 @@ class PlaylistEditor extends Component {
 
         //full list of tracks, in a simple json object
         combinedTracks = combinedTracks.map((track) => {
-          return {
+          const newTrack = {
             ...track.track,
             added_at: track.added_at,
           };
+          delete newTrack.available_markets;
+          delete newTrack.disc_number;
+          delete newTrack.album.available_markets;
+          delete newTrack.album.artists;
+          delete newTrack.artists.available_markets;
+          return newTrack;
         });
         //remove null ids
         //combinedTracks = combinedTracks.filter((track) => track.id);
