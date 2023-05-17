@@ -1,5 +1,5 @@
 import {
-  Box, Image, Center, Heading, IconButton, Card, Avatar, WrapItem, Wrap, Spinner, List, ListItem, ListIcon, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, Button, Text, ButtonGroup, Spacer, useMediaQuery,
+  Box, Image, Center, Heading, IconButton, Card, Avatar, WrapItem, Wrap, Spinner, List, ListItem, ListIcon, Button, Text, ButtonGroup, Spacer, useMediaQuery, Container,
 } from '@chakra-ui/react';
 import { InfoIcon, AddIcon, EditIcon } from '@chakra-ui/icons';
 import TracksList from '../components/TracksList';
@@ -9239,109 +9239,126 @@ function PublicPlaylistEditor() {
 
 
   return (
-    <Center>
-      {/* always open and not closable */}
-      <Modal isOpen={true} closeOnOverlayClick={false} closeOnEsc={false} isCentered>
-        <ModalOverlay />
-        <ModalContent m={10}>
-          <ModalHeader>
+    <Container maxW='container.xl' sx={{ padding: isMobile ? '2ch' : '4ch', justifyContent: 'center !important', alignItems: 'center !important' }}>
+      
+      <Center flexDirection="column">
+        {/* always open and not closable */}
+        <Card
+          w="100%"
+          maxW="lg"
+          p={4}
+          borderWidth={1}
+          borderRadius="lg"
+          boxShadow="lg"
+          overflow="hidden"
+          mb={4}
+        >
+          <Heading size="lg" mb={4}>
             TuneTidy's Spotify Playlist Sorter
-          </ModalHeader>
-          <ModalBody mb={5}>
-            <List spacing={3}>
-              <ListItem>
-                Here you can sort your playlist by many different criteria. And save them as new playlists or overwrite the original.
-              </ListItem>
-              <ListItem>
-                <ListIcon as={AddIcon} color='black' />
-                Creat Copy: creates a copy of the sorted playlist and adds it to your Spotify account. Refresh the page after copying to view the new playlist.
-              </ListItem>
-              <ListItem>
-                <ListIcon as={EditIcon} color='red' />
-                Override Plalist: overwrites the original playlist with the sorted version.
-                You will lose any manually set custom order you have set for the playlist, however you can always revert back to the Date Added as your sort order.
-              </ListItem>
-              <ListItem>
-                Login with your Spotify account to edit your playlists. Get started by clicking the button below.
-              </ListItem>
-            </List>
-            <Center>
+          </Heading>
+          <List spacing={3}>
+            <ListItem>
+              Here you can sort your playlist by many different criteria. And save
+              them as new playlists or overwrite the original.
+            </ListItem>
+            <ListItem>
+              <ListIcon as={AddIcon} color="black" />
+              Creat Copy: creates a copy of the sorted playlist and adds it to your
+              Spotify account. Refresh the page after copying to view the new
+              playlist.
+            </ListItem>
+            <ListItem>
+              <ListIcon as={EditIcon} color="red" />
+              Override Plalist: overwrites the original playlist with the sorted
+              version. You will lose any manually set custom order you have set for
+              the playlist, however you can always revert back to the Date Added as
+              your sort order.
+            </ListItem>
+            <ListItem>
+              Login with your Spotify account to edit your playlists. Get started by
+              clicking the button below.
+            </ListItem>
+          </List>
+          <Center>
+            <Button
+              as="a"
+              mt={5}
+              href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPES}&response_type=${RESPONSE_TYPE}`}
+              size="md"
+              backgroundColor="#1DB954"
+              color="black"
+            >
+              Login with
+              <Image
+                h={21.9375}
+                src="/Spotify_Logo_CMYK_Black.png"
+                alt="Spotify"
+                paddingLeft="1ch"
+              />
+            </Button>
+          </Center>
+        </Card>
+        <Card
+          rounded={'sm'}
+          my={3}
+          mx={[0, 3]}
+          overflow={'hidden'}
+          bg="white"
+          border={'1px'}
+          borderColor="black"
+          boxShadow={'6px 6px 0 black'}>
+          <Box p={4}>
+            <Wrap mb={3}>
+              <Wrap>
+                <Heading color={'black'} fontSize={'2xl'}>
+                  <Avatar
+                    size="md"
+                    src={presetPlaylist?.images?.[0]?.url}
+                    mr={2}
+                    icon={<Spinner />}
+                    borderRadius={2}
+                  />
 
-              <Button
-                as="a" // Renders button as an anchor tag
-                mt={5}
-                href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPES}&response_type=${RESPONSE_TYPE}`}
-                size='md'
-                backgroundColor='#1DB954' // Green color matching Spotify branding
-                color='black'
-              >
-                Login with
-                <Image h={21.9375} src='/Spotify_Logo_CMYK_Black.png' alt='Spotify' paddingLeft='1ch' /> {/* Spotify logo */}
-              </Button>
-            </Center>
-
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-      <Card
-        rounded={'sm'}
-        my={3}
-        mx={[0, 3]}
-        overflow={'hidden'}
-        bg="white"
-        border={'1px'}
-        borderColor="black"
-        boxShadow={'6px 6px 0 black'}>
-        <Box p={4}>
-          <Wrap mb={3}>
-            <Wrap>
-              <Heading color={'black'} fontSize={'2xl'}>
-                <Avatar
-                  size="md"
-                  src={presetPlaylist?.images?.[0]?.url}
-                  mr={2}
-                  icon={<Spinner />}
-                  borderRadius={2}
-                />
-
-                {presetPlaylist.name}
-              </Heading>
-              <WrapItem>
-                <IconButton
-                  colorScheme='blue'
-                  aria-label='View instructions'
-                  icon={<InfoIcon />}
-                  size={isMobile ? 'xs':'sm'}
-                  ml={2}
-                  onClick={() => { }}
-                  title={'View instructions'}
-                  isDisabled
-                />
-                <IconButton
-                  backgroundColor={'#1DB954'}
-                  aria-label='View playlist on Spotify'
-                  icon={<Image src={'/Spotify_Icon_CMYK_Black.png'} boxSize={isMobile ? '15px': '20px'} fallback={<Spinner size={'xs'}></Spinner>} />}
-                  size={isMobile ? 'xs':'sm'}
-                  ml={2}
-                  onClick={() => { }}
-                  title={'View playlist on Spotify'}
-                  isDisabled
-                />
-              </WrapItem>
+                  {presetPlaylist.name}
+                </Heading>
+                <WrapItem>
+                  <IconButton
+                    colorScheme='blue'
+                    aria-label='View instructions'
+                    icon={<InfoIcon />}
+                    size={isMobile ? 'xs' : 'sm'}
+                    ml={2}
+                    onClick={() => { }}
+                    title={'View instructions'}
+                    isDisabled
+                  />
+                  <IconButton
+                    backgroundColor={'#1DB954'}
+                    aria-label='View playlist on Spotify'
+                    icon={<Image src={'/Spotify_Icon_CMYK_Black.png'} boxSize={isMobile ? '15px' : '20px'} fallback={<Spinner size={'xs'}></Spinner>} />}
+                    size={isMobile ? 'xs' : 'sm'}
+                    ml={2}
+                    onClick={() => { }}
+                    title={'View playlist on Spotify'}
+                    isDisabled
+                  />
+                </WrapItem>
+              </Wrap>
+              <Spacer />
+              <ButtonGroup size='sm' isAttached>
+                <Button size={isMobile ? 'xs' : 'sm'} isDisabled><AddIcon mr={1} /> Create Copy</Button>
+                <Button size={isMobile ? 'xs' : 'sm'} colorScheme='red' isDisabled><EditIcon mr={1} /> Override Playlist</Button>
+              </ButtonGroup>
             </Wrap>
-            <Spacer />
-            <ButtonGroup size='sm' isAttached>
-              <Button size={isMobile ? 'xs' : 'sm'} isDisabled><AddIcon mr={1} /> Create Copy</Button>
-              <Button size={isMobile ? 'xs' : 'sm'} colorScheme='red' isDisabled><EditIcon mr={1} /> Override Playlist</Button>
-            </ButtonGroup>
-          </Wrap>
-          {/* Sorting buttons */}
-          {displaySortButtons()}
-          {/* Tracks list */}
-          <TracksList tracks={presetPlaylist.tracks} />
-        </Box>
-      </Card>
-    </Center>
+            {/* Sorting buttons */}
+            {displaySortButtons()}
+            {/* Tracks list */}
+            <TracksList tracks={presetPlaylist.tracks} />
+          </Box>
+        </Card>
+      </Center>
+    </Container>
+
   );
 }
 
