@@ -9245,7 +9245,7 @@ function PublicPlaylistEditor() {
         <ModalOverlay />
         <ModalContent m={10}>
           <ModalHeader>
-            Playlist Editor
+            TuneTidy's Spotify Playlist Sorter
           </ModalHeader>
           <ModalBody mb={5}>
             <List spacing={3}>
