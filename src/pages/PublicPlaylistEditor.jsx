@@ -9253,28 +9253,28 @@ function PublicPlaylistEditor() {
           overflow="hidden"
           mb={4}
         >
-          <Heading size="lg" mb={4}>
+          <Heading size="lg" mb={4} as="h1">
             TuneTidy's Spotify Playlist Sorter
           </Heading>
           <List spacing={3}>
-            <ListItem>
+            <ListItem as='h2'>
               Here you can sort your playlist by many different criteria. And save
               them as new playlists or overwrite the original.
             </ListItem>
-            <ListItem>
+            <ListItem as='h2'>
               <ListIcon as={AddIcon} color="black" />
               Creat Copy: creates a copy of the sorted playlist and adds it to your
               Spotify account. Refresh the page after copying to view the new
               playlist.
             </ListItem>
-            <ListItem>
+            <ListItem as='h2'>
               <ListIcon as={EditIcon} color="red" />
               Override Plalist: overwrites the original playlist with the sorted
               version. You will lose any manually set custom order you have set for
               the playlist, however you can always revert back to the Date Added as
               your sort order.
             </ListItem>
-            <ListItem>
+            <ListItem as='h2'>
               Login with your Spotify account to edit your playlists. Get started by
               clicking the button below.
             </ListItem>
