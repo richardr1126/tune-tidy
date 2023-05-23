@@ -63,24 +63,26 @@ export default function Footer() {
           <VStack spacing={5} align={'center'}>
             <Text>Copyright © {year} TuneTidy</Text>
             {/* provicy policy link */}
-            <Link href='/privacy.html' isExternal/>
+            <Link href='/privacy.html' isExternal>
+              <Text>Privacy Policy</Text>
+            </Link>
             <HStack>
               <Text>Data provided by</Text>
               <Link href='https://developer.spotify.com/' isExternal>
-                <Image h={6} src='/Spotify_Logo_CMYK_Black.png' alt='Spotify'/>
+                <Image h={6} src='/Spotify_Logo_CMYK_Black.png' alt='Spotify' />
               </Link>
             </HStack>
           </VStack>
-          
-          
+
+
           <HStack>
             <Text>View source code</Text>
             <SocialButton label={'Github'} href={'https://github.com/richardr1126/tune-tidy'}>
               <FaGithub />
             </SocialButton>
           </HStack>
-          
-          
+
+
         </Container>
       </Box>
     </Box>
