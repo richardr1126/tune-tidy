@@ -62,6 +62,8 @@ export default function Footer() {
           align={'center'}>
           <VStack spacing={5} align={'center'}>
             <Text>Copyright © {year} TuneTidy</Text>
+            {/* provicy policy link */}
+            <Link href='/privacy.html' isExternal/>
             <HStack>
               <Text>Data provided by</Text>
               <Link href='https://developer.spotify.com/' isExternal>
@@ -77,6 +79,7 @@ export default function Footer() {
               <FaGithub />
             </SocialButton>
           </HStack>
+          
           
         </Container>
       </Box>
