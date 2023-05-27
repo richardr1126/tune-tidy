@@ -11,7 +11,7 @@ import {
   Spinner
 } from "@chakra-ui/react";
 
-export default function LoadingModal({ isOpen, tracks, progress }) {
+export default function LoadingModal({ isOpen, progress }) {
   const [startTime, setStartTime] = useState(null);
   const [estimatedTime, setEstimatedTime] = useState({ minutes: 0, seconds: 0 });
 
