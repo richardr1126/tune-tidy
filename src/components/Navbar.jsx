@@ -64,7 +64,7 @@ const NavBar = ({ switchPage, fullUserData }) => {
     localStorage.setItem('closedAlertTimes', '0');
   }
 
-  const [showAlert, setShowAlert] = useState(closedAlertTimes < 3);
+  const [showAlert, setShowAlert] = useState(closedAlertTimes < 4);
 
   const handleAlertClose = () => {
     let closedAlertTimes = localStorage.getItem('closedAlertTimes');
