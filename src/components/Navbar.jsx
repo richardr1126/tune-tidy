@@ -1,6 +1,3 @@
-// Functional Navbar component
-// Source template: https://chakra-templates.dev/navigation/navbar
-
 import {
   Box,
   Flex,
@@ -31,6 +28,8 @@ import { HamburgerIcon, CloseIcon, SettingsIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
 
 const Links = ['Stats', 'Playlist Editor'];
+
+const IOS_APP_URL = "https://apps.apple.com/us/app/tunetidy/id6449473280";  // Replace with your app's App Store URL
 
 const NavLink = ({ children, href, onClick }) => (
   <Link
@@ -69,7 +68,6 @@ const NavBar = ({ switchPage, fullUserData }) => {
     window.location.href = '/';
   };
 
-
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4} id='nav'>
@@ -93,9 +91,11 @@ const NavBar = ({ switchPage, fullUserData }) => {
               </PopoverHeader>
             </PopoverContent>
           </Popover>
+
           <Flex alignItems='center'>
             <Image boxSize='3ch' src='/large-logo.png' alt='' />
             <Heading as='h1' fontSize='2ch' sx={{ padding: '0ch 1ch 0ch 0.5ch' }}>TuneTidy</Heading>
+
             <HStack fontSize='1.75ch' alignItems="center" flexGrow={1} display={{ base: 'none', md: 'flex' }}>
               {Links.map((link) => (
                 <NavLink
@@ -107,8 +107,16 @@ const NavBar = ({ switchPage, fullUserData }) => {
                   {link}
                 </NavLink>
               ))}
+              <Box ml={5}>
+                <Link href={IOS_APP_URL} isExternal>
+                  <Button leftIcon={<Image boxSize="4" src='/large-logo.png' alt='' />} colorScheme="teal" variant="solid">
+                    Download on the App Store
+                  </Button>
+                </Link>
+              </Box>
             </HStack>
           </Flex>
+
           <Flex alignItems={'center'}>
             {fullUserData && (
               <Menu>
@@ -128,7 +136,6 @@ const NavBar = ({ switchPage, fullUserData }) => {
                     <Avatar
                       name={fullUserData.display_name}
                       size='md'
-
                     />
                   )}
                 </MenuButton>
