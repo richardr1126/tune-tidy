@@ -23,13 +23,17 @@ import {
   PopoverCloseButton,
   PopoverArrow,
   useMediaQuery,
+  Alert,
+  AlertDescription,
+  CloseButton,
+  Text,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon, SettingsIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
 
 const Links = ['Stats', 'Playlist Editor'];
 
-const IOS_APP_URL = "https://apps.apple.com/us/app/tunetidy/id6449473280";  // Replace with your app's App Store URL
+const IOS_APP_URL = "https://apps.apple.com/us/app/tunetidy/id6449473280";
 
 const NavLink = ({ children, href, onClick }) => (
   <Link
@@ -54,6 +58,22 @@ const NavBar = ({ switchPage, fullUserData }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isMobile] = useMediaQuery('(max-width: 680px)');
 
+  let closedAlertTimes = localStorage.getItem('closedAlertTimes');
+  if (closedAlertTimes === null) {
+    closedAlertTimes = 0;
+    localStorage.setItem('closedAlertTimes', '0');
+  }
+
+  const [showAlert, setShowAlert] = useState(closedAlertTimes < 3);
+
+  const handleAlertClose = () => {
+    let closedAlertTimes = localStorage.getItem('closedAlertTimes');
+    closedAlertTimes = Number(closedAlertTimes) + 1;
+    localStorage.setItem('closedAlertTimes', closedAlertTimes.toString());
+
+    setShowAlert(false);
+  };
+
   // Load the value from localStorage
   const storedPopoverState = localStorage.getItem('hasPopoverBeenClosed') === 'true';
   const [hasPopoverBeenClosed, setHasPopoverBeenClosed] = useState(storedPopoverState);
@@ -70,6 +90,28 @@ const NavBar = ({ switchPage, fullUserData }) => {
 
   return (
     <>
+      {showAlert && (
+        <Alert status="info" variant="solid" flexDirection="column" alignItems="center" justifyContent="center" textAlign="center" bgColor={'#2f68f2'}>
+          <Heading size={'md'} mb={3}>Get access to AI Playlist Cover Art Generation on the app!</Heading>
+          <AlertDescription maxWidth="sm">
+            <Box ml={5}>
+              <Link href={IOS_APP_URL} isExternal>
+                <Button rightIcon={
+                  <>
+                    <Image mr={1} boxSize="30px" src='/large-logo.png' alt='' />
+                    <Image boxSize="30px" src='/app-store-logo-small.png' alt='' />
+                  </>
+                } colorScheme="blackAlpha" variant="solid" px={'13px'} py={'22px'}>
+                  <Text>Download now</Text>
+                </Button>
+              </Link>
+            </Box>
+            <CloseButton position="absolute" right="8px" top="8px" onClick={handleAlertClose} />
+          </AlertDescription>
+        </Alert>
+      )}
+
+
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4} id='nav'>
         <Flex h={'8ch'} alignItems={'center'} justifyContent={'space-between'}>
 
@@ -107,17 +149,21 @@ const NavBar = ({ switchPage, fullUserData }) => {
                   {link}
                 </NavLink>
               ))}
-              <Box ml={5}>
-                <Link href={IOS_APP_URL} isExternal>
-                  <Button leftIcon={<Image boxSize="4" src='/large-logo.png' alt='' />} colorScheme="teal" variant="solid">
-                    Download on the App Store
-                  </Button>
-                </Link>
-              </Box>
+
             </HStack>
           </Flex>
 
           <Flex alignItems={'center'}>
+            {(!isMobile && !showAlert) && (<Box mr={5}>
+              <Link href={IOS_APP_URL} isExternal>
+                <Button width={'100%'} rightIcon={<>
+                  <Image mr={1} boxSize="25px" src='/large-logo.png' alt='' />
+                  <Image boxSize="25px" src='/app-store-logo-small.png' alt='' />
+                </>} bgColor={'#2f68f2'} textColor={'white'} variant="solid">
+                  <Text>Download now</Text>
+                </Button>
+              </Link>
+            </Box>)}
             {fullUserData && (
               <Menu>
                 <MenuButton
@@ -166,6 +212,16 @@ const NavBar = ({ switchPage, fullUserData }) => {
                   {link}
                 </NavLink>
               ))}
+              <Box>
+                <Link href={IOS_APP_URL} isExternal>
+                  <Button width={'100%'} rightIcon={<>
+                    <Image mr={1} boxSize="25px" src='/large-logo.png' alt='' />
+                    <Image boxSize="25px" src='/app-store-logo-small.png' alt='' />
+                  </>} bgColor={'#2f68f2'} textColor={'white'} variant="solid">
+                    <Text>Download now</Text>
+                  </Button>
+                </Link>
+              </Box>
             </Stack>
           </Box>
         ) : null}
